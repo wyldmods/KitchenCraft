@@ -94,8 +94,8 @@ task machinesJar(type: Jar) {
 }
 
 task releaseJars(type: Copy) {
-    from foodsJar
-    from machinesJar
+    dependsOn 'foodsJar'
+    dependsOn 'machinesJar'
     rename '-(.*)jar', '.jar'
     rename '-(.*)zip', '.zip'
     into '.'
