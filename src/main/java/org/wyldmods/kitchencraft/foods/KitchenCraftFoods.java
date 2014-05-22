@@ -1,5 +1,6 @@
 package org.wyldmods.kitchencraft.foods;
 
+import org.wyldmods.kitchencraft.foods.config.ConfigurationHandler;
 import org.wyldmods.kitchencraft.foods.item.ItemKCFood;
 import org.wyldmods.kitchencraft.foods.item.KCItems;
 import org.wyldmods.kitchencraft.foods.lib.Reference;
@@ -21,8 +22,8 @@ public class KitchenCraftFoods
     @EventHandler
     public static void preinit(FMLPreInitializationEvent event)
     {
-        KCItems.registerDefaultFoods();
-        
+        ConfigurationHandler.init(event.getSuggestedConfigurationFile());
+                
         veggie = new ItemKCFood(false);
         meat = new ItemKCFood(true);
         

@@ -12,9 +12,9 @@ public class FoodType
     public static List<FoodType> veggies = new ArrayList<FoodType>();
     public static List<FoodType> meats = new ArrayList<FoodType>();
 
-    public final float saturation;
-    public final int food;
     public final String name, texture;
+    public final int food;
+    public final float saturation;
     public final boolean isMeat;
     
     private FoodType(String name, String textureName, int food, float sat, boolean isMeat)
@@ -68,16 +68,9 @@ public class FoodType
      * @param saturation - saturation given
      * @param isMeat - whether this is meat (wolf food)
      */
-    private static void registerFoodType(String name, String texture, int food, float saturation, boolean isMeat)
+    public static void registerFoodType(String name, String texture, int food, float saturation, boolean isMeat)
     {
-        if (isMeat)
-        {
-            meats.add(new FoodType(name, texture, food, saturation, isMeat));
-        }
-        else
-        {
-            veggies.add(new FoodType(name, texture, food, saturation, isMeat));
-        }
+        registerFoodType(new FoodType(name, texture, food, saturation, isMeat));
     }
     
     public static ItemStack getFood(String name)
@@ -93,5 +86,13 @@ public class FoodType
                 return new ItemStack(KitchenCraftFoods.meat, 1, i);
         }
         return null;
+    }
+
+    public static void registerFoodType(FoodType food)
+    {
+        if (food.isMeat)
+            meats.add(food);
+        else
+            veggies.add(food);
     }
 }
