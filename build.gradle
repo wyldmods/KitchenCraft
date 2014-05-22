@@ -74,3 +74,34 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+task foodsJar(type: Jar) {
+	dependsOn 'reobf'
+    baseName = 'KitchenCraft-Foods'
+
+    from zipTree(reobf.outputs.getFiles().getSingleFile()).matching {
+        exclude 'org/wyldmods/kitchencraft/machines/**'
+    }
+}
+
+task machinesJar(type: Jar) {
+	dependsOn 'reobf'
+    baseName = 'KitchenCraft-Machines'
+
+    from zipTree(reobf.outputs.getFiles().getSingleFile()).matching {
+        exclude 'org/wyldmods/kitchencraft/foods/**'
+    }
+}
+
+task releaseJars(type: Copy) {
+    from foodsJar
+    from machinesJar
+    rename '-(.*)jar', '.jar'
+    rename '-(.*)zip', '.zip'
+    into '.'
+}
+
+task fullBuild(type: Delete) {
+    dependsOn 'releaseJars'
+    delete reobf
+}
