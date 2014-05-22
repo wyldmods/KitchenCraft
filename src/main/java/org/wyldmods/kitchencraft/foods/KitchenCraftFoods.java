@@ -13,7 +13,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @Mod(modid=Reference.MOD_ID, name=Reference.MOD_NAME, version=Reference.VERSION)
 public class KitchenCraftFoods
 {
-    @Instance
+    @Instance(Reference.MOD_ID)
     public static KitchenCraftFoods instance;
     
     public static ItemKCFood veggie, meat;
