@@ -1,7 +1,7 @@
 package org.wyldmods.kitchencraft.foods;
 
-import org.wyldmods.kitchencraft.foods.item.FoodType;
 import org.wyldmods.kitchencraft.foods.item.ItemKCFood;
+import org.wyldmods.kitchencraft.foods.item.KCItems;
 import org.wyldmods.kitchencraft.foods.lib.Reference;
 
 import cpw.mods.fml.common.Mod;
@@ -21,12 +21,14 @@ public class KitchenCraftFoods
     @EventHandler
     public static void preinit(FMLPreInitializationEvent event)
     {
-        FoodType.registerDefaultFoods();
+        KCItems.registerDefaultFoods();
         
         veggie = new ItemKCFood(false);
         meat = new ItemKCFood(true);
         
         GameRegistry.registerItem(veggie, "veggie", Reference.MOD_ID);
         GameRegistry.registerItem(meat, "meat", Reference.MOD_ID);
+        
+        KCItems.registerSmelting();
     }
 }
