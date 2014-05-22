@@ -6,7 +6,7 @@ import static org.wyldmods.kitchencraft.foods.item.FoodType.veggies;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.wyldmods.kitchencraft.lib.Reference;
+import org.wyldmods.kitchencraft.foods.lib.Reference;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
