@@ -1,5 +1,7 @@
 package org.wyldmods.kitchencraft.machines.tile;
 
+import org.wyldmods.kitchencraft.machines.container.ContainerOven;
+
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -209,11 +211,17 @@ public class TileOven extends TileKCInventory implements ISidedInventory
             return new int[] { 2 };
         }
     }
+    
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack stack)
+    {
+        return slot == 0 ? ContainerOven.checkInputSlot(stack) : slot == 1 ? ContainerOven.checkFuelSlot(stack) : false;
+    }
 
     @Override
-    public boolean canInsertItem(int var1, ItemStack var2, int var3)
+    public boolean canInsertItem(int slot, ItemStack stack, int side)
     {
-        return var1 < 2 ? var1 == 1 ? TileEntityFurnace.isItemFuel(var2) : true : false;
+        return slot == 0 ? ContainerOven.checkInputSlot(stack) : slot == 1 ? ContainerOven.checkFuelSlot(stack) : false;
     }
 
     @Override

@@ -40,9 +40,7 @@ public class GuiOven extends GuiContainer
         this.drawTexturedModalRect(x, y, 0, 0, this.xSize - 16, this.ySize);
 
         int burn = this.tile.getBurnTimeRemainingScaled(12);
-        
-        System.out.println(burn);
-        
+                
         if (burn != -1)
             this.drawTexturedModalRect(x + 56, y + 36 + 13 - burn, 176, 12 - burn, 14, burn + 2);
 

@@ -41,12 +41,17 @@ public class BlockOven extends BlockContainerKC
     @Override
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
     {
-        int meta = world.getBlockMetadata(x, y, z) % 4;
+        int meta = world.getBlockMetadata(x, y, z);
         
-        int face = meta == 0 ? 3 : meta == 1 ? 4 : meta == 2 ? 2 : 5;
-
-        System.out.println(face);
+        int face = getFrontFromMeta(meta);
+        
         return side == 1 ? icons[1] : side == 0 ? icons[2] : side == face ? world.getBlockMetadata(x, y, z) > 3 ? icons[4] : icons[3] : icons[0];
+    }
+    
+    public static int getFrontFromMeta(int meta)
+    {
+        meta %= 4;
+        return meta == 0 ? 3 : meta == 1 ? 4 : meta == 2 ? 2 : 5;
     }
     
     @Override

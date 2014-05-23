@@ -3,9 +3,12 @@ package org.wyldmods.kitchencraft.machines.container;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
 
 import org.wyldmods.kitchencraft.machines.tile.TileOven;
@@ -20,13 +23,51 @@ public class ContainerOven extends ContainerKC
     private int lastItemBurnTime;
     
     private TileOven tile;
+    
+    private class SlotOvenInput extends Slot
+    {
+        public SlotOvenInput(IInventory par1iInventory, int par2, int par3, int par4)
+        {
+            super(par1iInventory, par2, par3, par4);
+        }
+        
+        @Override
+        public boolean isItemValid(ItemStack par1ItemStack)
+        {
+            return checkInputSlot(par1ItemStack);
+        }
+    }
+    
+    public static boolean checkInputSlot(ItemStack stack)
+    {
+        return stack != null && FurnaceRecipes.smelting().getSmeltingResult(stack) != null && stack.getItem() instanceof ItemFood;
+    }
+    
+    private class SlotOvenFuel extends Slot
+    {
+        public SlotOvenFuel(IInventory par1iInventory, int par2, int par3, int par4)
+        {
+            super(par1iInventory, par2, par3, par4);
+        }
+        
+        @Override
+        public boolean isItemValid(ItemStack par1ItemStack)
+        {
+            return checkFuelSlot(par1ItemStack);
+        }
+    }
+    
+    public static boolean checkFuelSlot(ItemStack stack)
+    {
+        return stack != null && TileEntityFurnace.isItemFuel(stack);
+    }
 
     public ContainerOven(InventoryPlayer invPlayer, TileOven tile)
     {
         super(invPlayer, tile);
 
-        addSlotToContainer(new Slot(tile, 0, 56, 17));
-        addSlotToContainer(new Slot(tile, 1, 56, 53));
+        addSlotToContainer(new SlotOvenInput(tile, 0, 56, 17));
+        addSlotToContainer(new SlotOvenFuel(tile, 1, 56, 53));
         addSlotToContainer(new SlotFurnace(invPlayer.player, tile, 2, 116, 35));
         
         this.tile = tile;
@@ -60,17 +101,17 @@ public class ContainerOven extends ContainerKC
             }
             if (par2 < 36)
             {
-                if (TileEntityFurnace.isItemFuel(itemstack1))
+                if (checkFuelSlot(itemstack1))
                 {
                     if (!this.mergeItemStack(itemstack1, 37, 38, false))
                     {
-                        if (!this.mergeItemStack(itemstack1, 36, 37, false))
+                        if (checkInputSlot(itemstack1) && !this.mergeItemStack(itemstack1, 36, 37, false))
                             return null;
                     }
                 }
                 else
                 {
-                    if (!this.mergeItemStack(itemstack1, 36, 37, false))
+                    if (checkInputSlot(itemstack1) && !this.mergeItemStack(itemstack1, 36, 37, false))
                         return null;
                 }
 
