@@ -1,6 +1,6 @@
 package org.wyldmods.kitchencraft.foods.config.json;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
@@ -9,8 +9,8 @@ import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 
 public class FoodType
 {
-    public static List<FoodType> veggies = new ArrayList<FoodType>();
-    public static List<FoodType> meats = new ArrayList<FoodType>();
+    public static List<FoodType> veggies = new LinkedList<FoodType>();
+    public static List<FoodType> meats = new LinkedList<FoodType>();
 
     public final String name, texture;
     public final int food;

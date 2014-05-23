@@ -3,11 +3,13 @@ package org.wyldmods.kitchencraft.foods.item;
 import static org.wyldmods.kitchencraft.foods.config.json.FoodType.meats;
 import static org.wyldmods.kitchencraft.foods.config.json.FoodType.veggies;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -17,9 +19,13 @@ import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.config.json.FoodType;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class ItemKCFood extends ItemFood
 {
-    List<IIcon> icons = new ArrayList<IIcon>();
+    @SideOnly(Side.CLIENT)
+    Map<String, IIcon> icons = new HashMap<String, IIcon>();
     
     public ItemKCFood(boolean wolfFood)
     {
@@ -35,28 +41,56 @@ public class ItemKCFood extends ItemFood
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register)
-    {
+    {        
         if (isWolfsFavoriteMeat())
         {
             for (FoodType f : meats)
             {
-                icons.add(register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + f.texture));
+                icons.put(f.name, register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + f.texture));
             }
         }
         else
         {
             for (FoodType f : veggies)
             {
-                icons.add(register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + f.texture));
+                icons.put(f.name, register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + f.texture));
             }
         }
     }
     
+    @SideOnly(Side.CLIENT)
+    private String getName(ItemStack stack)
+    {
+        return getName(stack.getItemDamage());
+    }
+    
+    @SideOnly(Side.CLIENT)
+    private String getName(int damage)
+    {
+        return isWolfsFavoriteMeat() ? meats.get(damage).name : veggies.get(damage).name;
+    }
+
+    @SideOnly(Side.CLIENT)
     @Override
     public IIcon getIcon(ItemStack stack, int pass)
     {
-        return icons.get(stack.getItemDamage());
+        return icons.get(getName(stack));
+    }
+    
+    @SideOnly(Side.CLIENT)
+    @Override
+    public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining)
+    {
+        return getIcon(stack, renderPass);
+    }
+    
+    @SideOnly(Side.CLIENT)
+    @Override
+    public IIcon getIconFromDamage(int par1)
+    {
+        return icons.get(getName(par1));
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
