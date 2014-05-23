@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.world.EnumSkyBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -72,11 +73,30 @@ public class TileOven extends TileKCInventory implements ISidedInventory
             if (!isCooking)
                 cookTime = 0;
             
+            int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+            if (meta > 3 && !isBurning)
+            {
+                updateMeta(meta - 4);
+                needsSync = true;
+            }
+            else if (meta < 4 && isBurning)
+            {
+                updateMeta(meta + 4);
+                needsSync = true;
+            }
+            
             if (needsSync)
             {
                 markDirty();
             }
         }
+    }
+
+    private void updateMeta(int meta)
+    {
+        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, 3);
+        worldObj.updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
+        worldObj.notifyBlockChange(xCoord, yCoord, zCoord, getBlockType());
     }
 
     private void smeltItem()
