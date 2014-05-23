@@ -1,11 +1,12 @@
 package org.wyldmods.kitchencraft.foods.item;
 
-import static org.wyldmods.kitchencraft.foods.item.FoodType.meats;
-import static org.wyldmods.kitchencraft.foods.item.FoodType.veggies;
+import static org.wyldmods.kitchencraft.foods.config.json.FoodType.meats;
+import static org.wyldmods.kitchencraft.foods.config.json.FoodType.veggies;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.wyldmods.kitchencraft.foods.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.lib.Reference;
 
 import net.minecraft.client.renderer.texture.IIconRegister;

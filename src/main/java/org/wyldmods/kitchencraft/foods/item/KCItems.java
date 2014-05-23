@@ -1,18 +1,24 @@
 package org.wyldmods.kitchencraft.foods.item;
 
+import org.wyldmods.kitchencraft.foods.config.json.FoodType;
+import org.wyldmods.kitchencraft.foods.config.json.SmeltingRecipeJson;
+
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class KCItems
 {
-    public static void registerSmelting()
+    public static void registerSmeltingRecipe(SmeltingRecipeJson recipe)
     {
-        ItemStack muttonRaw = FoodType.getFood("muttonRaw");
-        ItemStack muttonCooked = FoodType.getFood("muttonCooked");
-
-        if (muttonRaw != null && muttonCooked != null)
+        ItemStack input = FoodType.getFood(recipe.input);
+        ItemStack output = FoodType.getFood(recipe.output);
+        
+        System.out.println("adding recipe for " + recipe.input + " to " + recipe.output);
+        System.out.println(input + "   " + output);
+        
+        if (input != null && output != null)
         {
-            GameRegistry.addSmelting(FoodType.getFood("muttonRaw"), FoodType.getFood("muttonCooked"), 1f);
+            GameRegistry.addSmelting(input, output, recipe.xp);
         }
     }
 }

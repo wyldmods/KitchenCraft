@@ -8,7 +8,9 @@ import net.minecraftforge.common.config.Configuration;
 
 import org.apache.commons.io.FileUtils;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
-import org.wyldmods.kitchencraft.foods.item.FoodType;
+import org.wyldmods.kitchencraft.foods.config.json.FoodType;
+import org.wyldmods.kitchencraft.foods.config.json.SmeltingRecipeJson;
+import org.wyldmods.kitchencraft.foods.item.KCItems;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,14 +20,19 @@ import com.google.gson.JsonParser;
 
 public class ConfigurationHandler
 {
-    static File configFile, foodJson;
+    static File parentDir;
+    static File configFile, foodJson, smeltingJson;
+    static final String foodJsonName = "foodAdditions.json";
+    static final String smeltingJsonName = "smeltingAdditions.json";
+    static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static void init(File file)
     {
-        File parentDir = new File(file.getParent() + "/KitchenCraft");
+        parentDir = new File(file.getParent() + "/KitchenCraft");
 
         configFile = new File(parentDir.getAbsolutePath() + "/" + file.getName());
-        foodJson = new File(parentDir.getAbsoluteFile() + "/foodAdditions.json");
+        foodJson = new File(parentDir.getAbsoluteFile() + "/" + foodJsonName);
+        smeltingJson = new File(parentDir.getAbsoluteFile() + "/" + smeltingJsonName);
 
         Configuration config = new Configuration(configFile);
 
@@ -40,35 +47,64 @@ public class ConfigurationHandler
             throw new RuntimeException("Error loading KitchenCraft configs");
         }
     }
-
+    
+    public static void postInit()
+    {
+        try
+        {
+            loadSmeltingJson();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            throw new RuntimeException("Error loading KitchenCraft smelting");
+        }
+    }
+    
     private static void loadFoodJson() throws IOException
     {
-        if (!foodJson.exists())
-            copyJsonFromJar();
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = "";
+        JsonObject foods = initializeJson(foodJsonName, foodJson);
         
-        Scanner scan = new Scanner(foodJson);
-        while (scan.hasNextLine())
-        {
-            json += scan.nextLine() + "\n";
-        }
-        scan.close();
-        
-        JsonObject obj = (JsonObject) new JsonParser().parse(json);
-        JsonArray arr = (JsonArray) obj.get("foods");
-
+        JsonArray arr = (JsonArray) foods.get("foods");
         for (int i = 0; i < arr.size(); i++)
         {
             FoodType.registerFoodType(gson.fromJson(arr.get(i), FoodType.class));
         }
     }
 
-    private static void copyJsonFromJar() throws IOException
+    private static void loadSmeltingJson() throws IOException
     {
-        File jsonFile = new File(KitchenCraftFoods.class.getResource("/assets/kitchencraft/misc/foodAdditions.json").getFile());
-        FileUtils.copyFile(jsonFile, foodJson);
+        JsonObject recipes = initializeJson(smeltingJsonName, smeltingJson);
+        
+        JsonArray arr = (JsonArray) recipes.get("smelting");
+        for (int i = 0; i < arr.size(); i++)
+        {
+            KCItems.registerSmeltingRecipe(gson.fromJson(arr.get(i), SmeltingRecipeJson.class));
+        }
+    }
+    
+    private static JsonObject initializeJson(String filename, File f) throws IOException
+    {
+        if (!f.exists())
+            copyJsonFromJar(filename, f);
+
+        String json = "";
+        
+        Scanner scan = new Scanner(f);
+        while (scan.hasNextLine())
+        {
+            json += scan.nextLine() + "\n";
+        }
+        scan.close();
+        
+        return (JsonObject) new JsonParser().parse(json);
+    }
+
+    private static void copyJsonFromJar(String filename, File to) throws IOException
+    {
+        System.out.println("Copying file " + filename + " from jar");
+        File jsonFile = new File(KitchenCraftFoods.class.getResource("/assets/kitchencraft/misc/" + filename).getFile());
+        FileUtils.copyFile(jsonFile, to);
     }
 
     private static void loadStandardConfig(Configuration config)

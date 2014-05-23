@@ -2,7 +2,6 @@ package org.wyldmods.kitchencraft.foods;
 
 import org.wyldmods.kitchencraft.foods.config.ConfigurationHandler;
 import org.wyldmods.kitchencraft.foods.item.ItemKCFood;
-import org.wyldmods.kitchencraft.foods.item.KCItems;
 import org.wyldmods.kitchencraft.foods.lib.Reference;
 
 import cpw.mods.fml.common.Mod;
@@ -30,6 +29,6 @@ public class KitchenCraftFoods
         GameRegistry.registerItem(veggie, "veggie", Reference.MOD_ID);
         GameRegistry.registerItem(meat, "meat", Reference.MOD_ID);
         
-        KCItems.registerSmelting();
+        ConfigurationHandler.postInit();
     }
 }
