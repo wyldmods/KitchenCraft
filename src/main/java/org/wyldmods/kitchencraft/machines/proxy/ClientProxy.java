@@ -3,7 +3,7 @@ package org.wyldmods.kitchencraft.machines.proxy;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 
-import org.wyldmods.kitchencraft.foods.lib.Reference;
+import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.machines.KitchenCraftMachines;
 import org.wyldmods.kitchencraft.machines.client.render.SimpleModelRenderer;
 

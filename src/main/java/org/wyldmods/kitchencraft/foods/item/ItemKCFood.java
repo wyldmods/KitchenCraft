@@ -6,15 +6,16 @@ import static org.wyldmods.kitchencraft.foods.config.json.FoodType.veggies;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.wyldmods.kitchencraft.foods.config.json.FoodType;
-import org.wyldmods.kitchencraft.foods.lib.Reference;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+
+import org.wyldmods.kitchencraft.common.lib.Reference;
+import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
+import org.wyldmods.kitchencraft.foods.config.json.FoodType;
 
 public class ItemKCFood extends ItemFood
 {
@@ -23,6 +24,8 @@ public class ItemKCFood extends ItemFood
     public ItemKCFood(boolean wolfFood)
     {
         super(0, wolfFood);
+        setCreativeTab(KitchenCraftFoods.tab);
+        setHasSubtypes(true);
     }
     
     @Override

@@ -2,11 +2,12 @@ package org.wyldmods.kitchencraft.machines;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 
-import org.wyldmods.kitchencraft.machines.block.BlockPot;
-import org.wyldmods.kitchencraft.machines.lib.Reference;
+import org.wyldmods.kitchencraft.common.lib.Reference;
+import org.wyldmods.kitchencraft.machines.block.KCBlocks;
+import org.wyldmods.kitchencraft.machines.client.gui.GuiHandlerKC;
 import org.wyldmods.kitchencraft.machines.proxy.CommonProxy;
 
 import cpw.mods.fml.common.Mod;
@@ -14,23 +15,23 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.network.NetworkRegistry;
 
-@Mod(modid=Reference.MOD_ID, name=Reference.MOD_NAME, version=Reference.VERSION)
+@Mod(modid=Reference.MOD_ID_MACHINES, name=Reference.MOD_NAME_MACHINES, version=Reference.VERSION)
 public class KitchenCraftMachines
 {
-    @Instance(Reference.MOD_ID)
+    @Instance(Reference.MOD_ID_MACHINES)
     public static KitchenCraftMachines instance;
     
-    @SidedProxy(clientSide=Reference.CLIENT_PROXY_CLASS, serverSide=Reference.SERVER_PROXY_CLASS)
+    @SidedProxy(clientSide=Reference.CLIENT_PROXY_CLASS_MACHINES, serverSide=Reference.SERVER_PROXY_CLASS_MACHINES)
     public static CommonProxy proxy;
     
-    public static CreativeTabs tab = new CreativeTabs(Reference.MOD_NAME)
+    public static CreativeTabs tab = new CreativeTabs("tabKC.machines")
     {
         @Override
         public Item getTabIconItem()
         {
-            return Items.porkchop;
+            return Blocks.furnace.getItem(null, 0, 0, 0);
         }
     };
 
@@ -42,7 +43,8 @@ public class KitchenCraftMachines
     {
         proxy.initRenderers();
         
-        pot = new BlockPot();
-        GameRegistry.registerBlock(pot, "kc_pot");
+        KCBlocks.init();
+        
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandlerKC());
     }
 }

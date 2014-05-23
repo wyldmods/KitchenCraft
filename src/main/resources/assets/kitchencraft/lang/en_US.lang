@@ -3,3 +3,7 @@ item.kc.muttonRaw.name=Raw Mutton
 item.kc.muttonCooked.name=Cooked Mutton
 
 tile.kc.pot.name=Pot
+tile.kc.oven.name=Oven
+
+itemGroup.tabKC.foods=KitchenCraft Foods
+itemGroup.tabKC.machines=KitchenCraft Machines
