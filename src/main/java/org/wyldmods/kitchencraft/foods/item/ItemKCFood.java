@@ -48,14 +48,14 @@ public class ItemKCFood extends ItemFood
         {
             for (FoodType f : meats)
             {
-                icons.put(f.name, register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + f.texture));
+                icons.put(f.name, register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + f.name));
             }
         }
         else
         {
             for (FoodType f : veggies)
             {
-                icons.put(f.name, register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + f.texture));
+                icons.put(f.name, register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + f.name));
             }
         }
     }

@@ -9,6 +9,7 @@ import net.minecraftforge.common.config.Configuration;
 import org.apache.commons.io.FileUtils;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.config.json.FoodType;
+import org.wyldmods.kitchencraft.foods.config.json.FoodTypeDropped;
 import org.wyldmods.kitchencraft.foods.config.json.SmeltingRecipeJson;
 import org.wyldmods.kitchencraft.foods.item.KCItems;
 
@@ -68,7 +69,7 @@ public class ConfigurationHandler
         JsonArray arr = (JsonArray) foods.get("foods");
         for (int i = 0; i < arr.size(); i++)
         {
-            FoodType.registerFoodType(gson.fromJson(arr.get(i), FoodType.class));
+            FoodType.registerFoodType(gson.fromJson(arr.get(i), arr.get(i).getAsJsonObject().get("animals") != null ? FoodTypeDropped.class : FoodType.class));
         }
     }
 

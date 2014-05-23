@@ -1,26 +1,34 @@
 package org.wyldmods.kitchencraft.foods.config.json;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.item.ItemStack;
 
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 
+import scala.util.Random;
+
 public class FoodType
 {
     public static List<FoodType> veggies = new LinkedList<FoodType>();
     public static List<FoodType> meats = new LinkedList<FoodType>();
+    public static Set<String> validAnimals = new HashSet<String>();
+    
+    private static final Random rand = new Random();
 
-    public final String name, texture;
+    public final String name;
     public final int food;
     public final float saturation;
     public final boolean isMeat;
     
-    private FoodType(String name, String textureName, int food, float sat, boolean isMeat)
+    protected FoodType(String name, int food, float sat, boolean isMeat)
     {
         this.name = name;
-        this.texture = textureName;
         this.food = food;
         this.saturation = sat;
         this.isMeat = isMeat;
@@ -34,7 +42,7 @@ public class FoodType
      */
     public static void registerFoodType(String name, int food, float saturation)
     {
-        registerFoodType(name, name, food, saturation, false);
+        registerFoodType(name, food, saturation, false);
     }
     
     /**
@@ -45,32 +53,20 @@ public class FoodType
      */
     public static void registerFoodType(String name, int food, float saturation, boolean isMeat)
     {
-        registerFoodType(name, name, food, saturation, isMeat);
+        registerFoodType(new FoodType(name, food, saturation, isMeat));
     }
     
     /**
      * Adds a new food type to the multi-food item
-     * @param name - unlocalized name
-     * @param texture - texture name (no extension)
+     * @param name - unlocalized name (also used for texture)
      * @param food - drumsticks restored
      * @param saturation - saturation given
+     * @param dropsFrom - entities this food drops from
      */
-    public static void registerFoodType(String name, String texture, int food, float saturation)
+    public static void registerFoodType(String name, int food, float saturation, boolean isMeat, int minDropped, int maxDropped, String... dropsFrom)
     {
-        registerFoodType(name, texture, food, saturation, false);
-    }
-
-    /**
-     * Adds a new food type to the multi-food item
-     * @param name - unlocalized name
-     * @param texture - texture name (no extension)
-     * @param food - drumsticks restored
-     * @param saturation - saturation given
-     * @param isMeat - whether this is meat (wolf food)
-     */
-    public static void registerFoodType(String name, String texture, int food, float saturation, boolean isMeat)
-    {
-        registerFoodType(new FoodType(name, texture, food, saturation, isMeat));
+        registerFoodType(new FoodTypeDropped(name, food, saturation, isMeat, minDropped, maxDropped, dropsFrom));
+        validAnimals.addAll(Arrays.asList(dropsFrom));
     }
     
     public static ItemStack getFood(String name)
@@ -90,9 +86,50 @@ public class FoodType
 
     public static void registerFoodType(FoodType food)
     {
+        if (food instanceof FoodTypeDropped)
+            validAnimals.addAll(Arrays.asList(((FoodTypeDropped) food).animals));
+
         if (food.isMeat)
             meats.add(food);
         else
             veggies.add(food);
+    }
+
+    public static List<ItemStack> getDroppedFoodsFrom(String entityName)
+    {
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+        
+        for (int i = 0; i < veggies.size(); i++)
+        {
+            FoodType f = veggies.get(i);
+            if (f instanceof FoodTypeDropped)
+            {
+                FoodTypeDropped food = (FoodTypeDropped) f;
+                for (String s : food.animals)
+                {
+                    if (entityName.toLowerCase().contains(s.toLowerCase()))
+                    {
+                        ret.add(new ItemStack(KitchenCraftFoods.veggie, rand.nextInt(food.maxDropped - food.minDropped + 1) + food.minDropped, i));
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < meats.size(); i++)
+        {
+            FoodType f = meats.get(i);
+            if (f instanceof FoodTypeDropped)
+            {
+                FoodTypeDropped food = (FoodTypeDropped) f;
+                for (String s : food.animals)
+                {
+                    if (entityName.toLowerCase().contains(s.toLowerCase()))
+                    {
+                        ret.add(new ItemStack(KitchenCraftFoods.meat, rand.nextInt(food.maxDropped - food.minDropped + 1) + food.minDropped, i));
+                    }
+                }
+            }
+        }
+        
+        return ret;
     }
 }

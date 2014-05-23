@@ -3,10 +3,12 @@ package org.wyldmods.kitchencraft.foods;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.config.ConfigurationHandler;
 import org.wyldmods.kitchencraft.foods.config.json.FoodType;
+import org.wyldmods.kitchencraft.foods.handlers.FoodDropsHandler;
 import org.wyldmods.kitchencraft.foods.item.ItemKCFood;
 
 import cpw.mods.fml.common.Mod;
@@ -46,5 +48,7 @@ public class KitchenCraftFoods
         GameRegistry.registerItem(meat, "meat", Reference.MOD_ID_FOODS);
         
         ConfigurationHandler.postInit();
+        
+        MinecraftForge.EVENT_BUS.register(new FoodDropsHandler());
     }
 }
