@@ -18,7 +18,7 @@ public class TileOven extends TileKCInventory implements ISidedInventory
     private boolean isBurning;
     private boolean isCooking;
 
-    private final int maxCookTime = (int) (200 - (200 * .2));
+    private final int maxCookTime = (int) 159;
     private final int maxBurnTime = 200;
 
     public TileOven()
@@ -160,6 +160,11 @@ public class TileOven extends TileKCInventory implements ISidedInventory
         if (this.currentItemBurnTime == 0)
         {
             this.currentItemBurnTime = maxBurnTime;
+        }
+        
+        if (this.burnTime == 0)
+        {
+            return -1;
         }
 
         return this.burnTime * scale / this.currentItemBurnTime;
