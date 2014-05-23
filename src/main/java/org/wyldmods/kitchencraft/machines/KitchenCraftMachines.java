@@ -2,7 +2,6 @@ package org.wyldmods.kitchencraft.machines;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
@@ -31,7 +30,7 @@ public class KitchenCraftMachines
         @Override
         public Item getTabIconItem()
         {
-            return Blocks.furnace.getItem(null, 0, 0, 0);
+            return KCBlocks.oven.getItem(null, 0, 0, 0);
         }
     };
 

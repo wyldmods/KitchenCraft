@@ -1,11 +1,12 @@
 package org.wyldmods.kitchencraft.foods;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.config.ConfigurationHandler;
+import org.wyldmods.kitchencraft.foods.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.item.ItemKCFood;
 
 import cpw.mods.fml.common.Mod;
@@ -25,7 +26,9 @@ public class KitchenCraftFoods
         @Override
         public Item getTabIconItem()
         {
-            return Items.porkchop;
+            ItemStack stack = FoodType.getFood("kiwi");
+            if (stack == null) return null;
+            else return stack.getItem();
         }
     };
     

@@ -28,7 +28,7 @@ public class BlockOven extends BlockContainerKC
     public BlockOven()
     {
         super("kc.oven", Material.rock, soundTypeStone, 1.5f, 0, TileOven.class);
-        setResistance(12.0F);
+        setResistance(15.0F);
 
         icons = new IIcon[5];
     }
