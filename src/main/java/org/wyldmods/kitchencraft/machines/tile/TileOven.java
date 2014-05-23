@@ -40,10 +40,10 @@ public class TileOven extends TileKCInventory implements ISidedInventory
             // if fuel is being used
             if (isBurning)
             {
-                // make sure we are not out of fuel
+                // make sure we are not out of fuel, consume more fuel if there is more to cook
                 if (burnTime == 0)
                 {
-                    isBurning = consumeFuel();
+                    isBurning = canCook() && consumeFuel();
                     needsSync = true;
                 }
                 // else decrease the fuel
