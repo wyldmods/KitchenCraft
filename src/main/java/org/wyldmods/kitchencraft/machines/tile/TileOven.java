@@ -2,6 +2,7 @@ package org.wyldmods.kitchencraft.machines.tile;
 
 import org.wyldmods.kitchencraft.machines.container.ContainerOven;
 
+import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -21,7 +22,7 @@ public class TileOven extends TileKCInventory implements ISidedInventory
     private boolean isBurning;
     private boolean isCooking;
 
-    private final int maxCookTime = (int) 159;
+    private final int maxCookTime = 159;
     private final int maxBurnTime = 200;
 
     public TileOven()
@@ -36,45 +37,55 @@ public class TileOven extends TileKCInventory implements ISidedInventory
 
         if (!worldObj.isRemote)
         {
+            // if fuel is being used
             if (isBurning)
             {
+                // make sure we are not out of fuel
                 if (burnTime == 0)
                 {
                     isBurning = consumeFuel();
                     needsSync = true;
                 }
+                // else decrease the fuel
                 else
                 {
                     burnTime--;
                 }
 
+                // if we are cooking something, and are still able to
                 if (isCooking && canCook())
                 {
+                    // if we have reached the completion of an item, smelt it
                     if (cookTime == maxCookTime)
                     {
                         smeltItem();
                         cookTime = 0;
                         needsSync = true;
                     }
+                    // otherwise, progress the bar
                     else
                     {
                         cookTime++;
                     }
                 }
+                // otherwise, check if we are able to cook
                 else 
                 {
                     isCooking = canCook();
                 }
             }
+            // if no fuel is being burned, see if it can be, and subsequently if we can cook
             else
             {
                 isBurning = canCook() && consumeFuel();
                 isCooking = canCook();
             }
             
+            // reset the progress if cooking is halted
             if (!isCooking)
                 cookTime = 0;
             
+            // this block updates the lighting and metadata between on/off states
             int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
             if (meta > 3 && !isBurning)
             {
@@ -87,6 +98,7 @@ public class TileOven extends TileKCInventory implements ISidedInventory
                 needsSync = true;
             }
             
+            // finally, sync any changes made
             if (needsSync)
             {
                 markDirty();
@@ -204,30 +216,30 @@ public class TileOven extends TileKCInventory implements ISidedInventory
         switch (var1)
         {
         case 0:
-            return new int[] { 1 };
+            return new int[] { 2, 1 };
         case 1:
             return new int[] { 0 };
         default:
-            return new int[] { 2 };
+            return new int[] { 1 };
         }
     }
     
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
-        return slot == 0 ? ContainerOven.checkInputSlot(stack) : slot == 1 ? ContainerOven.checkFuelSlot(stack) : false;
+        return slot == 2 ? false : (slot == 1 ? ContainerOven.checkFuelSlot(stack): ContainerOven.checkInputSlot(stack));
     }
 
     @Override
     public boolean canInsertItem(int slot, ItemStack stack, int side)
     {
-        return slot == 0 ? ContainerOven.checkInputSlot(stack) : slot == 1 ? ContainerOven.checkFuelSlot(stack) : false;
+        return this.isItemValidForSlot(slot, stack);
     }
 
     @Override
-    public boolean canExtractItem(int var1, ItemStack var2, int var3)
+    public boolean canExtractItem(int slot, ItemStack stack, int side)
     {
-        return true;
+        return side != 0 || slot != 1 || stack.getItem() == Items.bucket;
     }
     
     @Override
