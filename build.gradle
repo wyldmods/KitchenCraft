@@ -1,21 +1,25 @@
 buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
-    }
-}
+   	repositories {
+  		mavenCentral()
+      	maven {
+           	name = "forge"
+           	url = "http://files.minecraftforge.net/maven"
+  		}
+       		maven {
+           	name = "sonatype"
+           	url = "https://oss.sonatype.org/content/repositories/snapshots/"
+       	}
+   	}
+   		dependencies {
+       	classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+	}	
+}	
 
-apply plugin: 'forge'
+task build 
+task clean
+task setup
+task eclipse
+task idea
 
 ext.configFile = file "build.properties"
 
@@ -52,56 +56,55 @@ if (System.getenv().ARTIFACT_VERSION != null) {
 }
 
 version = "MC${config.minecraft_version}-${artifact_version}-${System.getenv().BUILD_NUMBER}"
-archivesBaseName = "KitchenCraft"
 
-minecraft {
-    version = "1.7.2-10.12.1.1085"
-    assetDir = "eclipse/assets"
-}
+subprojects {
+	apply plugin: "forge"
 
-processResources
-{
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
+    rootProject.build.dependsOn build
+    rootProject.clean.dependsOn clean
+    rootProject.setup.dependsOn setupDecompWorkspace
+    rootProject.tasks.eclipse.dependsOn it.tasks.eclipse
+    rootProject.tasks.idea.dependsOn it.tasks.idea
+
+	// stuff specific to my mod
+	group = 'org.wyldmods.kitchencraft'
+	archivesBaseName = rootProject.name + "-" + project.name
+
+	version = "${minecraft.version}-$version.${System.getenv().BUILD_NUMBER}"
+
+	minecraft {
+    	version = "1.7.2-10.12.1.1082"
+    	assetDir = "eclipse/assets"
+	}
+
+	processResources 
+	{
+    	// replace stuff in mcmod.info, nothing else
+    	from(sourceSets.main.resources.srcDirs) {
+        	include 'mcmod.info'
                 
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
+	        // replace version and mcversion
+    	    expand 'version':project.version, 'mcversion':project.minecraft.version
+    	}
         
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
+    	// copy everything else, thats not the mcmod.info
+    	from(sourceSets.main.resources.srcDirs) {
+        	exclude 'mcmod.info'
+    	}
+	}
 
-task foodsJar(type: Jar) {
-	dependsOn 'reobf'
-    baseName = 'KitchenCraft-Foods'
+	version = rootProject.version
 
-    from zipTree(reobf.outputs.getFiles().getSingleFile()).matching {
-        exclude 'org/wyldmods/kitchencraft/machines/**'
-    }
-}
+	jar.destinationDir = new File(rootProject.projectDir, "output")
 
-task machinesJar(type: Jar) {
-	dependsOn 'reobf'
-    baseName = 'KitchenCraft-Machines'
-
-    from zipTree(reobf.outputs.getFiles().getSingleFile()).matching {
-        exclude 'org/wyldmods/kitchencraft/foods/**'
-    }
-}
-
-task releaseJars(type: Copy) {
-    dependsOn 'foodsJar'
-    dependsOn 'machinesJar'
-    rename '-(.*)jar', '.jar'
-    rename '-(.*)zip', '.zip'
-    into '.'
-}
-
-task fullBuild(type: Delete) {
-    dependsOn 'releaseJars'
-    delete reobf
+	it.sourceSets {
+		main {
+			java {
+				srcDir rootProject.projectDir.path + "/src/main/java"
+			}
+			resources {
+				srcDir rootProject.projectDir.path + "/src/main/resources"
+			}
+		}
+	}
 }
