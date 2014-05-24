@@ -10,7 +10,7 @@ import org.wyldmods.kitchencraft.machines.tile.TileOven;
 
 public class GuiOven extends GuiContainer
 {
-    private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/furnace.png");
+    private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/oven_gui.png");
     private int x, y;
     private TileOven tile;
 
@@ -26,7 +26,7 @@ public class GuiOven extends GuiContainer
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        this.fontRendererObj.drawString("Oven", 77, 5, 0x404040);
+        this.fontRendererObj.drawString("Oven", 5, 5, 0x404040);
     }
 
     @Override
@@ -42,9 +42,9 @@ public class GuiOven extends GuiContainer
         int burn = this.tile.getBurnTimeRemainingScaled(12);
                 
         if (burn != -1)
-            this.drawTexturedModalRect(x + 56, y + 36 + 13 - burn, 176, 12 - burn, 14, burn + 2);
+            this.drawTexturedModalRect(x + 8, y + 42 + 13 - burn, 176, 12 - burn, 14, burn + 2);
 
-        int cook = this.tile.getCookProgressScaled(24);
-        this.drawTexturedModalRect(x + 79, y + 34, 176, 14, cook + 1, 16);
+        int cook = this.tile.getCookProgressScaled(17);
+        this.drawTexturedModalRect(x + 79, y + 26, 176, 14, cook + 1, 16);
     }
 }

@@ -66,9 +66,9 @@ public class ContainerOven extends ContainerKC
     {
         super(invPlayer, tile);
 
-        addSlotToContainer(new SlotOvenInput(tile, 0, 56, 17));
-        addSlotToContainer(new SlotOvenFuel(tile, 1, 56, 53));
-        addSlotToContainer(new SlotFurnace(invPlayer.player, tile, 2, 116, 35));
+        addSlotToContainer(new SlotOvenInput(tile, 0, 80, 8));
+        addSlotToContainer(new SlotOvenFuel(tile, 1, 8, 59));
+        addSlotToContainer(new SlotFurnace(invPlayer.player, tile, 2, 80, 55));
         
         this.tile = tile;
     }

@@ -16,7 +16,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void initRenderers()
     {
-        pot = new SimpleModelRenderer(new WavefrontObject(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/soupthing.obj")));
+        pot = new SimpleModelRenderer(new WavefrontObject(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/pot.obj")));
         KitchenCraftMachines.renderIDPot = pot.getRenderId();
         RenderingRegistry.registerBlockHandler(pot);
     }
