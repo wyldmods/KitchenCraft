@@ -1,0 +1,23 @@
+{"foods":[
+	{
+		"name": "muttonRaw",
+		"food": 2,
+		"saturation": 0.4,
+		"isMeat": true,
+		"minDropped": 1,
+		"maxDropped": 3,
+		"animals":["sheep"]
+	},
+	{
+	  	"name": "muttonCooked",
+		"food": 8,
+		"saturation": 2.0,
+		"isMeat": true
+	},
+	{
+		"name": "kiwi",
+		"food": 4,
+		"saturation": 0.6,
+		"isMeat": false
+	}]
+}

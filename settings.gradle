@@ -1,2 +1,2 @@
 rootProject.name="KitchenCraft"
-include ":foods", ":machines"
+include ":Foods", ":Machines"
