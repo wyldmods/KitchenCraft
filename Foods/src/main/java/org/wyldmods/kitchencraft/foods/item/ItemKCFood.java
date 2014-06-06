@@ -25,7 +25,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemKCFood extends ItemFood
 {
     @SideOnly(Side.CLIENT)
-    Map<String, IIcon> icons = new HashMap<String, IIcon>();
+    Map<String, IIcon> icons;
     
     public ItemKCFood(boolean wolfFood)
     {
@@ -44,6 +44,7 @@ public class ItemKCFood extends ItemFood
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register)
     {        
+        icons = new HashMap<String, IIcon>();
         if (isWolfsFavoriteMeat())
         {
             for (FoodType f : meats)
