@@ -2,6 +2,7 @@ package org.wyldmods.kitchencraft.foods.config;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Scanner;
 
 import net.minecraftforge.common.config.Configuration;
@@ -119,8 +120,8 @@ public class ConfigurationHandler
     private static void copyJsonFromJar(String filename, File to) throws IOException
     {
         System.out.println("Copying file " + filename + " from jar");
-        File jsonFile = new File(KitchenCraftFoods.class.getResource("/assets/kitchencraft/misc/" + filename).getFile());
-        FileUtils.copyFile(jsonFile, to);
+        URL url = KitchenCraftFoods.class.getResource("/assets/kitchencraft/misc/" + filename);
+        FileUtils.copyURLToFile(url, to);
     }
 
     private static void loadStandardConfig(Configuration config)
