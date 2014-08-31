@@ -11,7 +11,8 @@ import org.apache.commons.io.FileUtils;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodTypeDropped;
-import org.wyldmods.kitchencraft.foods.common.config.json.ShapelessFoodRecipeJson;
+import org.wyldmods.kitchencraft.foods.common.config.json.ShapedJsonRecipe;
+import org.wyldmods.kitchencraft.foods.common.config.json.ShapelessJsonRecipe;
 import org.wyldmods.kitchencraft.foods.common.config.json.SmeltingRecipeJson;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
@@ -24,10 +25,12 @@ import com.google.gson.JsonParser;
 public class ConfigurationHandler
 {
     static File parentDir;
-    static File configFile, foodJson, smeltingJson, shapelessRecipesJson;
+    static File configFile, foodJson, smeltingJson, shapelessRecipesJson, shapedRecipesJson;
     static final String foodJsonName = "foodAdditions.json";
     static final String smeltingJsonName = "smeltingAdditions.json";
-    static final String shaplessRecipesJsonName = "shapelessFoodRecipes.json";
+    static final String shaplessRecipesJsonName = "shapelessRecipeAdditions.json";
+    static final String shapedRecipesJsonName = "shapedRecipeAdditions.json";
+
     static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static void init(File file)
@@ -38,6 +41,7 @@ public class ConfigurationHandler
         foodJson = new File(parentDir.getAbsoluteFile() + "/" + foodJsonName);
         smeltingJson = new File(parentDir.getAbsoluteFile() + "/" + smeltingJsonName);
         shapelessRecipesJson = new File(parentDir.getAbsoluteFile() + "/" + shaplessRecipesJsonName);
+        shapedRecipesJson = new File(parentDir.getAbsoluteFile() + "/" + shapedRecipesJsonName);
 
         Configuration config = new Configuration(configFile);
 
@@ -59,6 +63,7 @@ public class ConfigurationHandler
         {
             loadSmeltingJson();
             loadShapelessRecipesJson();
+            loadShapedRecipesJson();
         }
         catch (IOException e)
         {
@@ -96,7 +101,18 @@ public class ConfigurationHandler
         JsonArray arr = (JsonArray) recipes.get("recipes");
         for (int i = 0; i < arr.size(); i++)
         {
-            ShapelessFoodRecipeJson.addShapelessRecipeFromJson(gson.fromJson(arr.get(i), ShapelessFoodRecipeJson.class));
+            ShapelessJsonRecipe.addShapelessRecipeFromJson(gson.fromJson(arr.get(i), ShapelessJsonRecipe.class));
+        }
+    }
+    
+    private static void loadShapedRecipesJson() throws IOException
+    {
+        JsonObject recipes = initializeJson(shapedRecipesJsonName, shapedRecipesJson);
+        
+        JsonArray arr = (JsonArray) recipes.get("recipes");
+        for (int i = 0; i < arr.size(); i++)
+        {
+            ShapedJsonRecipe.addShapedRecipeFromJson(gson.fromJson(arr.get(i), ShapedJsonRecipe.class));
         }
     }
 
@@ -119,7 +135,7 @@ public class ConfigurationHandler
 
     private static void copyJsonFromJar(String filename, File to) throws IOException
     {
-        System.out.println("Copying file " + filename + " from jar");
+        KitchenCraftFoods.logger.info("Copying file " + filename + " from jar");
         URL url = KitchenCraftFoods.class.getResource("/assets/kitchencraft/misc/" + filename);
         FileUtils.copyURLToFile(url, to);
     }

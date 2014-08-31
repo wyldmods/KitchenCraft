@@ -2,6 +2,8 @@ package org.wyldmods.kitchencraft.foods;
 
 import net.minecraft.creativetab.CreativeTabs;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
 import org.wyldmods.kitchencraft.foods.common.item.ItemKCFood;
@@ -22,6 +24,8 @@ public class KitchenCraftFoods
     public static ItemKCFood veggie, meat;
     
     public static CreativeTabs tab;
+
+    public static final Logger logger = LogManager.getLogger(Reference.MOD_NAME_FOODS);
 
     @EventHandler
     public static void preinit(FMLPreInitializationEvent event)
