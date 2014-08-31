@@ -64,6 +64,14 @@ subprojects {
 	jar.destinationDir = new File(rootProject.projectDir, "output")
 	
 	repositories {
+	    maven { // WAILA
+			name "Mobius Repo"
+			url "http://mobiusstrip.eu/maven"
+		}
+		maven { // CCC/NEI (for WAILA)
+			name 'CB Repo'
+			url "http://chickenbones.net/maven/"
+		}
 		maven { // ttCore
 			name 'tterrag Repo'
 			url "http://maven.tterrag.com"
@@ -72,6 +80,7 @@ subprojects {
 
 	dependencies {
 		compile "tterrag.core:ttCore:1.7.10-0.0.2-5"
+		compile "mcp.mobius.waila:Waila:1.5.3_1.7.10"
 	}
 
 	it.sourceSets {

@@ -4,15 +4,14 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.machines.client.gui.GuiHandlerKC;
 import org.wyldmods.kitchencraft.machines.common.CommonProxy;
 import org.wyldmods.kitchencraft.machines.common.block.KCBlocks;
-import org.wyldmods.kitchencraft.machines.common.compat.RFCompat;
 
-import tterrag.core.common.compat.CompatabilityRegistry;
 import tterrag.core.common.util.CreativeTabsCustom;
-import tterrag.core.common.util.RegisterTime;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -33,19 +32,44 @@ public class KitchenCraftMachines
 
     public static int renderIDPot;
     public static Block pot;
-        
+
+    public static final Logger logger = LogManager.getLogger(Reference.MOD_NAME_MACHINES);
+
+    private static boolean rfCheckLoaded = false;
+    private static boolean loadRF = false;
+    
     @EventHandler
     public static void preinit(FMLPreInitializationEvent event)
     {
         proxy.initRenderers();
         
         KCBlocks.init();
-        
-        CompatabilityRegistry.instance().registerCompat("CoFHAPI|energy", RegisterTime.PREINIT, RFCompat.class);
-        CompatabilityRegistry.instance().forceLoad(RFCompat.class);
-        
+                
         tab = new CreativeTabsCustom("tabKC.machines", Item.getItemFromBlock(KCBlocks.oven));
         
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandlerKC());
+    }
+
+    public static boolean loadRF()
+    {
+        if (!rfCheckLoaded)
+        {
+            try
+            {
+                Class.forName("cofh.api.energy.IEnergyHandler");
+                loadRF = true;
+                KitchenCraftMachines.logger.info("RF API not found, disabling RF-only features.");
+            }
+            catch (ClassNotFoundException e)
+            {
+                KitchenCraftMachines.logger.info("RF API found, allowing RF-only features.");
+            }
+            finally
+            {
+                rfCheckLoaded = true;
+            }
+        }
+        
+        return loadRF;
     }
 }

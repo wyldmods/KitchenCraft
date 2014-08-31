@@ -1,7 +1,5 @@
 package org.wyldmods.kitchencraft.machines.common.tile;
 
-import org.wyldmods.kitchencraft.machines.common.container.ContainerOven;
-
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
@@ -10,6 +8,9 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.EnumSkyBlock;
+
+import org.wyldmods.kitchencraft.machines.common.container.ContainerOven;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -22,8 +23,10 @@ public class TileOven extends TileKCInventory implements ISidedInventory
     private boolean isBurning;
     private boolean isCooking;
 
-    private final int maxCookTime = 159;
-    private final int maxBurnTime = 200;
+    protected int maxCookTime = 159;
+    protected int maxBurnTime = 200;
+    
+    private int uncooked = 0, cooked = 1, fuel = 2;
 
     public TileOven()
     {
@@ -41,15 +44,10 @@ public class TileOven extends TileKCInventory implements ISidedInventory
             if (isBurning)
             {
                 // make sure we are not out of fuel, consume more fuel if there is more to cook
-                if (burnTime == 0)
+                if (!useFuel())
                 {
                     isBurning = canCook() && consumeFuel();
                     needsSync = true;
-                }
-                // else decrease the fuel
-                else
-                {
-                    burnTime--;
                 }
 
                 // if we are cooking something, and are still able to
@@ -87,12 +85,12 @@ public class TileOven extends TileKCInventory implements ISidedInventory
             
             // this block updates the lighting and metadata between on/off states
             int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-            if (meta > 3 && !isBurning)
+            if (isActive() && !isBurning)
             {
                 updateMeta(meta - 4);
                 needsSync = true;
             }
-            else if (meta < 4 && isBurning)
+            else if (!isActive() && isBurning)
             {
                 updateMeta(meta + 4);
                 needsSync = true;
@@ -117,56 +115,66 @@ public class TileOven extends TileKCInventory implements ISidedInventory
     {
         if (this.canCook())
         {
-            ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(this.inventory[0]);
+            ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(this.inventory[uncooked]);
 
-            if (this.inventory[2] == null)
+            if (this.inventory[cooked] == null)
             {
-                this.inventory[2] = itemstack.copy();
+                this.inventory[cooked] = itemstack.copy();
             }
-            else if (this.inventory[2].getItem() == itemstack.getItem())
+            else if (this.inventory[cooked].getItem() == itemstack.getItem())
             {
-                this.inventory[2].stackSize += itemstack.stackSize;
+                this.inventory[cooked].stackSize += itemstack.stackSize;
             }
 
-            --this.inventory[0].stackSize;
+            --this.inventory[uncooked].stackSize;
 
-            if (this.inventory[0].stackSize <= 0)
+            if (this.inventory[uncooked].stackSize <= 0)
             {
-                this.inventory[0] = null;
+                this.inventory[uncooked] = null;
             }
         }
     }
 
-    private boolean canCook()
+    protected boolean canCook()
     {
-        if (this.inventory[0] == null)
+        if (this.inventory[uncooked] == null)
         {
             return false;
         }
         else
         {
-            ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(this.inventory[0]);
+            ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(this.inventory[uncooked]);
             if (itemstack == null || !isValidFood(itemstack))
                 return false;
-            if (this.inventory[2] == null)
+            if (this.inventory[cooked] == null)
                 return true;
-            if (!this.inventory[2].isItemEqual(itemstack))
+            if (!this.inventory[cooked].isItemEqual(itemstack))
                 return false;
-            int result = inventory[2].stackSize + itemstack.stackSize;
-            return result <= getInventoryStackLimit() && result <= this.inventory[2].getMaxStackSize();
+            int result = inventory[cooked].stackSize + itemstack.stackSize;
+            return result <= getInventoryStackLimit() && result <= this.inventory[cooked].getMaxStackSize();
         }
     }
 
-    private boolean consumeFuel()
+    protected boolean consumeFuel()
     {
-        if (TileEntityFurnace.isItemFuel(inventory[1]))
+        if (TileEntityFurnace.isItemFuel(inventory[fuel]))
         {
-            inventory[1].stackSize--;
-            currentItemBurnTime = TileEntityFurnace.getItemBurnTime(inventory[1]);
+            inventory[fuel].stackSize--;
+            currentItemBurnTime = TileEntityFurnace.getItemBurnTime(inventory[fuel]);
             burnTime = currentItemBurnTime;
-            if (inventory[1].stackSize == 0)
-                this.inventory[1] = inventory[1].getItem().getContainerItem(inventory[1]);
+            if (inventory[fuel].stackSize == 0)
+                this.inventory[fuel] = inventory[fuel].getItem().getContainerItem(inventory[fuel]);
 
+            return true;
+        }
+        return false;
+    }
+    
+    protected boolean useFuel()
+    {
+        if (burnTime > 0)
+        {
+            burnTime--;
             return true;
         }
         return false;
@@ -180,6 +188,12 @@ public class TileOven extends TileKCInventory implements ISidedInventory
     public boolean isBurning()
     {
         return isBurning;
+    }
+    
+    // BASED ON METADATA ONLY, used for packet sending checks
+    private boolean isActive()
+    {
+        return getBlockMetadata() % 8 > 3;
     }
 
     @SideOnly(Side.CLIENT)
@@ -216,18 +230,18 @@ public class TileOven extends TileKCInventory implements ISidedInventory
         switch (var1)
         {
         case 0:
-            return new int[] { 2, 1 };
+            return new int[] { cooked, fuel };
         case 1:
-            return new int[] { 0 };
+            return new int[] { uncooked };
         default:
-            return new int[] { 1 };
+            return new int[] { fuel };
         }
     }
     
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
-        return slot == 2 ? false : (slot == 1 ? ContainerOven.checkFuelSlot(stack): ContainerOven.checkInputSlot(stack));
+        return slot == cooked ? false : (slot == fuel ? ContainerOven.checkFuelSlot(stack): ContainerOven.checkInputSlot(stack));
     }
 
     @Override
@@ -239,7 +253,7 @@ public class TileOven extends TileKCInventory implements ISidedInventory
     @Override
     public boolean canExtractItem(int slot, ItemStack stack, int side)
     {
-        return side != 0 || slot != 1 || stack.getItem() == Items.bucket;
+        return side != uncooked || slot != fuel || stack.getItem() == Items.bucket;
     }
     
     @Override

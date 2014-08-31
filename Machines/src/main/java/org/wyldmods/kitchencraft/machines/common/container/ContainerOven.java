@@ -12,6 +12,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
 
 import org.wyldmods.kitchencraft.machines.common.tile.TileOven;
+import org.wyldmods.kitchencraft.machines.common.tile.TileOvenRF;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -23,7 +24,7 @@ public class ContainerOven extends ContainerKC
     private int lastItemBurnTime;
     
     private TileOven tile;
-    
+        
     private class SlotOvenInput extends Slot
     {
         public SlotOvenInput(IInventory par1iInventory, int par2, int par3, int par4)
@@ -67,8 +68,12 @@ public class ContainerOven extends ContainerKC
         super(invPlayer, tile);
 
         addSlotToContainer(new SlotOvenInput(tile, 0, 80, 8));
-        addSlotToContainer(new SlotOvenFuel(tile, 1, 8, 59));
-        addSlotToContainer(new SlotFurnace(invPlayer.player, tile, 2, 80, 55));
+        addSlotToContainer(new SlotFurnace(invPlayer.player, tile, 1, 80, 55));
+        
+        if (!(tile instanceof TileOvenRF))
+        {
+            addSlotToContainer(new SlotOvenFuel(tile, 2, 8, 59));
+        }
         
         this.tile = tile;
     }

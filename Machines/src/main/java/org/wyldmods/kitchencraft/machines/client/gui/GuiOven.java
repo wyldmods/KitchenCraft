@@ -3,16 +3,21 @@ package org.wyldmods.kitchencraft.machines.client.gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.machines.common.container.ContainerOven;
 import org.wyldmods.kitchencraft.machines.common.tile.TileOven;
+import org.wyldmods.kitchencraft.machines.common.tile.TileOvenRF;
 
 public class GuiOven extends GuiContainer
 {
     private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/oven_gui.png");
+    private static final ResourceLocation textureRF = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/oven_gui_rf.png");
     private int x, y;
     private TileOven tile;
+    
+    private boolean rf;
 
     public GuiOven(InventoryPlayer par1InventoryPlayer, TileOven tile)
     {
@@ -21,18 +26,20 @@ public class GuiOven extends GuiContainer
         this.ySize = 166;
 
         this.tile = tile;
+        
+        this.rf = tile instanceof TileOvenRF;
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        this.fontRendererObj.drawString("Oven", 5, 5, 0x404040);
+        this.fontRendererObj.drawString(StatCollector.translateToLocal("kc.oven.text" + (rf ? ".rf" : "")), 5, 5, 0x404040);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTick, int mouseX, int mouseY)
     {
-        this.mc.renderEngine.bindTexture(texture);
+        this.mc.renderEngine.bindTexture(rf ? textureRF : texture);
 
         x = (this.width - this.xSize) / 2;
         y = (this.height - this.ySize) / 2;
