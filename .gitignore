@@ -13,3 +13,13 @@
 /.gradle
 /.settings
 /output
+
+/Foods/.gradle
+/Foods/.settings
+/Foods/bin
+/Foods/build
+
+/Machines/.gradle
+/Machines/.settings
+/Machines/bin
+/Machines/build
