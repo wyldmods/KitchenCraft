@@ -1,4 +1,4 @@
-package org.wyldmods.kitchencraft.machines.container;
+package org.wyldmods.kitchencraft.machines.common.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
 
-import org.wyldmods.kitchencraft.machines.tile.TileOven;
+import org.wyldmods.kitchencraft.machines.common.tile.TileOven;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

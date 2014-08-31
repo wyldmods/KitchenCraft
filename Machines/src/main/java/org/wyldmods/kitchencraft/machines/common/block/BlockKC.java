@@ -1,4 +1,4 @@
-package org.wyldmods.kitchencraft.machines.block;
+package org.wyldmods.kitchencraft.machines.common.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

@@ -1,4 +1,4 @@
-package org.wyldmods.kitchencraft.machines.block.container;
+package org.wyldmods.kitchencraft.machines.common.block.container;
 
 import java.util.Random;
 
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.machines.KitchenCraftMachines;
 import org.wyldmods.kitchencraft.machines.client.gui.GuiHandlerKC.GuiTypes;
-import org.wyldmods.kitchencraft.machines.tile.TileOven;
+import org.wyldmods.kitchencraft.machines.common.tile.TileOven;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

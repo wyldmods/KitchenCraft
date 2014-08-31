@@ -1,4 +1,4 @@
-package org.wyldmods.kitchencraft.machines.block;
+package org.wyldmods.kitchencraft.machines.common.block;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.machines.KitchenCraftMachines;

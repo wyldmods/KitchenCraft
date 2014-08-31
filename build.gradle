@@ -21,41 +21,7 @@ task setup
 task eclipse
 task idea
 
-ext.configFile = file "build.properties"
-
-configFile.withReader {
-    // Load config.  It shall from now be referenced as simply config or project.config
-    def prop = new Properties()
-    prop.load(it)
-    project.ext.config = new ConfigSlurper().parse prop
-}
-
-// Finds and sets version data
-task buildInfo {
-    def cmd = "git rev-parse --short HEAD"
-    def proc = cmd.execute()
-    proc.waitFor()
-    if (proc.exitValue() == 0) {
-        ext.revision = proc.text.trim()
-    } else {
-        ext.revision = "GITBORK"
-    }
-
-    if (System.getenv().BUILD_NUMBER != null) {
-        ext.buildNum = "${System.getenv().BUILD_NUMBER}"
-    } else {
-        ext.buildNum = "DEV.${project.buildInfo.revision}"
-    }
-}
-ext.artifact_version = 'NFG'
-if (System.getenv().ARTIFACT_VERSION == null) {
-    artifact_version = "${config.mod_version}"
-}
-if (System.getenv().ARTIFACT_VERSION != null) {
-    artifact_version = "${system.getenv().ARTIFACT_VERSION}"
-}
-
-version = "MC${config.minecraft_version}-${artifact_version}-${System.getenv().BUILD_NUMBER}"
+version = "MC${minecraft_version}-${mod_version}-${System.getenv().BUILD_NUMBER}"
 
 subprojects {
 	apply plugin: "forge"
@@ -73,8 +39,8 @@ subprojects {
 	version = "${minecraft.version}-$version.${System.getenv().BUILD_NUMBER}"
 
 	minecraft {
-    	version = "1.7.2-10.12.1.1082"
-    	assetDir = "eclipse/assets"
+    	version = "${minecraft_version}-${forge_version}"
+		runDir = 'run'
 	}
 
 	processResources 
@@ -96,6 +62,17 @@ subprojects {
 	version = rootProject.version
 
 	jar.destinationDir = new File(rootProject.projectDir, "output")
+	
+	repositories {
+		maven { // ttCore
+			name 'tterrag Repo'
+			url "http://maven.tterrag.com"
+		}
+	}
+
+	dependencies {
+		compile "tterrag.core:ttCore:1.7.10-0.0.2-5"
+	}
 
 	it.sourceSets {
 		main {

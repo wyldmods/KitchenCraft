@@ -1,4 +1,4 @@
-package org.wyldmods.kitchencraft.machines.block.container;
+package org.wyldmods.kitchencraft.machines.common.block.container;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -8,8 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-import org.wyldmods.kitchencraft.machines.block.BlockKC;
-import org.wyldmods.kitchencraft.machines.tile.TileKCInventory;
+import org.wyldmods.kitchencraft.machines.common.block.BlockKC;
+import org.wyldmods.kitchencraft.machines.common.tile.TileKCInventory;
 
 public class BlockContainerKC extends BlockKC implements ITileEntityProvider
 {

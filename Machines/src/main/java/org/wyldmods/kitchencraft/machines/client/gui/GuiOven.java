@@ -5,8 +5,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
-import org.wyldmods.kitchencraft.machines.container.ContainerOven;
-import org.wyldmods.kitchencraft.machines.tile.TileOven;
+import org.wyldmods.kitchencraft.machines.common.container.ContainerOven;
+import org.wyldmods.kitchencraft.machines.common.tile.TileOven;
 
 public class GuiOven extends GuiContainer
 {

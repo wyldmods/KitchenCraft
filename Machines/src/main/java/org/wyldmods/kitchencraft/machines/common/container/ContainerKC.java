@@ -1,11 +1,11 @@
-package org.wyldmods.kitchencraft.machines.container;
+package org.wyldmods.kitchencraft.machines.common.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 
-import org.wyldmods.kitchencraft.machines.tile.TileKCInventory;
+import org.wyldmods.kitchencraft.machines.common.tile.TileKCInventory;
 
 public abstract class ContainerKC extends Container
 {

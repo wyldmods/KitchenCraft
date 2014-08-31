@@ -1,9 +1,9 @@
-package org.wyldmods.kitchencraft.machines.block;
+package org.wyldmods.kitchencraft.machines.common.block;
 
 import net.minecraft.block.Block;
 
-import org.wyldmods.kitchencraft.machines.block.container.BlockOven;
-import org.wyldmods.kitchencraft.machines.tile.TileOven;
+import org.wyldmods.kitchencraft.machines.common.block.container.BlockOven;
+import org.wyldmods.kitchencraft.machines.common.tile.TileOven;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 

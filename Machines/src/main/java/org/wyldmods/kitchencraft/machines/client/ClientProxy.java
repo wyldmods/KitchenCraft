@@ -1,4 +1,4 @@
-package org.wyldmods.kitchencraft.machines.proxy;
+package org.wyldmods.kitchencraft.machines.client;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.obj.WavefrontObject;
@@ -6,6 +6,7 @@ import net.minecraftforge.client.model.obj.WavefrontObject;
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.machines.KitchenCraftMachines;
 import org.wyldmods.kitchencraft.machines.client.render.SimpleModelRenderer;
+import org.wyldmods.kitchencraft.machines.common.CommonProxy;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 

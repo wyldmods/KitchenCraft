@@ -1,4 +1,4 @@
-package org.wyldmods.kitchencraft.foods.config.json;
+package org.wyldmods.kitchencraft.foods.common.config.json;
 
 public class FoodTypeDropped extends FoodType
 {

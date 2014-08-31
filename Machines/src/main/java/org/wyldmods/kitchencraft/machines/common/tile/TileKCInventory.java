@@ -1,4 +1,4 @@
-package org.wyldmods.kitchencraft.machines.tile;
+package org.wyldmods.kitchencraft.machines.common.tile;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

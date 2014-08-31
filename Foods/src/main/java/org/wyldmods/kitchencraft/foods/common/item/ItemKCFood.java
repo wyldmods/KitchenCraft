@@ -1,7 +1,6 @@
-package org.wyldmods.kitchencraft.foods.item;
+package org.wyldmods.kitchencraft.foods.common.item;
 
-import static org.wyldmods.kitchencraft.foods.config.json.FoodType.meats;
-import static org.wyldmods.kitchencraft.foods.config.json.FoodType.veggies;
+import static org.wyldmods.kitchencraft.foods.common.config.json.FoodType.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,7 @@ import net.minecraft.util.IIcon;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
-import org.wyldmods.kitchencraft.foods.config.json.FoodType;
+import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

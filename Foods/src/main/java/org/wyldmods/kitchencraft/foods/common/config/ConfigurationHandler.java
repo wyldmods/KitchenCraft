@@ -1,4 +1,4 @@
-package org.wyldmods.kitchencraft.foods.config;
+package org.wyldmods.kitchencraft.foods.common.config;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,11 +9,11 @@ import net.minecraftforge.common.config.Configuration;
 
 import org.apache.commons.io.FileUtils;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
-import org.wyldmods.kitchencraft.foods.config.json.FoodType;
-import org.wyldmods.kitchencraft.foods.config.json.FoodTypeDropped;
-import org.wyldmods.kitchencraft.foods.config.json.ShapelessFoodRecipeJson;
-import org.wyldmods.kitchencraft.foods.config.json.SmeltingRecipeJson;
-import org.wyldmods.kitchencraft.foods.item.KCItems;
+import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
+import org.wyldmods.kitchencraft.foods.common.config.json.FoodTypeDropped;
+import org.wyldmods.kitchencraft.foods.common.config.json.ShapelessFoodRecipeJson;
+import org.wyldmods.kitchencraft.foods.common.config.json.SmeltingRecipeJson;
+import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

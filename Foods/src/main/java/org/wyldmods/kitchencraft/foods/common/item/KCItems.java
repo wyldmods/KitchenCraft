@@ -1,7 +1,7 @@
-package org.wyldmods.kitchencraft.foods.item;
+package org.wyldmods.kitchencraft.foods.common.item;
 
-import org.wyldmods.kitchencraft.foods.config.json.FoodType;
-import org.wyldmods.kitchencraft.foods.config.json.SmeltingRecipeJson;
+import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
+import org.wyldmods.kitchencraft.foods.common.config.json.SmeltingRecipeJson;
 
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;

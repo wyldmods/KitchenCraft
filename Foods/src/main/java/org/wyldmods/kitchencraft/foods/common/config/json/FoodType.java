@@ -1,4 +1,4 @@
-package org.wyldmods.kitchencraft.foods.config.json;
+package org.wyldmods.kitchencraft.foods.common.config.json;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package org.wyldmods.kitchencraft.foods.handlers;
+package org.wyldmods.kitchencraft.foods.common.handlers;
 
 import java.util.List;
 
@@ -8,10 +8,13 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 
-import org.wyldmods.kitchencraft.foods.config.json.FoodType;
+import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 
+import tterrag.core.common.Handlers.Handler;
+import tterrag.core.common.Handlers.Handler.HandlerType;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
+@Handler(types = HandlerType.FORGE)
 public class FoodDropsHandler
 {
     @SubscribeEvent

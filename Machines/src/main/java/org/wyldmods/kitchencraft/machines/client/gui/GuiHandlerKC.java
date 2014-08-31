@@ -1,8 +1,8 @@
 package org.wyldmods.kitchencraft.machines.client.gui;
 
-import org.wyldmods.kitchencraft.machines.container.ContainerOven;
-import org.wyldmods.kitchencraft.machines.tile.TileKCInventory;
-import org.wyldmods.kitchencraft.machines.tile.TileOven;
+import org.wyldmods.kitchencraft.machines.common.container.ContainerOven;
+import org.wyldmods.kitchencraft.machines.common.tile.TileKCInventory;
+import org.wyldmods.kitchencraft.machines.common.tile.TileOven;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

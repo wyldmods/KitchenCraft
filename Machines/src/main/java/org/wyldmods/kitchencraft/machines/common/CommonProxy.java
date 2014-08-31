@@ -1,4 +1,4 @@
-package org.wyldmods.kitchencraft.machines.proxy;
+package org.wyldmods.kitchencraft.machines.common;
 
 public class CommonProxy
 {

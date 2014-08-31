@@ -1,6 +1,6 @@
-package org.wyldmods.kitchencraft.machines.tile;
+package org.wyldmods.kitchencraft.machines.common.tile;
 
-import org.wyldmods.kitchencraft.machines.container.ContainerOven;
+import org.wyldmods.kitchencraft.machines.common.container.ContainerOven;
 
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
