@@ -15,6 +15,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
@@ -129,5 +130,18 @@ public class ItemKCFood extends ItemFood
     public float func_150906_h(ItemStack stack)
     {
         return isWolfsFavoriteMeat() ? meats.get(stack.getItemDamage()).saturation : veggies.get(stack.getItemDamage()).saturation ;
+    }
+    
+    @Override
+    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
+    {
+        if (getFoodType(stack).isEdible)
+        {
+            return super.onItemRightClick(stack, world, player);
+        }
+        else
+        {
+            return stack;
+        }
     }
 }

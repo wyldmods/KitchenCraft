@@ -30,7 +30,7 @@ public class FoodType
     
     public static List<FoodType> veggies = new LinkedList<FoodType>();
     public static List<FoodType> meats = new LinkedList<FoodType>();
-    
+        
     public static Set<String> validAnimals = new HashSet<String>();
     public static Set<BlockEntry> validBlocks = new HashSet<BlockEntry>();
     
@@ -42,6 +42,7 @@ public class FoodType
     public boolean isMeat = false;
     public int color = 0xFFFFFF;
     public boolean makeSeed = true;
+    public boolean isEdible = true;
 
     public static ItemStack getFood(String name)
     {
