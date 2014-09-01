@@ -10,13 +10,15 @@ import org.wyldmods.kitchencraft.machines.common.container.ContainerOven;
 import org.wyldmods.kitchencraft.machines.common.tile.TileOven;
 import org.wyldmods.kitchencraft.machines.common.tile.TileOvenRF;
 
+import cofh.api.energy.EnergyStorage;
+
 public class GuiOven extends GuiContainer
 {
     private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/oven_gui.png");
     private static final ResourceLocation textureRF = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/oven_gui_rf.png");
     private int x, y;
     private TileOven tile;
-    
+
     private boolean rf;
 
     public GuiOven(InventoryPlayer par1InventoryPlayer, TileOven tile)
@@ -26,14 +28,14 @@ public class GuiOven extends GuiContainer
         this.ySize = 166;
 
         this.tile = tile;
-        
+
         this.rf = tile instanceof TileOvenRF;
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        this.fontRendererObj.drawString(StatCollector.translateToLocal("kc.oven.text" + (rf ? ".rf" : "")), 5, 5, 0x404040);
+        this.fontRendererObj.drawString(StatCollector.translateToLocal("kc.oven.text" + (rf ? ".rf" : "")), rf ? 20 : 5, 5, 0x404040);
     }
 
     @Override
@@ -46,12 +48,25 @@ public class GuiOven extends GuiContainer
 
         this.drawTexturedModalRect(x, y, 0, 0, this.xSize - 16, this.ySize);
 
-        int burn = this.tile.getBurnTimeRemainingScaled(12);
-                
-        if (burn != -1)
-            this.drawTexturedModalRect(x + 8, y + 42 + 13 - burn, 176, 12 - burn, 14, burn + 2);
+        if (!rf)
+        {
+            int burn = this.tile.getBurnTimeRemainingScaled(12);
+
+            if (burn != -1)
+                this.drawTexturedModalRect(x + 8, y + 42 + 13 - burn, 176, 12 - burn, 14, burn + 2);
+        }
+        else
+        {
+            TileOvenRF tilerf = (TileOvenRF) tile;
+            int energy = tilerf.getEnergyStored(null) * 70 / tilerf.getMaxEnergyStored(null);
+
+            if (energy != 0)
+            {
+                this.drawTexturedModalRect(x + 52, y + 67, 176, 5, energy + 1, 6);
+            }
+        }
 
         int cook = this.tile.getCookProgressScaled(17);
-        this.drawTexturedModalRect(x + 79, y + 26, 176, 14, cook + 1, 16);
+        this.drawTexturedModalRect(x + 79, y + (rf ? 29 : 26), rf ? 176 : 177, rf ? 1 : 14, cook + 1, rf ? 4 : 16);
     }
 }

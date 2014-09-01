@@ -22,42 +22,43 @@ public class ContainerOven extends ContainerKC
     private int lastCookTime;
     private int lastBurnTime;
     private int lastItemBurnTime;
-    
+    private int lastEnergy;
+
     private TileOven tile;
-        
+
     private class SlotOvenInput extends Slot
     {
         public SlotOvenInput(IInventory par1iInventory, int par2, int par3, int par4)
         {
             super(par1iInventory, par2, par3, par4);
         }
-        
+
         @Override
         public boolean isItemValid(ItemStack par1ItemStack)
         {
             return checkInputSlot(par1ItemStack);
         }
     }
-    
+
     public static boolean checkInputSlot(ItemStack stack)
     {
         return stack != null && FurnaceRecipes.smelting().getSmeltingResult(stack) != null && stack.getItem() instanceof ItemFood;
     }
-    
+
     private class SlotOvenFuel extends Slot
     {
         public SlotOvenFuel(IInventory par1iInventory, int par2, int par3, int par4)
         {
             super(par1iInventory, par2, par3, par4);
         }
-        
+
         @Override
         public boolean isItemValid(ItemStack par1ItemStack)
         {
             return checkFuelSlot(par1ItemStack);
         }
     }
-    
+
     public static boolean checkFuelSlot(ItemStack stack)
     {
         return stack != null && TileEntityFurnace.isItemFuel(stack);
@@ -67,14 +68,16 @@ public class ContainerOven extends ContainerKC
     {
         super(invPlayer, tile);
 
-        addSlotToContainer(new SlotOvenInput(tile, 0, 80, 8));
-        addSlotToContainer(new SlotFurnace(invPlayer.player, tile, 1, 80, 55));
-        
-        if (!(tile instanceof TileOvenRF))
+        boolean rf = tile instanceof TileOvenRF;
+
+        addSlotToContainer(new SlotOvenInput(tile, 0, 80, rf ? 10 : 8));
+        addSlotToContainer(new SlotFurnace(invPlayer.player, tile, 1, 80, rf ? 43 : 55));
+
+        if (!rf)
         {
             addSlotToContainer(new SlotOvenFuel(tile, 2, 8, 59));
         }
-        
+
         this.tile = tile;
     }
 
@@ -131,7 +134,10 @@ public class ContainerOven extends ContainerKC
             {
                 slot.onSlotChanged();
             }
-            if (itemstack1.stackSize == itemstack.stackSize) { return null; }
+            if (itemstack1.stackSize == itemstack.stackSize)
+            {
+                return null;
+            }
             slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
             if (itemstack1.stackSize == 0)
             {
@@ -141,7 +147,7 @@ public class ContainerOven extends ContainerKC
         }
         return itemstack;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public void updateProgressBar(int par1, int par2)
     {
@@ -159,29 +165,46 @@ public class ContainerOven extends ContainerKC
         {
             this.tile.currentItemBurnTime = par2;
         }
+        
+        if (par1 == 3)
+        {
+            ((TileOvenRF)this.tile).setEnergyStored(par2);
+        }
     }
-    
+
     public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
 
         for (int i = 0; i < this.crafters.size(); ++i)
         {
-            ICrafting icrafting = (ICrafting)this.crafters.get(i);
+            ICrafting icrafting = (ICrafting) this.crafters.get(i);
 
             if (this.lastCookTime != this.tile.cookTime)
             {
                 icrafting.sendProgressBarUpdate(this, 0, this.tile.cookTime);
             }
 
-            if (this.lastBurnTime != this.tile.burnTime)
+            if (tile instanceof TileOvenRF)
             {
-                icrafting.sendProgressBarUpdate(this, 1, this.tile.burnTime);
+                TileOvenRF tilerf = (TileOvenRF) this.tile;
+                if (this.lastEnergy != tilerf.getEnergyStored(null))
+                {
+                    icrafting.sendProgressBarUpdate(this, 3, tilerf.getEnergyStored(null));
+                }
+                this.lastEnergy = tilerf.getEnergyStored(null);
             }
-
-            if (this.lastItemBurnTime != this.tile.currentItemBurnTime)
+            else
             {
-                icrafting.sendProgressBarUpdate(this, 2, this.tile.currentItemBurnTime);
+                if (this.lastBurnTime != this.tile.burnTime)
+                {
+                    icrafting.sendProgressBarUpdate(this, 1, this.tile.burnTime);
+                }
+
+                if (this.lastItemBurnTime != this.tile.currentItemBurnTime)
+                {
+                    icrafting.sendProgressBarUpdate(this, 2, this.tile.currentItemBurnTime);
+                }
             }
         }
 

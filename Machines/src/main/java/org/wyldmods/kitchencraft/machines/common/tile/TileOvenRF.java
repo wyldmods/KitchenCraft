@@ -25,7 +25,7 @@ public class TileOvenRF extends TileOven implements IEnergyHandler
     @Override
     protected boolean useFuel()
     {
-        if (storage.getEnergyStored() >= usagePerTick)
+        if (inventory[uncooked] != null && storage.getEnergyStored() >= usagePerTick)
         {
             storage.extractEnergy(usagePerTick, false);
             System.out.println(storage.getEnergyStored());
@@ -56,6 +56,12 @@ public class TileOvenRF extends TileOven implements IEnergyHandler
     public int getEnergyStored(ForgeDirection from)
     {
         return storage.getEnergyStored();
+    }
+    
+
+    public void setEnergyStored(int energy)
+    {
+        storage.setEnergyStored(energy);   
     }
 
     @Override

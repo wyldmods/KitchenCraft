@@ -26,7 +26,9 @@ public class TileOven extends TileKCInventory implements ISidedInventory
     protected int maxCookTime = 159;
     protected int maxBurnTime = 200;
     
-    private int uncooked = 0, cooked = 1, fuel = 2;
+    protected final int uncooked = 0;
+    protected final int cooked = 1;
+    protected final int fuel = 2;
 
     public TileOven()
     {

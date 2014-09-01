@@ -45,7 +45,7 @@ public class BlockOven extends BlockContainerKC
     {
         for (int type = 0; type <= 1; type++)
             for (int idx = 0; idx <= 4; idx++)
-                icons[type][idx] = register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + "stove_" + suffixes[idx] + (type == 1 ? "_RF" : ""));
+                icons[type][idx] = register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + "oven_" + suffixes[idx] + (type == 1 ? "_RF" : ""));
         // this ends up with stove_top or stove_top_RF etc.
 
         this.blockIcon = icons[0][0];
@@ -63,7 +63,7 @@ public class BlockOven extends BlockContainerKC
 
         meta %= 8;
 
-        return side == 1 ? icons[1] : side == 0 ? icons[2] : side == face ? world.getBlockMetadata(x, y, z) > 3 ? icons[4] : icons[3] : icons[0];
+        return side == 1 ? icons[1] : side == 0 ? icons[2] : side == face ? meta > 3 ? icons[4] : icons[3] : icons[0];
     }
 
     @Override
