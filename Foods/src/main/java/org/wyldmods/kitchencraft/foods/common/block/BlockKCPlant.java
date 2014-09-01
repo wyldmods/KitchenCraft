@@ -21,7 +21,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockKCPlant extends BlockCrops implements ITileEntityProvider
 {
-    private IIcon[] icons;
+    private IIcon[] blockIcons;
+    private IIcon[] veggieIcons;
 
     public BlockKCPlant()
     {
@@ -29,23 +30,30 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider
         setBlockTextureName("cropBase");
         setCreativeTab(KitchenCraftFoods.tab);
         GameRegistry.registerBlock(this, "kcCrop");
+        GameRegistry.registerTileEntity(TileKCPlant.class, "tileKcCrop");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister register)
     {
-        icons = new IIcon[6];
-        for (int i = 0; i < icons.length; i++)
+        blockIcons = new IIcon[8];
+        for (int i = 0; i < blockIcons.length; i++)
         {
-            icons[i] = register.registerIcon(Reference.MOD_TEXTUREPATH + ":cropBase" + i);
+            blockIcons[i] = register.registerIcon(Reference.MOD_TEXTUREPATH + ":cropBase" + i);
+        }
+        
+        veggieIcons = new IIcon[FoodType.veggies.size()];
+        for (int i = 0; i < veggieIcons.length; i++)
+        {
+            veggieIcons[i] = register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + FoodType.veggies.get(i).name);
         }
     }
     
     @Override
     public IIcon getIcon(int side, int meta)
     {
-        return icons[meta % icons.length];
+        return blockIcons[meta % blockIcons.length];
     }
 
     @Override
@@ -65,6 +73,12 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider
     {
         TileKCPlant tile = (TileKCPlant) world.getTileEntity(x, y, z);
         return tile.food == null ? new ItemStack(KCItems.veggie) : tile.food.copy();
+    }
+    
+    public IIcon getFoodIcon(IBlockAccess world, int x, int y, int z)
+    {
+        FoodType type = FoodType.getFoodType(getFood(world, x, y, z));
+        return veggieIcons[FoodType.veggies.indexOf(type)];
     }
     
     public static class TileKCPlant extends TileEntity

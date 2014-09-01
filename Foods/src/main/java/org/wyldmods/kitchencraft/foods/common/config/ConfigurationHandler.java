@@ -1,6 +1,7 @@
 package org.wyldmods.kitchencraft.foods.common.config;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
@@ -8,6 +9,7 @@ import java.util.Scanner;
 import net.minecraftforge.common.config.Configuration;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodTypeDropped;
@@ -26,9 +28,9 @@ public class ConfigurationHandler
 {
     static File parentDir;
     static File configFile, foodJson, smeltingJson, shapelessRecipesJson, shapedRecipesJson;
-    
+
     public static boolean doFoodTooltips = true;
-    
+
     static final String foodJsonName = "foodAdditions.json";
     static final String smeltingJsonName = "smeltingAdditions.json";
     static final String shaplessRecipesJsonName = "shapelessRecipeAdditions.json";
@@ -41,17 +43,17 @@ public class ConfigurationHandler
         parentDir = new File(file.getParent() + "/KitchenCraft");
 
         configFile = new File(parentDir.getAbsolutePath() + "/" + file.getName());
-        foodJson = new File(parentDir.getAbsoluteFile() + "/" + foodJsonName);
-        smeltingJson = new File(parentDir.getAbsoluteFile() + "/" + smeltingJsonName);
-        shapelessRecipesJson = new File(parentDir.getAbsoluteFile() + "/" + shaplessRecipesJsonName);
-        shapedRecipesJson = new File(parentDir.getAbsoluteFile() + "/" + shapedRecipesJsonName);
+        foodJson = new File(parentDir.getAbsolutePath() + "/" + foodJsonName);
+        smeltingJson = new File(parentDir.getAbsolutePath() + "/" + smeltingJsonName);
+        shapelessRecipesJson = new File(parentDir.getAbsolutePath() + "/" + shaplessRecipesJsonName);
+        shapedRecipesJson = new File(parentDir.getAbsolutePath() + "/" + shapedRecipesJsonName);
 
         Configuration config = new Configuration(configFile);
 
         try
         {
             loadStandardConfig(config);
-            loadFoodJson();
+            copyTextures();
         }
         catch (IOException e)
         {
@@ -64,6 +66,7 @@ public class ConfigurationHandler
     {
         try
         {
+            loadFoodJson();
             loadSmeltingJson();
             loadShapelessRecipesJson();
             loadShapedRecipesJson();
@@ -72,6 +75,28 @@ public class ConfigurationHandler
         {
             e.printStackTrace();
             throw new RuntimeException("Error loading KitchenCraft smelting");
+        }
+    }
+    
+    private static void copyTextures() throws IOException
+    {
+        File iconDir = new File(parentDir.getAbsolutePath() + "/icons");
+        
+        if (!iconDir.exists())
+        {
+            iconDir.mkdir();
+        }
+        
+        FileFilter pngFilter = FileFilterUtils.suffixFileFilter(".png");
+        
+        File[] icons = iconDir.listFiles(pngFilter);
+        File itemIcons = FileUtils.toFile(KitchenCraftFoods.class.getResource("/assets/kitchencraft/textures/items"));
+        File blockIcons = FileUtils.toFile(KitchenCraftFoods.class.getResource("/assets/kitchencraft/textures/blocks"));
+
+        for (File icon : icons)
+        {
+            FileUtils.copyFile(icon, new File(itemIcons.getAbsolutePath() + "/" + icon.getName()));
+            FileUtils.copyFile(icon, new File(blockIcons.getAbsolutePath() + "/" + icon.getName()));
         }
     }
 
@@ -107,11 +132,11 @@ public class ConfigurationHandler
             ShapelessJsonRecipe.addShapelessRecipeFromJson(gson.fromJson(arr.get(i), ShapelessJsonRecipe.class));
         }
     }
-    
+
     private static void loadShapedRecipesJson() throws IOException
     {
         JsonObject recipes = initializeJson(shapedRecipesJsonName, shapedRecipesJson);
-        
+
         JsonArray arr = (JsonArray) recipes.get("recipes");
         for (int i = 0; i < arr.size(); i++)
         {

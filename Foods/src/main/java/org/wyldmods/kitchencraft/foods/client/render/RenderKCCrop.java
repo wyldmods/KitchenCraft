@@ -1,11 +1,13 @@
 package org.wyldmods.kitchencraft.foods.client.render;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
@@ -15,6 +17,8 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class RenderKCCrop implements ISimpleBlockRenderingHandler
 {
+    private static final Random rand = new Random();
+    
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
     {
@@ -26,17 +30,89 @@ public class RenderKCCrop implements ISimpleBlockRenderingHandler
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
     {
         renderer.renderBlockCrops(block, x, y, z);
-        ItemStack food = ((BlockKCPlant)block).getFood(world, x, y, z);
-        IIcon icon = food.getItem().getIcon(food, 0);
-        
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.setColorOpaque_F(1, 1, 1);
-        tessellator.addVertexWithUV(x, y + 0.5, z, icon.getMinU(), icon.getMinV());
-        tessellator.addVertexWithUV(x, y + 0.5, z + 1, icon.getMinU(), icon.getMaxV());
-        tessellator.addVertexWithUV(x + 1, y + 0.5, z + 1, icon.getMaxU(), icon.getMaxV());
-        tessellator.addVertexWithUV(x + 1, y + 0.5, z, icon.getMaxU(), icon.getMinV());
+        int meta = world.getBlockMetadata(x, y, z);
 
-        return false;
+        if (meta >= 6)
+        {
+            IIcon icon = ((BlockKCPlant) block).getFoodIcon(world, x, y, z);
+
+            Tessellator tessellator = Tessellator.instance;
+
+            rand.setSeed(x + y + z);
+            
+            double size = 0.4;
+            double xBase = x + 0.5;
+            double yBase = getRandYOffset(y);
+            double zBase = z + 0.5;
+
+            double offset = 0.251;
+
+            double minU = icon.getMinU();
+            double maxU = icon.getMaxU();
+            double minV = icon.getMinV();
+            double maxV = icon.getMaxV();
+
+            tessellator.setColorOpaque_F(1, 1, 1);
+
+            // side 1
+            zBase -= offset;
+            xBase -= size / 2;
+            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase, minU, maxV);
+            tessellator.addVertexWithUV(xBase + size, yBase + size, zBase, maxU, maxV);
+            tessellator.addVertexWithUV(xBase + size, yBase, zBase, maxU, minV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
+            tessellator.addVertexWithUV(xBase + size, yBase, zBase, minU, maxV);
+            tessellator.addVertexWithUV(xBase + size, yBase + size, zBase, maxU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase, maxU, minV);
+
+            // side 2
+            zBase += offset * 2;
+            yBase = getRandYOffset(y);
+            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase, minU, maxV);
+            tessellator.addVertexWithUV(xBase + size, yBase + size, zBase, maxU, maxV);
+            tessellator.addVertexWithUV(xBase + size, yBase, zBase, maxU, minV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
+            tessellator.addVertexWithUV(xBase + size, yBase, zBase, minU, maxV);
+            tessellator.addVertexWithUV(xBase + size, yBase + size, zBase, maxU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase, maxU, minV);
+
+            // reset values
+            xBase = x + 0.5;
+            zBase = z + 0.5;
+
+            // side 3
+            xBase -= offset;
+            zBase -= size / 2;
+            yBase = getRandYOffset(y);
+            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase, minU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase + size, maxU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase + size, maxU, minV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase + size, minU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase + size, maxU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase, maxU, minV);
+
+            // side 4
+            xBase += offset * 2;
+            yBase = getRandYOffset(y);
+            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase, minU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase + size, maxU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase + size, maxU, minV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase + size, minU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase + size, maxU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase, maxU, minV);
+        }
+        return true;
+    }
+
+    private double getRandYOffset(int y)
+    {
+        return MathHelper.clamp_double(y + 0.2 + ((rand.nextDouble() * 0.3) - 0.15), y, y + 0.5);
     }
 
     @Override

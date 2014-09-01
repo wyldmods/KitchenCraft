@@ -4,7 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.common.CommonProxy;
-import org.wyldmods.kitchencraft.foods.common.block.BlockKCPlant;
+import org.wyldmods.kitchencraft.foods.common.block.KCBlocks;
+import org.wyldmods.kitchencraft.foods.common.compat.WailaCompat;
 import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
@@ -12,10 +13,10 @@ import tterrag.core.common.Handlers;
 import tterrag.core.common.Lang;
 import tterrag.core.common.util.CreativeTabsCustom;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid=Reference.MOD_ID_FOODS, name=Reference.MOD_NAME_FOODS, version=Reference.VERSION)
@@ -38,20 +39,17 @@ public class KitchenCraftFoods
     @EventHandler
     public static void preinit(FMLPreInitializationEvent event)
     {
-        KCItems.init();
-        
         ConfigurationHandler.preInit(event.getSuggestedConfigurationFile());
+
+        KCItems.init();
+        KCBlocks.init();
+                
+        ConfigurationHandler.init();
         
         Handlers.addPackage("org.wyldmods");
-        
-        new BlockKCPlant();
-        
+                
         proxy.initRenderers();
-    }
-    
-    @EventHandler
-    public static void init(FMLInitializationEvent event)
-    {
-        ConfigurationHandler.init();
+        
+        FMLInterModComms.sendMessage("Waila", "register", WailaCompat.class.getName() + ".load");
     }
 }
