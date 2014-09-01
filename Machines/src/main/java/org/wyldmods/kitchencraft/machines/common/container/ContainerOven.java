@@ -108,7 +108,7 @@ public class ContainerOven extends ContainerKC
             {
                 if (checkFuelSlot(itemstack1))
                 {
-                    if (!this.mergeItemStack(itemstack1, 37, 38, false))
+                    if (!this.mergeItemStack(itemstack1, 38, 39, false))
                     {
                         if (checkInputSlot(itemstack1) && !this.mergeItemStack(itemstack1, 36, 37, false))
                             return null;

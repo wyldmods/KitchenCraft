@@ -26,6 +26,9 @@ public class ConfigurationHandler
 {
     static File parentDir;
     static File configFile, foodJson, smeltingJson, shapelessRecipesJson, shapedRecipesJson;
+    
+    public static boolean doFoodTooltips = true;
+    
     static final String foodJsonName = "foodAdditions.json";
     static final String smeltingJsonName = "smeltingAdditions.json";
     static final String shaplessRecipesJsonName = "shapelessRecipeAdditions.json";
@@ -33,7 +36,7 @@ public class ConfigurationHandler
 
     static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public static void init(File file)
+    public static void preInit(File file)
     {
         parentDir = new File(file.getParent() + "/KitchenCraft");
 
@@ -57,7 +60,7 @@ public class ConfigurationHandler
         }
     }
 
-    public static void postInit()
+    public static void init()
     {
         try
         {
@@ -144,7 +147,7 @@ public class ConfigurationHandler
     {
         config.load();
 
-        // TODO config options
+        doFoodTooltips = config.get(Configuration.CATEGORY_GENERAL, "doFoodTooltips", doFoodTooltips, "Show hunger and saturation tooltips on food.").getBoolean();
 
         config.save();
     }

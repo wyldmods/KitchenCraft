@@ -29,11 +29,24 @@ public class KCBlocks
         pot = new BlockPot();
         GameRegistry.registerBlock(pot, "kc.pot");
 
+        KitchenCraftMachines.tab.setDisplay(Item.getItemFromBlock(oven));
+        
         addRecipes();
     }
 
     private static void addRecipes()
     {
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(oven, 1, 0), 
+                "cbc",
+                "c c",
+                "cfc",
+                
+                'c', "cobblestone",
+                'b', "barsIron",
+                'f', Items.fire_charge
+        ));
+        
+        
         if (KitchenCraftMachines.loadRF())
         {
             Item machineChassis = GameRegistry.findItem("EnderIO", "itemMachinePart");

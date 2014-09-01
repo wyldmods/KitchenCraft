@@ -70,6 +70,7 @@ public class BlockOven extends BlockContainerKC
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta)
     {
+        if (meta > 1) meta = getType(meta);
         return side == 1 ? icons[meta][1] : side == 0 ? icons[meta][2] : side == 3 ? icons[meta][3] : icons[meta][0];
     }
 

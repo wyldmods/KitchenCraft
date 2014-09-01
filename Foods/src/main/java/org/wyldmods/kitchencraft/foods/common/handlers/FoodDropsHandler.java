@@ -7,8 +7,10 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
+import org.wyldmods.kitchencraft.foods.common.config.json.FoodType.BlockEntry;
 
 import tterrag.core.common.Handlers.Handler;
 import tterrag.core.common.Handlers.Handler.HandlerType;
@@ -34,6 +36,19 @@ public class FoodDropsHandler
                         event.drops.add(new EntityItem(event.entity.worldObj, event.entity.posX, event.entity.posY, event.entity.posZ, i));
                     }
                 }
+            }
+        }
+    }
+    
+    @SubscribeEvent
+    public void onHarvestDrop(HarvestDropsEvent event)
+    {
+        for (BlockEntry b : FoodType.validBlocks)
+        {
+            if (event.block == b.block && (event.blockMetadata == b.metadata || b.metadata == -1))
+            {
+                List<ItemStack> toAdd = FoodType.getDroppedFoodsFrom(b);
+                event.drops.addAll(toAdd);
             }
         }
     }

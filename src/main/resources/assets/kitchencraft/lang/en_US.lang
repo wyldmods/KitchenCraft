@@ -11,3 +11,6 @@ itemGroup.tabKC.machines=KitchenCraft Machines
 
 kc.oven.text=Oven
 kc.oven.text.rf=RF Oven
+
+kc.tooltip.hunger=Hunger Restored:
+kc.tooltip.saturation=Saturation Given:

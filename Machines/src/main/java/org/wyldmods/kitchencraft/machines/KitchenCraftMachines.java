@@ -1,8 +1,6 @@
 package org.wyldmods.kitchencraft.machines;
 
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +26,7 @@ public class KitchenCraftMachines
     @SidedProxy(clientSide=Reference.CLIENT_PROXY_CLASS_MACHINES, serverSide=Reference.SERVER_PROXY_CLASS_MACHINES)
     public static CommonProxy proxy;
     
-    public static CreativeTabs tab;
+    public static CreativeTabsCustom tab = new CreativeTabsCustom("tabKC.machines");
 
     public static int renderIDPot;
     public static Block pot;
@@ -44,9 +42,7 @@ public class KitchenCraftMachines
         proxy.initRenderers();
         
         KCBlocks.init();
-                
-        tab = new CreativeTabsCustom("tabKC.machines", Item.getItemFromBlock(KCBlocks.oven));
-        
+                        
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandlerKC());
     }
 
