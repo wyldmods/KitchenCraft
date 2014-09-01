@@ -44,7 +44,7 @@ public class GuiOven extends GuiContainer
         if (rf)
         {
             List<String> ttLines = new ArrayList<String>();
-            if (mouseX < x + 125 && mouseX > x + 50 && mouseY > y + 67 && mouseY < y + 73)
+            if (mouseX < x + 125 && mouseX > x + 50 && mouseY > y + 66 && mouseY < y + 72)
             {
                 ttLines.add(((TileOvenRF) this.tile).getEnergyStored(null) + " RF");
                 this.func_146283_a(ttLines, mouseX - x, mouseY - y);

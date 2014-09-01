@@ -180,7 +180,7 @@ public class BlockOven extends BlockContainerKC
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z)
     {
-        int meta = world.getBlockMetadata(x, y, z);
+        int meta = world.getBlockMetadata(x, y, z) % 8;
         return meta > 3 ? 15 : 0;
     }
 
