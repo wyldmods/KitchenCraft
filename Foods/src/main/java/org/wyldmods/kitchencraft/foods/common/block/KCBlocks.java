@@ -6,7 +6,7 @@ public class KCBlocks
 {
     public static Block crop;
     
-    public static void init()
+    public static void preInit()
     {
         crop = new BlockKCPlant();
     }

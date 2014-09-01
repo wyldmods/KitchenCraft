@@ -41,10 +41,12 @@ public class KitchenCraftFoods
     {
         ConfigurationHandler.preInit(event.getSuggestedConfigurationFile());
 
-        KCItems.init();
-        KCBlocks.init();
+        KCItems.preInit();
+        KCBlocks.preInit();
                 
         ConfigurationHandler.init();
+        
+        KCItems.init();
         
         Handlers.addPackage("org.wyldmods");
                 

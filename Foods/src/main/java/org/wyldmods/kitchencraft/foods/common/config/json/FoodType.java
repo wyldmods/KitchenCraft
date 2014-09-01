@@ -36,54 +36,13 @@ public class FoodType
     
     private static final Random rand = new Random();
 
-    public final String name;
-    public final int food;
-    public final float saturation;
-    public final boolean isMeat;
-    
-    protected FoodType(String name, int food, float sat, boolean isMeat)
-    {
-        this.name = name;
-        this.food = food;
-        this.saturation = sat;
-        this.isMeat = isMeat;
-    }
-    
-    /**
-     * Adds a new food type to the multi-food item
-     * @param name - unlocalized name (also used for texture)
-     * @param food - drumsticks restored
-     * @param saturation - saturation given
-     */
-    public static void registerFoodType(String name, int food, float saturation)
-    {
-        registerFoodType(name, food, saturation, false);
-    }
-    
-    /**
-     * Adds a new food type to the multi-food item
-     * @param name - unlocalized name (also used for texture)
-     * @param food - drumsticks restored
-     * @param saturation - saturation given
-     */
-    public static void registerFoodType(String name, int food, float saturation, boolean isMeat)
-    {
-        registerFoodType(new FoodType(name, food, saturation, isMeat));
-    }
-    
-    /**
-     * Adds a new food type to the multi-food item
-     * @param name - unlocalized name (also used for texture)
-     * @param food - drumsticks restored
-     * @param saturation - saturation given
-     * @param dropsFrom - entities this food drops from
-     */
-//    public static void registerFoodType(String name, int food, float saturation, boolean isMeat, int minDropped, int maxDropped, String... dropsFrom)
-//    {
-//        registerFoodType(new FoodTypeDropped(name, food, saturation, isMeat, minDropped, maxDropped, dropsFrom));
-//        validAnimals.addAll(Arrays.asList(dropsFrom));
-//    }
-    
+    public String name = "null";
+    public int food = 4;
+    public float saturation = 0.2f;
+    public boolean isMeat = false;
+    public int color = 0xFFFFFF;
+    public boolean makeSeed = true;
+
     public static ItemStack getFood(String name)
     {
         for (int i = 0; i < veggies.size(); i++)

@@ -11,7 +11,6 @@ import net.minecraft.util.MovingObjectPosition;
 
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.common.block.BlockKCPlant;
-import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 
 
 public class WailaCompat implements IWailaDataProvider

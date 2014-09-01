@@ -1,8 +1,13 @@
 package org.wyldmods.kitchencraft.foods.common.block;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -81,9 +86,38 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider
         return veggieIcons[FoodType.veggies.indexOf(type)];
     }
     
+    @Override
+    public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+    {
+        return null;
+    }
+    
+    @Override
+    public void breakBlock(World world, int x, int y, int z, Block block, int meta)
+    {
+        if (meta <= 6)
+        {
+            dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.seed, world.rand.nextInt(Math.max(1, meta / 2)) + 1, getFood(world, x, y, z).getItemDamage())); // add small seed bonus to higher metas
+        }
+        else
+        {
+            int dmg = getFood(world, x, y, z).getItemDamage();
+            dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.veggie, world.rand.nextInt(4) + 1, dmg));
+            dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.seed, world.rand.nextInt(3) + 1, dmg));
+        }
+        
+        super.breakBlock(world, x, y, z, block, meta);
+    }
+    
+    @Override
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
+    {
+        return new ArrayList<ItemStack>();
+    }
+    
     public static class TileKCPlant extends TileEntity
     {
-        private ItemStack food;
+        private ItemStack food = new ItemStack(KCItems.veggie, 1, 0);
         
         public void setFoodType(String name)
         {
@@ -93,6 +127,12 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider
         public void setFoodType(int damage)
         {
             this.food = new ItemStack(KCItems.veggie, 1, damage);
+        }
+        
+        @Override
+        public boolean canUpdate()
+        {
+            return false;
         }
         
         @Override

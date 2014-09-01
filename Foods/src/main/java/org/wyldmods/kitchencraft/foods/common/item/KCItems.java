@@ -12,14 +12,17 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class KCItems
 {
     public static ItemKCFood veggie, meat;
+    public static ItemKCSeed seed;
 
-    public static void init()
+    public static void preInit()
     {
         veggie = new ItemKCFood(false);
         meat = new ItemKCFood(true);
+        seed = new ItemKCSeed();
 
         GameRegistry.registerItem(veggie, "veggie", Reference.MOD_ID_FOODS);
         GameRegistry.registerItem(meat, "meat", Reference.MOD_ID_FOODS);
+        GameRegistry.registerItem(seed, "seed", Reference.MOD_ID_FOODS);
         
         KitchenCraftFoods.tab.setDisplay(veggie);
     }
@@ -33,5 +36,10 @@ public class KCItems
         {
             GameRegistry.addSmelting(input, output, recipe.xp);
         }
+    }
+
+    public static void init()
+    {
+        seed.initSeedRegistrations();
     }
 }

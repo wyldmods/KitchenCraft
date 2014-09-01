@@ -9,11 +9,6 @@ public class FoodTypeDropped extends FoodType
     public String[] animals = {};
     public String[] blocks = {};
     
-    protected FoodTypeDropped(String name, int food, float sat, boolean isMeat)
-    {
-        super(name, food, sat, isMeat);
-    }
-    
     public BlockEntry getFromString(String s)
     {
         String[] arr = s.split(";");
