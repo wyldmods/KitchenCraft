@@ -19,7 +19,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid=Reference.MOD_ID_FOODS, name=Reference.MOD_NAME_FOODS, version=Reference.VERSION)
+@Mod(modid=Reference.MOD_ID_FOODS, name=Reference.MOD_NAME_FOODS, version=Reference.VERSION, dependencies = Reference.DEPENDENCIES)
 public class KitchenCraftFoods
 {
     @Instance(Reference.MOD_ID_FOODS)

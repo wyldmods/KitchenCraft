@@ -17,15 +17,15 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
-@Mod(modid=Reference.MOD_ID_MACHINES, name=Reference.MOD_NAME_MACHINES, version=Reference.VERSION, dependencies="required-after:ttCore@1.7.10-0.0.2-5,)")
+@Mod(modid = Reference.MOD_ID_MACHINES, name = Reference.MOD_NAME_MACHINES, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES)
 public class KitchenCraftMachines
 {
     @Instance(Reference.MOD_ID_MACHINES)
     public static KitchenCraftMachines instance;
-    
-    @SidedProxy(clientSide=Reference.CLIENT_PROXY_CLASS_MACHINES, serverSide=Reference.SERVER_PROXY_CLASS_MACHINES)
+
+    @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS_MACHINES, serverSide = Reference.SERVER_PROXY_CLASS_MACHINES)
     public static CommonProxy proxy;
-    
+
     public static CreativeTabsCustom tab = new CreativeTabsCustom("tabKC.machines");
 
     public static int renderIDPot;
@@ -35,14 +35,14 @@ public class KitchenCraftMachines
 
     private static boolean rfCheckLoaded = false;
     private static boolean loadRF = false;
-    
+
     @EventHandler
     public static void preinit(FMLPreInitializationEvent event)
     {
         proxy.initRenderers();
-        
+
         KCBlocks.init();
-                        
+
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandlerKC());
     }
 
@@ -65,7 +65,7 @@ public class KitchenCraftMachines
                 rfCheckLoaded = true;
             }
         }
-        
+
         return loadRF;
     }
 }
