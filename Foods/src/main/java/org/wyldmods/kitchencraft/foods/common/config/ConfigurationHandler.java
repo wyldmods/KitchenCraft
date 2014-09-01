@@ -3,9 +3,7 @@ package org.wyldmods.kitchencraft.foods.common.config;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import net.minecraftforge.common.config.Configuration;
@@ -25,6 +23,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ConfigurationHandler
 {
@@ -55,8 +55,15 @@ public class ConfigurationHandler
         try
         {
             loadStandardConfig(config);
-            copyTextures();
-            copyLang();
+
+            if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+            {
+                ResourcePackAssembler assembler = new ResourcePackAssembler(new File(parentDir.getAbsolutePath() + "/KC-Resource-Pack"));
+                buildTextures(assembler);
+                buildLang(assembler);
+                assembler.assemble();
+                assembler.inject(new File(parentDir.getParentFile().getParentFile().getAbsolutePath() + "/resourcepacks"));
+            }
         }
         catch (IOException e)
         {
@@ -81,10 +88,8 @@ public class ConfigurationHandler
         }
     }
 
-    private static void copyTextures() throws IOException
+    private static void buildTextures(ResourcePackAssembler assembler) throws IOException
     {
-        KitchenCraftFoods.logger.info("Attempting to load textures from config folder,");
-
         File iconDir = new File(parentDir.getAbsolutePath() + "/icons");
 
         if (!iconDir.exists())
@@ -95,19 +100,15 @@ public class ConfigurationHandler
         FileFilter pngFilter = FileFilterUtils.suffixFileFilter(".png");
 
         File[] icons = iconDir.listFiles(pngFilter);
-        File itemIcons = getFileFromURL(KitchenCraftFoods.class.getResource("/assets/kitchencraft/textures/items"));
-        File blockIcons = getFileFromURL(KitchenCraftFoods.class.getResource("/assets/kitchencraft/textures/blocks"));
 
         for (File icon : icons)
         {
-            FileUtils.copyFile(icon, new File(itemIcons.getAbsolutePath() + "/" + icon.getName()));
-            FileUtils.copyFile(icon, new File(blockIcons.getAbsolutePath() + "/" + icon.getName()));
+            assembler.addIcon(icon);
         }
     }
 
-    private static void copyLang() throws IOException
+    private static void buildLang(ResourcePackAssembler assembler) throws IOException
     {
-        File jarLangDir = getFileFromURL(KitchenCraftFoods.class.getResource("/assets/kitchencraft/lang"));
         File cfgLangDir = new File(parentDir.getAbsolutePath() + "/lang");
 
         if (!cfgLangDir.exists())
@@ -115,56 +116,14 @@ public class ConfigurationHandler
             cfgLangDir.mkdir();
         }
 
-        System.out.println(jarLangDir.getAbsolutePath());
-
         FileFilter langFilter = FileFilterUtils.suffixFileFilter(".lang");
 
         File[] cfgLangs = cfgLangDir.listFiles(langFilter);
 
-        System.out.println(cfgLangs);
-
-//        URL u = KitchenCraftFoods.class.getResource("/assets/kitchencraft/lang/en_US.lang");
-//        File inJar = getFileFromURL(u);
-//        if (!fileExistsIn(inJar, cfgLangs))
-//        {
-//            FileUtils.copyFile(inJar, new File(cfgLangDir.getAbsolutePath() + "/" + inJar.getName()));
-//        }
-
         for (File inCfg : cfgLangs)
         {
-            FileUtils.copyFile(inCfg, new File(jarLangDir.getAbsolutePath() + "/" + inCfg.getName()));
+            assembler.addLang(inCfg);
         }
-    }
-
-    private static File getFileFromURL(URL url)
-    {
-        String urlPath = url.toString();
-
-        urlPath = urlPath.replace("jar:", ""); // nope
-
-        URL newUrl = null;
-        try
-        {
-            newUrl = new URL(urlPath);
-        }
-        catch (MalformedURLException e)
-        {
-            throw new RuntimeException(e);
-        }
-
-        return FileUtils.toFile(newUrl);
-    }
-
-    private static boolean fileExistsIn(File file, File[] toCheck)
-    {
-        for (File f : toCheck)
-        {
-            if (file.getName().equals(f.getName()))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     private static void loadFoodJson() throws IOException

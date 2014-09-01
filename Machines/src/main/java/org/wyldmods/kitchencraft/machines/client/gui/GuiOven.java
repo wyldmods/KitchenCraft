@@ -1,5 +1,8 @@
 package org.wyldmods.kitchencraft.machines.client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -9,8 +12,6 @@ import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.machines.common.container.ContainerOven;
 import org.wyldmods.kitchencraft.machines.common.tile.TileOven;
 import org.wyldmods.kitchencraft.machines.common.tile.TileOvenRF;
-
-import cofh.api.energy.EnergyStorage;
 
 public class GuiOven extends GuiContainer
 {
@@ -36,6 +37,19 @@ public class GuiOven extends GuiContainer
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         this.fontRendererObj.drawString(StatCollector.translateToLocal("kc.oven.text" + (rf ? ".rf" : "")), rf ? 20 : 5, 5, 0x404040);
+
+        int x = (this.width - this.xSize) / 2;
+        int y = (this.height - this.ySize) / 2;
+
+        if (rf)
+        {
+            List<String> ttLines = new ArrayList<String>();
+            if (mouseX < x + 125 && mouseX > x + 50 && mouseY > y + 67 && mouseY < y + 73)
+            {
+                ttLines.add(((TileOvenRF) this.tile).getEnergyStored(null) + " RF");
+                this.func_146283_a(ttLines, mouseX - x, mouseY - y);
+            }
+        }
     }
 
     @Override

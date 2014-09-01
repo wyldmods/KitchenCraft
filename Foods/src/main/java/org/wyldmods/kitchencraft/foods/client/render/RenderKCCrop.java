@@ -57,26 +57,18 @@ public class RenderKCCrop implements ISimpleBlockRenderingHandler
             // side 1
             zBase -= offset;
             xBase -= size / 2;
-            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
-            tessellator.addVertexWithUV(xBase, yBase + size, zBase, minU, maxV);
-            tessellator.addVertexWithUV(xBase + size, yBase + size, zBase, maxU, maxV);
-            tessellator.addVertexWithUV(xBase + size, yBase, zBase, maxU, minV);
-            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
-            tessellator.addVertexWithUV(xBase + size, yBase, zBase, minU, maxV);
-            tessellator.addVertexWithUV(xBase + size, yBase + size, zBase, maxU, maxV);
             tessellator.addVertexWithUV(xBase, yBase + size, zBase, maxU, minV);
+            tessellator.addVertexWithUV(xBase + size, yBase + size, zBase, minU, minV);
+            tessellator.addVertexWithUV(xBase + size, yBase, zBase, minU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase, maxU, maxV);
 
             // side 2
             zBase += offset * 2;
             yBase = getRandYOffset(y);
-            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
-            tessellator.addVertexWithUV(xBase, yBase + size, zBase, minU, maxV);
-            tessellator.addVertexWithUV(xBase + size, yBase + size, zBase, maxU, maxV);
-            tessellator.addVertexWithUV(xBase + size, yBase, zBase, maxU, minV);
-            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
-            tessellator.addVertexWithUV(xBase + size, yBase, zBase, minU, maxV);
-            tessellator.addVertexWithUV(xBase + size, yBase + size, zBase, maxU, maxV);
-            tessellator.addVertexWithUV(xBase, yBase + size, zBase, maxU, minV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, maxV);
+            tessellator.addVertexWithUV(xBase + size, yBase, zBase, maxU, maxV);
+            tessellator.addVertexWithUV(xBase + size, yBase + size, zBase, maxU, minV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase, minU, minV);
 
             // reset values
             xBase = x + 0.5;
@@ -86,26 +78,18 @@ public class RenderKCCrop implements ISimpleBlockRenderingHandler
             xBase -= offset;
             zBase -= size / 2;
             yBase = getRandYOffset(y);
-            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
-            tessellator.addVertexWithUV(xBase, yBase + size, zBase, minU, maxV);
-            tessellator.addVertexWithUV(xBase, yBase + size, zBase + size, maxU, maxV);
-            tessellator.addVertexWithUV(xBase, yBase, zBase + size, maxU, minV);
-            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
-            tessellator.addVertexWithUV(xBase, yBase, zBase + size, minU, maxV);
-            tessellator.addVertexWithUV(xBase, yBase + size, zBase + size, maxU, maxV);
-            tessellator.addVertexWithUV(xBase, yBase + size, zBase, maxU, minV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase + size, maxU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase + size, maxU, minV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase, minU, minV);
 
             // side 4
             xBase += offset * 2;
             yBase = getRandYOffset(y);
-            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
-            tessellator.addVertexWithUV(xBase, yBase + size, zBase, minU, maxV);
-            tessellator.addVertexWithUV(xBase, yBase + size, zBase + size, maxU, maxV);
-            tessellator.addVertexWithUV(xBase, yBase, zBase + size, maxU, minV);
-            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, minV);
-            tessellator.addVertexWithUV(xBase, yBase, zBase + size, minU, maxV);
-            tessellator.addVertexWithUV(xBase, yBase + size, zBase + size, maxU, maxV);
-            tessellator.addVertexWithUV(xBase, yBase + size, zBase, maxU, minV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase, minU, maxV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase, minU, minV);
+            tessellator.addVertexWithUV(xBase, yBase + size, zBase + size, maxU, minV);
+            tessellator.addVertexWithUV(xBase, yBase, zBase + size, maxU, maxV);
         }
         return true;
     }

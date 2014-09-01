@@ -28,7 +28,6 @@ public class TileOvenRF extends TileOven implements IEnergyHandler
         if (inventory[uncooked] != null && storage.getEnergyStored() >= usagePerTick)
         {
             storage.extractEnergy(usagePerTick, false);
-            System.out.println(storage.getEnergyStored());
             return true;
         }
         return false;
