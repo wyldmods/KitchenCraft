@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.common.CommonProxy;
 import org.wyldmods.kitchencraft.foods.common.block.KCBlocks;
-import org.wyldmods.kitchencraft.foods.common.compat.WailaCompat;
 import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
@@ -52,6 +51,6 @@ public class KitchenCraftFoods
                 
         proxy.initRenderers();
         
-        FMLInterModComms.sendMessage("Waila", "register", WailaCompat.class.getName() + ".load");
+        FMLInterModComms.sendMessage("Waila", "register", "org.wyldmods.kitchencraft.foods.common.compat.WailaCompat.load");
     }
 }
