@@ -32,7 +32,7 @@ public class RenderKCCrop implements ISimpleBlockRenderingHandler
         renderer.renderBlockCrops(block, x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
 
-        if (meta >= 6)
+        if (meta >= 7)
         {
             IIcon icon = ((BlockKCPlant) block).getFoodIcon(world, x, y, z);
 

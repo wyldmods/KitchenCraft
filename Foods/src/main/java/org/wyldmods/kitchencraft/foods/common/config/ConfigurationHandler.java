@@ -83,8 +83,25 @@ public class ConfigurationHandler
         }
         catch (IOException e)
         {
-            e.printStackTrace();
-            throw new RuntimeException("Error loading KitchenCraft smelting");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void reload()
+    {
+        FoodType.validAnimals.clear();
+        FoodType.validBlocks.clear();
+
+        FoodType.veggies.clear();
+        FoodType.meats.clear();
+
+        try
+        {
+            loadFoodJson();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
         }
     }
 
@@ -136,7 +153,7 @@ public class ConfigurationHandler
             FoodType.registerFoodType(gson.fromJson(arr.get(i), isDroppedFoodType(arr.get(i).getAsJsonObject()) ? FoodTypeDropped.class : FoodType.class));
         }
     }
-    
+
     private static boolean isDroppedFoodType(JsonObject obj)
     {
         return obj.has("animals") || obj.has("blocks");

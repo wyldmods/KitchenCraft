@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.common.CommonProxy;
 import org.wyldmods.kitchencraft.foods.common.block.KCBlocks;
+import org.wyldmods.kitchencraft.foods.common.command.CommandKCFoods;
 import org.wyldmods.kitchencraft.foods.common.compat.NEICompat;
 import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
@@ -20,6 +21,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
 @Mod(modid=Reference.MOD_ID_FOODS, name=Reference.MOD_NAME_FOODS, version=Reference.VERSION, dependencies = Reference.DEPENDENCIES)
 public class KitchenCraftFoods
@@ -56,5 +58,11 @@ public class KitchenCraftFoods
         
         FMLInterModComms.sendMessage("Waila", "register", "org.wyldmods.kitchencraft.foods.common.compat.WailaCompat.load");
         CompatabilityRegistry.instance().registerCompat("NotEnoughItems", RegisterTime.INIT, NEICompat.class);
+    }
+    
+    @EventHandler
+    public static void onServerStarting(FMLServerStartingEvent event)
+    {
+        event.registerServerCommand(new CommandKCFoods());
     }
 }
