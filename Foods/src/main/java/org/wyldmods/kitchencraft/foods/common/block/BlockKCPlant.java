@@ -14,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.EnumPlantType;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
@@ -107,6 +108,12 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider
         }
         
         super.breakBlock(world, x, y, z, block, meta);
+    }
+    
+    @Override
+    public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z)
+    {
+        return EnumPlantType.Crop;
     }
     
     @Override

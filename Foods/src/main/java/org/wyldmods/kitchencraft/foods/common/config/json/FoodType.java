@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import net.minecraft.block.Block;
@@ -12,8 +13,6 @@ import net.minecraft.item.ItemStack;
 
 import org.wyldmods.kitchencraft.foods.common.item.ItemKCFood;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
-
-import scala.util.Random;
 
 public class FoodType
 {
@@ -31,13 +30,16 @@ public class FoodType
 
     public static class PotionEntry
     {
+        /* JSON fields @formatter:off */
         public final String name;
-        public final int time;
-        public int level = 0;
-        
+        public final int    time;
+        public int          level  = 0;
+        public double       chance = 1.0;
+        /* JSON fields @formatter:on */
+
         public PotionEntry(String name, int time)
         {
-            this.name = name; 
+            this.name = name;
             this.time = time;
         }
     }
@@ -50,17 +52,24 @@ public class FoodType
 
     private static final Random rand = new Random();
 
-    /* JSON fields */
-    public String name = "null";
-    public int food = 4;
-    public float saturation = 0.2f;
-    public boolean isMeat = false;
-    public int color = 0xFFFFFF;
-    public boolean makeSeed = true;
-    public boolean isEdible = true;
-    public boolean seedRecipe = true;
-    public PotionEntry[] effects = {};
-    /* end JSON fields */
+    /* JSON fields @formatter:off*/
+    public final String  name;
+    public int           food           =  4;
+    public float         saturation     =  0.2f;
+    public boolean       isMeat         =  false;
+    public int           color          =  0xFFFFFF;
+    public boolean       makeSeed       =  true;
+    public boolean       isEdible       =  true;
+    public boolean       seedRecipe     =  true;
+    public PotionEntry[] effects        =  {};
+    public boolean       isDrink        =  false;
+    public boolean       isAlwaysEdible =  false;
+    /* end JSON fields @formatter:on*/
+
+    public FoodType(String name)
+    {
+        this.name = name;
+    }
 
     public static ItemStack getFood(String name)
     {

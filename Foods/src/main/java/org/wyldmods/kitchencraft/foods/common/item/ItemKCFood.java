@@ -10,6 +10,7 @@ import java.util.Map;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -127,12 +128,8 @@ public class ItemKCFood extends ItemFood
                 list.add(EnumChatFormatting.WHITE + lang.localize("tooltip.whenEaten"));
                 for (PotionEntry pot : type.effects)
                 {
-                    list.add(String.format(EnumChatFormatting.WHITE + "- %s: %s%s %s%s", 
-                            lang.localize(pot.name, false), 
-                            EnumChatFormatting.YELLOW, 
-                            pot.time / 20, 
-                            EnumChatFormatting.WHITE,
-                            lang.localize("tooltip.seconds")));
+                    list.add(String.format(EnumChatFormatting.WHITE + "- %s: %s%s %s%s", lang.localize(pot.name, false), EnumChatFormatting.YELLOW, pot.time / 20,
+                            EnumChatFormatting.WHITE, lang.localize("tooltip.seconds")));
                 }
             }
         }
@@ -153,14 +150,20 @@ public class ItemKCFood extends ItemFood
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if (getFoodType(stack).isEdible)
+        FoodType type = getFoodType(stack);
+        if (type.isEdible && player.canEat(type.isAlwaysEdible))
         {
-            return super.onItemRightClick(stack, world, player);
+            player.setItemInUse(stack, stack.getMaxItemUseDuration());
         }
-        else
-        {
-            return stack;
-        }
+        
+        return stack;
+    }
+    
+    @Override
+    public EnumAction getItemUseAction(ItemStack stack)
+    {
+        FoodType type = getFoodType(stack);
+        return type.isDrink ? EnumAction.drink : EnumAction.eat;
     }
 
     @Override
