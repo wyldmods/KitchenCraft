@@ -5,7 +5,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
@@ -17,8 +16,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
-import org.wyldmods.kitchencraft.foods.common.block.KCBlocks;
 import org.wyldmods.kitchencraft.foods.common.block.BlockKCPlant.TileKCPlant;
+import org.wyldmods.kitchencraft.foods.common.block.KCBlocks;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 
 public class ItemKCSeed extends Item implements IPlantable
@@ -73,7 +72,7 @@ public class ItemKCSeed extends Item implements IPlantable
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
         Block placedOn = world.getBlock(x, y, z);
-        if (placedOn == Blocks.farmland && side == ForgeDirection.UP.ordinal())
+        if (placedOn.canSustainPlant(world, x, y, z, ForgeDirection.UP, this) && side == ForgeDirection.UP.ordinal())
         {
             y++; // move it on up
             world.setBlock(x, y, z, KCBlocks.crop, 0, 0);

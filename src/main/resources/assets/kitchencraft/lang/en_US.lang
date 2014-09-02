@@ -11,3 +11,5 @@ kc.oven.text.rf=RF Oven
 kc.tooltip.hunger=Hunger Restored:
 kc.tooltip.saturation=Saturation Given:
 kc.tooltip.plant=Plant
+kc.tooltip.whenEaten=When Eaten:
+kc.tooltip.seconds=Seconds

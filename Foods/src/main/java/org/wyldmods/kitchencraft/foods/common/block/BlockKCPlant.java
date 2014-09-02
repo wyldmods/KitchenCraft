@@ -136,6 +136,12 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider
         }
         
         @Override
+        public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z)
+        {
+            return oldBlock != newBlock;
+        }
+        
+        @Override
         public void writeToNBT(NBTTagCompound tag)
         {
             super.writeToNBT(tag);

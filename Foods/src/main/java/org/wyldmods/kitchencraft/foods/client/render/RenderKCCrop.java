@@ -42,7 +42,7 @@ public class RenderKCCrop implements ISimpleBlockRenderingHandler
             
             double size = 0.4;
             double xBase = x + 0.5;
-            double yBase = getRandYOffset(y);
+            double yBase = getRandYOffset(y); // do it once because for some reason first call always returns the same value
             double zBase = z + 0.5;
 
             double offset = 0.251;
@@ -57,6 +57,7 @@ public class RenderKCCrop implements ISimpleBlockRenderingHandler
             // side 1
             zBase -= offset;
             xBase -= size / 2;
+            yBase = getRandYOffset(y);
             tessellator.addVertexWithUV(xBase, yBase + size, zBase, maxU, minV);
             tessellator.addVertexWithUV(xBase + size, yBase + size, zBase, minU, minV);
             tessellator.addVertexWithUV(xBase + size, yBase, zBase, minU, maxV);

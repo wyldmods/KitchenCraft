@@ -62,7 +62,7 @@ public class ShapedJsonRecipe
         List<Object> toAdd = new ArrayList<Object>(Arrays.asList(recipeArr));
         Iterator<Object> inputIterator = inputs.iterator();
 
-        for (int i = STARTING_VALUE; i <= cur.toCharArray()[cur.length() - 1]; i++)
+        for (int i = STARTING_VALUE; i <= getHighestCharValue(cur); i++)
         {
             toAdd.add((char) i);
             toAdd.add(inputIterator.next());
@@ -70,6 +70,19 @@ public class ShapedJsonRecipe
 
         output.stackSize = recipe.outputAmount;
         GameRegistry.addRecipe(new ShapedOreRecipe(output, toAdd.toArray()));
+    }
+
+    private static int getHighestCharValue(String cur)
+    {
+        int maxValue = 0;
+        for (char c : cur.toCharArray())
+        {
+            if (c > maxValue)
+            {
+                maxValue = c;
+            }
+        }
+        return maxValue;
     }
 
     private static int getMaxLengthIndex(Object[][] arr)

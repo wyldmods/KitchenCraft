@@ -1,5 +1,6 @@
 package org.wyldmods.kitchencraft.machines.common.tile;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -9,6 +10,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public abstract class TileKCInventory extends TileEntity implements IInventory
 {
@@ -17,6 +19,12 @@ public abstract class TileKCInventory extends TileEntity implements IInventory
     protected TileKCInventory(int invSize)
     {
         inventory = new ItemStack[invSize];
+    }
+    
+    @Override
+    public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z)
+    {
+        return oldBlock != newBlock;
     }
 
     @Override

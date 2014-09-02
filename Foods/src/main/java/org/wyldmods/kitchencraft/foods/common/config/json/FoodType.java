@@ -21,19 +21,33 @@ public class FoodType
     {
         public final Block block;
         public final int metadata;
+
         public BlockEntry(Block block, int metadata)
         {
             this.block = block;
             this.metadata = metadata;
         }
     }
-    
+
+    public static class PotionEntry
+    {
+        public final String name;
+        public final int time;
+        public int level = 0;
+        
+        public PotionEntry(String name, int time)
+        {
+            this.name = name; 
+            this.time = time;
+        }
+    }
+
     public static List<FoodType> veggies = new LinkedList<FoodType>();
     public static List<FoodType> meats = new LinkedList<FoodType>();
-        
+
     public static Set<String> validAnimals = new HashSet<String>();
     public static Set<BlockEntry> validBlocks = new HashSet<BlockEntry>();
-    
+
     private static final Random rand = new Random();
 
     /* JSON fields */
@@ -45,9 +59,10 @@ public class FoodType
     public boolean makeSeed = true;
     public boolean isEdible = true;
     public boolean seedRecipe = true;
+    public PotionEntry[] effects = {};
     /* end JSON fields */
-    
-    public static ItemStack getFood(String name) 
+
+    public static ItemStack getFood(String name)
     {
         for (int i = 0; i < veggies.size(); i++)
         {
@@ -61,7 +76,7 @@ public class FoodType
         }
         return null;
     }
-    
+
     public static FoodType getFoodType(ItemStack stack)
     {
         if (stack.getItem() instanceof ItemKCFood)
@@ -77,7 +92,7 @@ public class FoodType
         if (food instanceof FoodTypeDropped)
         {
             validAnimals.addAll(Arrays.asList(((FoodTypeDropped) food).animals));
-            validBlocks.addAll(Arrays.asList(((FoodTypeDropped)food).getAllEntries()));
+            validBlocks.addAll(Arrays.asList(((FoodTypeDropped) food).getAllEntries()));
         }
 
         if (food.isMeat)
@@ -89,7 +104,7 @@ public class FoodType
     public static List<ItemStack> getDroppedFoodsFrom(String entityName)
     {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        
+
         for (int i = 0; i < veggies.size(); i++)
         {
             FoodType f = veggies.get(i);
@@ -120,14 +135,14 @@ public class FoodType
                 }
             }
         }
-        
+
         return ret;
     }
 
     public static List<ItemStack> getDroppedFoodsFrom(BlockEntry b)
     {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        
+
         for (int i = 0; i < veggies.size(); i++)
         {
             FoodType f = veggies.get(i);
@@ -160,7 +175,7 @@ public class FoodType
                 }
             }
         }
-        
+
         return ret;
     }
 }
