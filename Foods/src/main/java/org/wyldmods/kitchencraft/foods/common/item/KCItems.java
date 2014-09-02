@@ -19,21 +19,28 @@ public class KCItems
         meat = new ItemKCFood(true);
         seed = new ItemKCSeed();
 
-        GameRegistry.registerItem(veggie, "veggie", Reference.MOD_ID_FOODS);
-        GameRegistry.registerItem(meat, "meat", Reference.MOD_ID_FOODS);
-        GameRegistry.registerItem(seed, "seed", Reference.MOD_ID_FOODS);
-        
         KitchenCraftFoods.tab.setDisplay(veggie);
     }
 
     public static void init()
     {
+        if (!FoodType.veggies.isEmpty())
+        {
+            GameRegistry.registerItem(veggie, "veggie", Reference.MOD_ID_FOODS);
+            GameRegistry.registerItem(seed, "seed", Reference.MOD_ID_FOODS);
+        }
+        
+        if (!FoodType.meats.isEmpty())
+        {
+            GameRegistry.registerItem(meat, "meat", Reference.MOD_ID_FOODS);
+        }
+        
         seed.initSeedRegistrations();
         
         for (int i = 0; i < FoodType.veggies.size(); i++)
         {
             FoodType veg = FoodType.veggies.get(i);
-            if (veg.makeSeed)
+            if (veg.makeSeed && veg.seedRecipe)
             {
                 GameRegistry.addShapelessRecipe(new ItemStack(KCItems.seed, 1, i), new ItemStack(KCItems.veggie, 1, i));
             }
