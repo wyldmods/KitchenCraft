@@ -81,6 +81,9 @@ public class GuiOven extends GuiContainer
         }
 
         int cook = this.tile.getCookProgressScaled(17);
-        this.drawTexturedModalRect(x + 79, y + (rf ? 29 : 26), rf ? 176 : 177, rf ? 1 : 14, cook + 1, rf ? 4 : 16);
+        if (cook > 0)
+        {
+            this.drawTexturedModalRect(x + 79, y + (rf ? 29 : 26), rf ? 176 : 177, rf ? 1 : 14, cook + 1, rf ? 4 : 16);
+        }
     }
 }

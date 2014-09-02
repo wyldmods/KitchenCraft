@@ -133,8 +133,13 @@ public class ConfigurationHandler
         JsonArray arr = (JsonArray) foods.get("foods");
         for (int i = 0; i < arr.size(); i++)
         {
-            FoodType.registerFoodType(gson.fromJson(arr.get(i), arr.get(i).getAsJsonObject().get("animals") != null ? FoodTypeDropped.class : FoodType.class));
+            FoodType.registerFoodType(gson.fromJson(arr.get(i), isDroppedFoodType(arr.get(i).getAsJsonObject()) ? FoodTypeDropped.class : FoodType.class));
         }
+    }
+    
+    private static boolean isDroppedFoodType(JsonObject obj)
+    {
+        return obj.has("animals") || obj.has("blocks");
     }
 
     private static void loadSmeltingJson() throws IOException

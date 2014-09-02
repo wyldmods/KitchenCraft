@@ -44,7 +44,7 @@ public class FoodType
     public boolean makeSeed = true;
     public boolean isEdible = true;
 
-    public static ItemStack getFood(String name)
+    public static ItemStack getFood(String name) 
     {
         for (int i = 0; i < veggies.size(); i++)
         {
