@@ -39,6 +39,7 @@ public class ResourcePackAssembler
         String pathToDir = dir.getAbsolutePath();
         File mcmeta = new File(pathToDir + "/pack.mcmeta");
         writeDefaultMcmeta(mcmeta);
+        ConfigurationHandler.copyFromJar("pack.png", new File(dir.getAbsolutePath() + "/pack.png"));
 
         String itemsDir = pathToDir + "/assets/" + Reference.MOD_TEXTUREPATH + "/textures/items";
         String blocksDir = pathToDir + "/assets/" + Reference.MOD_TEXTUREPATH + "/textures/blocks";

@@ -54,11 +54,11 @@ public class KitchenCraftMachines
             {
                 Class.forName("cofh.api.energy.IEnergyHandler");
                 loadRF = true;
-                KitchenCraftMachines.logger.info("RF API not found, disabling RF-only features.");
+                KitchenCraftMachines.logger.info("RF API found, allowing RF-only features.");
             }
             catch (ClassNotFoundException e)
             {
-                KitchenCraftMachines.logger.info("RF API found, allowing RF-only features.");
+                KitchenCraftMachines.logger.info("RF API not found, disabling RF-only features.");
             }
             finally
             {

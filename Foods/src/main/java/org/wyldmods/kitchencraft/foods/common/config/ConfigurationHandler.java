@@ -178,7 +178,7 @@ public class ConfigurationHandler
     private static JsonObject initializeJson(String filename, File f) throws IOException
     {
         if (!f.exists())
-            copyJsonFromJar(filename, f);
+            copyFromJar(filename, f);
 
         String json = "";
 
@@ -192,7 +192,7 @@ public class ConfigurationHandler
         return (JsonObject) new JsonParser().parse(json);
     }
 
-    private static void copyJsonFromJar(String filename, File to) throws IOException
+    static void copyFromJar(String filename, File to) throws IOException
     {
         KitchenCraftFoods.logger.info("Copying file " + filename + " from jar");
         URL url = KitchenCraftFoods.class.getResource("/assets/kitchencraft/misc/" + filename);
