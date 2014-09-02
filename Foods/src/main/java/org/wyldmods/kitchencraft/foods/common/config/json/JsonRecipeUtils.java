@@ -67,6 +67,8 @@ public class JsonRecipeUtils
         ItemStack input = (ItemStack) JsonRecipeUtils.parseStringIntoRecipeItem(recipe.input, true);
         ItemStack output = (ItemStack) JsonRecipeUtils.parseStringIntoRecipeItem(recipe.output, true);
 
+        output.stackSize = recipe.outputAmount;
+        
         if (input != null && output != null)
         {
             GameRegistry.addSmelting(input, output, recipe.xp);
