@@ -5,12 +5,15 @@ import org.apache.logging.log4j.Logger;
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.common.CommonProxy;
 import org.wyldmods.kitchencraft.foods.common.block.KCBlocks;
+import org.wyldmods.kitchencraft.foods.common.compat.NEICompat;
 import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
 import tterrag.core.common.Handlers;
 import tterrag.core.common.Lang;
+import tterrag.core.common.compat.CompatabilityRegistry;
 import tterrag.core.common.util.CreativeTabsCustom;
+import tterrag.core.common.util.RegisterTime;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -52,5 +55,6 @@ public class KitchenCraftFoods
         proxy.initRenderers();
         
         FMLInterModComms.sendMessage("Waila", "register", "org.wyldmods.kitchencraft.foods.common.compat.WailaCompat.load");
+        CompatabilityRegistry.instance().registerCompat("NotEnoughItems", RegisterTime.INIT, NEICompat.class);
     }
 }
