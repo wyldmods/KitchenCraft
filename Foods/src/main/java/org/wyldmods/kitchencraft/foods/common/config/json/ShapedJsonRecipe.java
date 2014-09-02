@@ -3,10 +3,10 @@ package org.wyldmods.kitchencraft.foods.common.config.json;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Arrays;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import scala.actors.threadpool.Arrays;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ShapedJsonRecipe
