@@ -13,10 +13,10 @@ import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodTypeDropped;
+import org.wyldmods.kitchencraft.foods.common.config.json.JsonRecipeUtils;
 import org.wyldmods.kitchencraft.foods.common.config.json.ShapedJsonRecipe;
 import org.wyldmods.kitchencraft.foods.common.config.json.ShapelessJsonRecipe;
 import org.wyldmods.kitchencraft.foods.common.config.json.SmeltingRecipeJson;
-import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -149,7 +149,7 @@ public class ConfigurationHandler
         JsonArray arr = (JsonArray) recipes.get("smelting");
         for (int i = 0; i < arr.size(); i++)
         {
-            KCItems.registerSmeltingRecipe(gson.fromJson(arr.get(i), SmeltingRecipeJson.class));
+            JsonRecipeUtils.registerSmeltingRecipe(gson.fromJson(arr.get(i), SmeltingRecipeJson.class));
         }
     }
 

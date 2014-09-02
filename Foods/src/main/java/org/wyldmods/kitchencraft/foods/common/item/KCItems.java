@@ -4,8 +4,7 @@ import net.minecraft.item.ItemStack;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
-import org.wyldmods.kitchencraft.foods.common.config.json.JsonRecipeUtils;
-import org.wyldmods.kitchencraft.foods.common.config.json.SmeltingRecipeJson;
+import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -27,19 +26,17 @@ public class KCItems
         KitchenCraftFoods.tab.setDisplay(veggie);
     }
 
-    public static void registerSmeltingRecipe(SmeltingRecipeJson recipe)
-    {
-        ItemStack input = (ItemStack) JsonRecipeUtils.parseStringIntoRecipeItem(recipe.input, true);
-        ItemStack output = (ItemStack) JsonRecipeUtils.parseStringIntoRecipeItem(recipe.output, true);
-
-        if (input != null && output != null)
-        {
-            GameRegistry.addSmelting(input, output, recipe.xp);
-        }
-    }
-
     public static void init()
     {
         seed.initSeedRegistrations();
+        
+        for (int i = 0; i < FoodType.veggies.size(); i++)
+        {
+            FoodType veg = FoodType.veggies.get(i);
+            if (veg.makeSeed)
+            {
+                GameRegistry.addShapelessRecipe(new ItemStack(KCItems.seed, 1, i), new ItemStack(KCItems.veggie, 1, i));
+            }
+        }
     }
 }

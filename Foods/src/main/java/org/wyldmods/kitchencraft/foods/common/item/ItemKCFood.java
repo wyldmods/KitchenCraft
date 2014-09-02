@@ -113,7 +113,7 @@ public class ItemKCFood extends ItemFood
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean inHand)
     {
-        if (ConfigurationHandler.doFoodTooltips)
+        if (ConfigurationHandler.doFoodTooltips && getFoodType(stack).isEdible)
         {
             list.add(EnumChatFormatting.WHITE + lang.localize("tooltip.hunger") + " " + EnumChatFormatting.YELLOW + FoodType.getFoodType(stack).food);
             list.add(EnumChatFormatting.WHITE + lang.localize("tooltip.saturation") + " " + EnumChatFormatting.YELLOW + FoodType.getFoodType(stack).saturation);

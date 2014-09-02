@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Set;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 
+import org.wyldmods.kitchencraft.foods.common.item.ItemKCFood;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
 import scala.util.Random;
@@ -36,6 +36,7 @@ public class FoodType
     
     private static final Random rand = new Random();
 
+    /* JSON fields */
     public String name = "null";
     public int food = 4;
     public float saturation = 0.2f;
@@ -43,7 +44,9 @@ public class FoodType
     public int color = 0xFFFFFF;
     public boolean makeSeed = true;
     public boolean isEdible = true;
-
+    public boolean seedRecipe = true;
+    /* end JSON fields */
+    
     public static ItemStack getFood(String name) 
     {
         for (int i = 0; i < veggies.size(); i++)
@@ -61,9 +64,9 @@ public class FoodType
     
     public static FoodType getFoodType(ItemStack stack)
     {
-        if (stack.getItem() instanceof ItemFood)
+        if (stack.getItem() instanceof ItemKCFood)
         {
-            ItemFood food = (ItemFood) stack.getItem();
+            ItemKCFood food = (ItemKCFood) stack.getItem();
             return food.isWolfsFavoriteMeat() ? meats.get(stack.getItemDamage()) : veggies.get(stack.getItemDamage());
         }
         return null;
