@@ -22,7 +22,6 @@ public class ShapedJsonRecipe
         this.output = output;
     }
     
-    @SuppressWarnings("unchecked")
     public static void addShapedRecipeFromJson(ShapedJsonRecipe recipe)
     {
         int height = recipe.input.length;
@@ -42,6 +41,7 @@ public class ShapedJsonRecipe
 
         Object[] recipeArr = new Object[height];
         String cur = null;
+        int charIdx = STARTING_VALUE;
         for (int h = 0; h < height; h++)
         {
             cur = "";
@@ -49,7 +49,7 @@ public class ShapedJsonRecipe
             {
                 if (recipe.input[h].length > w)
                 {
-                    cur += (char) (STARTING_VALUE + h + w);
+                    cur += (char) (charIdx++);
                 }
                 else
                 {
@@ -82,6 +82,7 @@ public class ShapedJsonRecipe
             if (arr2.length > maxSize)
             {
                 index = i;
+                maxSize = arr2.length;
             }
         }
         return index;
