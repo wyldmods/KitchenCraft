@@ -11,6 +11,7 @@ public class ShapelessJsonRecipe
 {
     public final String[] input;
     public final String output;
+    public int outputAmount = 1;
 
     public ShapelessJsonRecipe(String output, String... input)
     {
@@ -28,6 +29,7 @@ public class ShapelessJsonRecipe
         
         ItemStack output = (ItemStack) JsonRecipeUtils.parseStringIntoRecipeItem(recipe.output, true);
         
+        output.stackSize = recipe.outputAmount;
         GameRegistry.addRecipe(new ShapelessOreRecipe(output, inputs.toArray()));
     }
 }

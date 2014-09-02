@@ -11,16 +11,17 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ShapedJsonRecipe
 {
-    private String[][] input;
-    private String output;
+    private final String[][] input;
+    private final String output;
+    private int outputAmount = 1;
     private static final int STARTING_VALUE = Character.valueOf('a');
-
-    public ShapedJsonRecipe(String output, String[][] input)
+    
+    public ShapedJsonRecipe(String[][] input, String output) // force input and output to be defined
     {
-        this.output = output;
         this.input = input;
+        this.output = output;
     }
-
+    
     @SuppressWarnings("unchecked")
     public static void addShapedRecipeFromJson(ShapedJsonRecipe recipe)
     {
@@ -67,6 +68,7 @@ public class ShapedJsonRecipe
             toAdd.add(inputIterator.next());
         }
 
+        output.stackSize = recipe.outputAmount;
         GameRegistry.addRecipe(new ShapedOreRecipe(output, toAdd.toArray()));
     }
 
