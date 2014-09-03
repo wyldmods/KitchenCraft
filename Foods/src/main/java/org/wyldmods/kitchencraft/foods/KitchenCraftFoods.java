@@ -56,7 +56,7 @@ public class KitchenCraftFoods
         proxy.initRenderers();
         
         FMLInterModComms.sendMessage("Waila", "register", "org.wyldmods.kitchencraft.foods.common.compat.WailaCompat.load");
-        CompatabilityRegistry.instance().registerCompat("NotEnoughItems", RegisterTime.INIT, NEICompat.class);
+        CompatabilityRegistry.instance().registerCompat("NotEnoughItems", RegisterTime.POSTINIT, NEICompat.class);
         CompatabilityRegistry.instance().registerCompat("EnderIO", RegisterTime.INIT, EnderIOCompat.class);
     }
     
