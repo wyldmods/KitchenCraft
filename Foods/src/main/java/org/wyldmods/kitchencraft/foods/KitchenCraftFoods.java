@@ -20,7 +20,9 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
@@ -48,10 +50,6 @@ public class KitchenCraftFoods
 
         KCItems.preInit();
         KCBlocks.preInit();
-                
-        ConfigurationHandler.init();
-        
-        KCItems.init();
         
         Handlers.addPackage("org.wyldmods");
                 
@@ -60,6 +58,19 @@ public class KitchenCraftFoods
         FMLInterModComms.sendMessage("Waila", "register", "org.wyldmods.kitchencraft.foods.common.compat.WailaCompat.load");
         CompatabilityRegistry.instance().registerCompat("NotEnoughItems", RegisterTime.INIT, NEICompat.class);
         CompatabilityRegistry.instance().registerCompat("EnderIO", RegisterTime.INIT, EnderIOCompat.class);
+    }
+    
+    @EventHandler
+    public static void init(FMLInitializationEvent event)
+    {
+        ConfigurationHandler.init();
+        KCItems.init();
+    }
+    
+    @EventHandler
+    public static void postInit(FMLPostInitializationEvent event)
+    {
+        ConfigurationHandler.postInit();
     }
     
     @EventHandler

@@ -76,6 +76,17 @@ public class ConfigurationHandler
         try
         {
             loadFoodJson();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public static void postInit()
+    {
+        try
+        {
             loadSmeltingJson();
             loadShapelessRecipesJson();
             loadShapedRecipesJson();
