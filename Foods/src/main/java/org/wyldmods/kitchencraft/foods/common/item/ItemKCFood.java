@@ -20,6 +20,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
+import org.lwjgl.input.Keyboard;
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
@@ -118,19 +119,42 @@ public class ItemKCFood extends ItemFood
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean inHand)
     {
         FoodType type = getFoodType(stack);
+
+        if (type.flavorText != null)
+        {
+            String text = type.flavorText;
+            text += "\n ";
+            String[] lines = text.split("\n");
+            for (String s : lines)
+            {
+                list.add(EnumChatFormatting.ITALIC + lang.localize(s, false));
+            }
+        }
+
         if (ConfigurationHandler.doFoodTooltips && type.isEdible)
         {
-            list.add(EnumChatFormatting.WHITE + lang.localize("tooltip.hunger") + " " + EnumChatFormatting.YELLOW + FoodType.getFoodType(stack).food);
-            list.add(EnumChatFormatting.WHITE + lang.localize("tooltip.saturation") + " " + EnumChatFormatting.YELLOW + FoodType.getFoodType(stack).saturation);
-
-            if (type.effects.length > 0)
+            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
             {
-                list.add(EnumChatFormatting.WHITE + lang.localize("tooltip.whenEaten"));
-                for (PotionEntry pot : type.effects)
+                list.add(EnumChatFormatting.WHITE + lang.localize("tooltip.hunger") + " " + EnumChatFormatting.YELLOW + FoodType.getFoodType(stack).food);
+                list.add(EnumChatFormatting.WHITE + lang.localize("tooltip.saturation") + " " + EnumChatFormatting.YELLOW + FoodType.getFoodType(stack).saturation);
+
+                if (type.effects.length > 0)
                 {
-                    list.add(String.format(EnumChatFormatting.WHITE + "- %s: %s%s %s%s %s(%s%%)", lang.localize(pot.name, false), EnumChatFormatting.YELLOW, pot.time / 20,
-                            EnumChatFormatting.WHITE, lang.localize("tooltip.seconds"), EnumChatFormatting.ITALIC, (int) (pot.chance * 100)));
+                    list.add(EnumChatFormatting.WHITE + lang.localize("tooltip.whenEaten"));
+                    for (PotionEntry pot : type.effects)
+                    {
+                        list.add(String.format(EnumChatFormatting.WHITE + "- %s: %s%s %s%s %s(%s%%)", lang.localize(pot.name, false), EnumChatFormatting.YELLOW,
+                                pot.time / 20, EnumChatFormatting.WHITE, lang.localize("tooltip.seconds"), EnumChatFormatting.ITALIC, (int) (pot.chance * 100)));
+                    }
                 }
+            }
+            else
+            {
+                list.add(EnumChatFormatting.WHITE
+                        + String.format(lang.localize("tooltip.pressShift"), 
+                                EnumChatFormatting.AQUA.toString() + EnumChatFormatting.ITALIC + "-", 
+                                "-" + EnumChatFormatting.WHITE
+                ));
             }
         }
     }
@@ -155,10 +179,10 @@ public class ItemKCFood extends ItemFood
         {
             player.setItemInUse(stack, stack.getMaxItemUseDuration());
         }
-        
+
         return stack;
     }
-    
+
     @Override
     public EnumAction getItemUseAction(ItemStack stack)
     {
