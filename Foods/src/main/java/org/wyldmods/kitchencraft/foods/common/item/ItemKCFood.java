@@ -151,10 +151,8 @@ public class ItemKCFood extends ItemFood
             else
             {
                 list.add(EnumChatFormatting.WHITE
-                        + String.format(lang.localize("tooltip.pressShift"), 
-                                EnumChatFormatting.AQUA.toString() + EnumChatFormatting.ITALIC + "-", 
-                                "-" + EnumChatFormatting.WHITE
-                ));
+                        + String.format(lang.localize("tooltip.pressShift"), EnumChatFormatting.AQUA.toString() + EnumChatFormatting.ITALIC + "-", "-"
+                                + EnumChatFormatting.WHITE));
             }
         }
     }
@@ -209,9 +207,12 @@ public class ItemKCFood extends ItemFood
             if (effect == null)
                 continue;
 
-            PotionEffect active = player.getActivePotionEffect(effect);
-            int activeDuration = active == null ? 0 : active.getDuration();
-            player.addPotionEffect(new PotionEffect(effect.id, activeDuration + p.time, p.level));
+            if (world.rand.nextDouble() < p.chance)
+            {
+                PotionEffect active = player.getActivePotionEffect(effect);
+                int activeDuration = active == null ? 0 : active.getDuration();
+                player.addPotionEffect(new PotionEffect(effect.id, activeDuration + p.time, p.level));
+            }
         }
 
         return super.onEaten(stack, world, player);
