@@ -11,19 +11,18 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ShapedJsonRecipe
 {
-    private final String[][] input;
-    private final String output;
+    private String[][] input;
+    private String output;
     private int outputAmount = 1;
     private static final int STARTING_VALUE = Character.valueOf('a');
     
-    public ShapedJsonRecipe(String[][] input, String output) // force input and output to be defined
-    {
-        this.input = input;
-        this.output = output;
-    }
-    
     public static void addShapedRecipeFromJson(ShapedJsonRecipe recipe)
     {
+        if (recipe.input == null || recipe.output == null)
+        {
+            throw new InvalidShapedRecipeException((recipe.input == null ? "Input was null" : "Output was null") + ". You must define this value.");
+        }
+        
         int height = recipe.input.length;
         int width = recipe.input[getMaxLengthIndex(recipe.input)].length;
 
@@ -99,5 +98,14 @@ public class ShapedJsonRecipe
             }
         }
         return index;
+    }
+    
+    @SuppressWarnings("serial")
+    private static class InvalidShapedRecipeException extends RuntimeException 
+    {
+        public InvalidShapedRecipeException(String text)
+        {
+            super(text);
+        }
     }
 }

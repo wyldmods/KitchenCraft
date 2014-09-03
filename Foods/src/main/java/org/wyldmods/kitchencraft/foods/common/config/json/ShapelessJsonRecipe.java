@@ -9,18 +9,17 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ShapelessJsonRecipe
 {
-    public final String[] input;
-    public final String output;
+    public String[] input;
+    public String output;
     public int outputAmount = 1;
-
-    public ShapelessJsonRecipe(String output, String... input)
-    {
-        this.input = input;
-        this.output = output;
-    }
 
     public static void addShapelessRecipeFromJson(ShapelessJsonRecipe recipe)
     {
+        if (recipe.input == null || recipe.output == null)
+        {
+            throw new InvalidShapelessRecipeException((recipe.input == null ? "Input was null" : "Output was null") + ". You must define this value.");
+        }
+        
         List<Object> inputs = new ArrayList<Object>();
         for (String input : recipe.input)
         {
@@ -31,5 +30,14 @@ public class ShapelessJsonRecipe
         
         output.stackSize = recipe.outputAmount;
         GameRegistry.addRecipe(new ShapelessOreRecipe(output, inputs.toArray()));
+    }
+    
+    @SuppressWarnings("serial")
+    private static class InvalidShapelessRecipeException extends RuntimeException
+    {
+        public InvalidShapelessRecipeException(String text)
+        {
+            super(text);
+        }
     }
 }

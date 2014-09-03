@@ -1,6 +1,5 @@
 package org.wyldmods.kitchencraft.foods.common.config.json;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -59,19 +58,6 @@ public class JsonRecipeUtils
         else
         {
             return string;
-        }
-    }
-
-    public static void registerSmeltingRecipe(SmeltingRecipeJson recipe)
-    {
-        ItemStack input = (ItemStack) JsonRecipeUtils.parseStringIntoRecipeItem(recipe.input, true);
-        ItemStack output = (ItemStack) JsonRecipeUtils.parseStringIntoRecipeItem(recipe.output, true);
-
-        output.stackSize = recipe.outputAmount;
-        
-        if (input != null && output != null)
-        {
-            GameRegistry.addSmelting(input, output, recipe.xp);
         }
     }
 }

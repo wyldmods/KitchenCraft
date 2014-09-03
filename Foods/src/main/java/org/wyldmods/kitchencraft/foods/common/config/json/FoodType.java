@@ -31,17 +31,11 @@ public class FoodType
     public static class PotionEntry
     {
         /* JSON fields @formatter:off */
-        public final String name;
-        public final int    time;
+        public String name   = "null";
+        public int          time   = 1200;
         public int          level  = 0;
         public double       chance = 1.0;
-        /* JSON fields @formatter:on */
-
-        public PotionEntry(String name, int time)
-        {
-            this.name = name;
-            this.time = time;
-        }
+        /* end JSON fields @formatter:on */
     }
 
     public static List<FoodType> veggies = new LinkedList<FoodType>();
@@ -53,7 +47,7 @@ public class FoodType
     private static final Random rand = new Random();
 
     /* JSON fields @formatter:off*/
-    public final String  name;
+    public String  name           =  "null";
     public int           food           =  4;
     public float         saturation     =  0.2f;
     public boolean       isMeat         =  false;
@@ -66,10 +60,10 @@ public class FoodType
     public boolean       isAlwaysEdible =  false;
     /* end JSON fields @formatter:on*/
 
-    public FoodType(String name)
-    {
-        this.name = name;
-    }
+//    public FoodType(String name)
+//    {
+//        this.name = name;
+//    }
 
     public static ItemStack getFood(String name)
     {

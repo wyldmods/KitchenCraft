@@ -128,8 +128,8 @@ public class ItemKCFood extends ItemFood
                 list.add(EnumChatFormatting.WHITE + lang.localize("tooltip.whenEaten"));
                 for (PotionEntry pot : type.effects)
                 {
-                    list.add(String.format(EnumChatFormatting.WHITE + "- %s: %s%s %s%s", lang.localize(pot.name, false), EnumChatFormatting.YELLOW, pot.time / 20,
-                            EnumChatFormatting.WHITE, lang.localize("tooltip.seconds")));
+                    list.add(String.format(EnumChatFormatting.WHITE + "- %s: %s%s %s%s %s(%s%%)", lang.localize(pot.name, false), EnumChatFormatting.YELLOW, pot.time / 20,
+                            EnumChatFormatting.WHITE, lang.localize("tooltip.seconds"), EnumChatFormatting.ITALIC, (int) (pot.chance * 100)));
                 }
             }
         }

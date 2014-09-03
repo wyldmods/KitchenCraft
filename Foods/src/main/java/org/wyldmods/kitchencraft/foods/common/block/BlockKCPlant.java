@@ -10,6 +10,9 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -160,6 +163,20 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider
         {
             super.readFromNBT(tag);
             this.food = FoodType.getFood(tag.getString("foodType"));
+        }
+        
+        @Override
+        public Packet getDescriptionPacket()
+        {
+            NBTTagCompound nbt = new NBTTagCompound();
+            this.writeToNBT(nbt);
+            return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbt);
+        }
+
+        @Override
+        public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+        {
+            this.readFromNBT(pkt.func_148857_g());
         }
     }
 

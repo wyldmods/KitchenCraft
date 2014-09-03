@@ -5,12 +5,11 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -20,7 +19,7 @@ import org.wyldmods.kitchencraft.foods.common.block.BlockKCPlant.TileKCPlant;
 import org.wyldmods.kitchencraft.foods.common.block.KCBlocks;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 
-public class ItemKCSeed extends Item implements IPlantable
+public class ItemKCSeed extends Item
 {
     public ItemKCSeed()
     {
@@ -72,7 +71,7 @@ public class ItemKCSeed extends Item implements IPlantable
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
         Block placedOn = world.getBlock(x, y, z);
-        if (placedOn.canSustainPlant(world, x, y, z, ForgeDirection.UP, this) && side == ForgeDirection.UP.ordinal())
+        if (placedOn.canSustainPlant(world, x, y, z, ForgeDirection.UP, (ItemSeeds) Items.wheat_seeds) && side == ForgeDirection.UP.ordinal()) // do same check as seeds
         {
             y++; // move it on up
             world.setBlock(x, y, z, KCBlocks.crop, 0, 0);
@@ -83,23 +82,5 @@ public class ItemKCSeed extends Item implements IPlantable
             return true;
         }
         return false;
-    }
-
-    @Override
-    public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z)
-    {
-        return EnumPlantType.Crop;
-    }
-
-    @Override
-    public Block getPlant(IBlockAccess world, int x, int y, int z)
-    {
-        return KCBlocks.crop;
-    }
-
-    @Override
-    public int getPlantMetadata(IBlockAccess world, int x, int y, int z)
-    {
-        return 0;
     }
 }

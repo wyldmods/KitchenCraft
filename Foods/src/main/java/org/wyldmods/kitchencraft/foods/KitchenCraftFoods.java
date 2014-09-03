@@ -6,6 +6,7 @@ import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.common.CommonProxy;
 import org.wyldmods.kitchencraft.foods.common.block.KCBlocks;
 import org.wyldmods.kitchencraft.foods.common.command.CommandKCFoods;
+import org.wyldmods.kitchencraft.foods.common.compat.EnderIOCompat;
 import org.wyldmods.kitchencraft.foods.common.compat.NEICompat;
 import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
@@ -58,6 +59,7 @@ public class KitchenCraftFoods
         
         FMLInterModComms.sendMessage("Waila", "register", "org.wyldmods.kitchencraft.foods.common.compat.WailaCompat.load");
         CompatabilityRegistry.instance().registerCompat("NotEnoughItems", RegisterTime.INIT, NEICompat.class);
+        CompatabilityRegistry.instance().registerCompat("EnderIO", RegisterTime.INIT, EnderIOCompat.class);
     }
     
     @EventHandler
