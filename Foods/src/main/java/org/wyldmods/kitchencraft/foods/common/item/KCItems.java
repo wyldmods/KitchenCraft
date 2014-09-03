@@ -1,6 +1,7 @@
 package org.wyldmods.kitchencraft.foods.common.item;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
@@ -43,6 +44,22 @@ public class KCItems
             if (veg.makeSeed && veg.seedRecipe)
             {
                 GameRegistry.addShapelessRecipe(new ItemStack(KCItems.seed, 1, i), new ItemStack(KCItems.veggie, 1, i));
+            }
+        }
+        
+        for (FoodType type : FoodType.veggies)
+        {
+            for (String name : type.oreDictNames)
+            {
+                OreDictionary.registerOre(name, FoodType.getFood(type.name));
+            }
+        }
+        
+        for (FoodType type : FoodType.meats)
+        {
+            for (String name : type.oreDictNames)
+            {
+                OreDictionary.registerOre(name, FoodType.getFood(type.name));
             }
         }
     }

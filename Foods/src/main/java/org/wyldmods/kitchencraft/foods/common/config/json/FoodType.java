@@ -11,6 +11,7 @@ import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
+import org.apache.commons.lang3.StringUtils;
 import org.wyldmods.kitchencraft.foods.common.item.ItemKCFood;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
@@ -58,6 +59,7 @@ public class FoodType
     public PotionEntry[] effects        =  {};
     public boolean       isDrink        =  false;
     public boolean       isAlwaysEdible =  false;
+    public String[]      oreDictNames   =  {"food" + StringUtils.capitalize(name)}; // foodName
     /* end JSON fields @formatter:on*/
 
 //    public FoodType(String name)

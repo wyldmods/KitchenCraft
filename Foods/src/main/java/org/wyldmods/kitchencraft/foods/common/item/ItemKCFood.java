@@ -163,7 +163,7 @@ public class ItemKCFood extends ItemFood
     public EnumAction getItemUseAction(ItemStack stack)
     {
         FoodType type = getFoodType(stack);
-        return type.isDrink ? EnumAction.drink : EnumAction.eat;
+        return type.isEdible ? type.isDrink ? EnumAction.drink : EnumAction.eat : EnumAction.none;
     }
 
     @Override
