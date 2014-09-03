@@ -6,13 +6,16 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
 
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.oredict.OreDictionary;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodTypeDropped;
+import org.wyldmods.kitchencraft.foods.common.config.json.JsonRecipeUtils;
 import org.wyldmods.kitchencraft.foods.common.config.json.ShapedJsonRecipe;
 import org.wyldmods.kitchencraft.foods.common.config.json.ShapelessJsonRecipe;
 import org.wyldmods.kitchencraft.foods.common.config.json.SmeltingRecipeJson;
@@ -28,7 +31,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 public class ConfigurationHandler
 {
     static File parentDir;
-    static File configFile, foodJson, smeltingJson, shapelessRecipesJson, shapedRecipesJson;
+    static File configFile, foodJson, smeltingJson, shapelessRecipesJson, shapedRecipesJson, oreDictJson;
 
     public static boolean doFoodTooltips = true;
 
@@ -36,6 +39,7 @@ public class ConfigurationHandler
     static final String smeltingJsonName = "smeltingAdditions.json";
     static final String shaplessRecipesJsonName = "shapelessRecipeAdditions.json";
     static final String shapedRecipesJsonName = "shapedRecipeAdditions.json";
+    static final String oreDictJsonName = "oreDictAdditions.json";
 
     static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -48,6 +52,7 @@ public class ConfigurationHandler
         smeltingJson = new File(parentDir.getAbsolutePath() + "/" + smeltingJsonName);
         shapelessRecipesJson = new File(parentDir.getAbsolutePath() + "/" + shaplessRecipesJsonName);
         shapedRecipesJson = new File(parentDir.getAbsolutePath() + "/" + shapedRecipesJsonName);
+        oreDictJson = new File(parentDir.getAbsoluteFile() + "/" + oreDictJsonName);
 
         Configuration config = new Configuration(configFile);
 
@@ -76,6 +81,7 @@ public class ConfigurationHandler
         try
         {
             loadFoodJson();
+            loadOreDictJson();
         }
         catch (IOException e)
         {
@@ -168,6 +174,18 @@ public class ConfigurationHandler
     {
         return obj.has("animals") || obj.has("blocks");
     }
+    
+    private static void loadOreDictJson() throws IOException
+    {
+        JsonObject entries = initializeJson(oreDictJsonName, oreDictJson);
+        
+        JsonArray arr = (JsonArray) entries.get("entries");
+        for (int i = 0; i < arr.size(); i++)
+        {
+            OreDictEntry entry = gson.fromJson(arr.get(i), OreDictEntry.class);
+            OreDictionary.registerOre(entry.name, (ItemStack) JsonRecipeUtils.parseStringIntoRecipeItem(entry.item, true));
+        }
+    }
 
     private static void loadSmeltingJson() throws IOException
     {
@@ -233,5 +251,11 @@ public class ConfigurationHandler
         doFoodTooltips = config.get(Configuration.CATEGORY_GENERAL, "doFoodTooltips", doFoodTooltips, "Show hunger and saturation tooltips on food.").getBoolean();
 
         config.save();
+    }
+    
+    public static class OreDictEntry
+    {
+        public String item;
+        public String name;
     }
 }
