@@ -9,10 +9,6 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -23,12 +19,13 @@ import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
+import org.wyldmods.kitchencraft.foods.common.tile.TileFood;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockKCPlant extends BlockCrops implements ITileEntityProvider
+public class BlockKCPlant extends BlockCrops implements ITileEntityProvider, IKCPlant
 {
     private IIcon[] blockIcons;
     private IIcon[] veggieIcons;
@@ -37,9 +34,10 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider
     {
         super();
         setBlockTextureName("cropBase");
+        setBlockName("kc.crop");
         setCreativeTab(KitchenCraftFoods.tab);
-        GameRegistry.registerBlock(this, "kcCrop");
-        GameRegistry.registerTileEntity(TileKCPlant.class, "tileKcCrop");
+        GameRegistry.registerBlock(this, "crop");
+        GameRegistry.registerTileEntity(TileFood.class, "tileFood");
     }
 
     @Override
@@ -78,10 +76,24 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider
         return KitchenCraftFoods.renderIDCrop;
     }
     
+    @Override
     public ItemStack getFood(IBlockAccess world, int x, int y, int z)
     {
-        TileKCPlant tile = (TileKCPlant) world.getTileEntity(x, y, z);
-        return tile.food == null ? new ItemStack(KCItems.veggie) : tile.food.copy();
+        TileFood tile = (TileFood) world.getTileEntity(x, y, z);
+        return tile != null ? tile.getFood() : new ItemStack(KCItems.veggie);
+    }
+    
+    @Override
+    public void setFood(ItemStack stack, IBlockAccess world, int x, int y, int z)
+    {
+        TileFood tile = (TileFood) world.getTileEntity(x, y, z);
+        if (tile != null) tile.setFood(stack);
+    }
+    
+    @Override
+    public String getSuffix()
+    {
+        return KitchenCraftFoods.lang.localize("tooltip.plant");
     }
     
     public IIcon getFoodIcon(IBlockAccess world, int x, int y, int z)
@@ -124,65 +136,10 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider
     {
         return new ArrayList<ItemStack>();
     }
-    
-    public static class TileKCPlant extends TileEntity
-    {
-        private ItemStack food = new ItemStack(KCItems.veggie, 1, 0);
-        
-        public void setFoodType(String name)
-        {
-            this.food = FoodType.getFood(name);
-        }
-        
-        public void setFoodType(int damage)
-        {
-            this.food = new ItemStack(KCItems.veggie, 1, damage);
-        }
-        
-        @Override
-        public boolean canUpdate()
-        {
-            return false;
-        }
-        
-        @Override
-        public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z)
-        {
-            return oldBlock != newBlock;
-        }
-        
-        @Override
-        public void writeToNBT(NBTTagCompound tag)
-        {
-            super.writeToNBT(tag);
-            tag.setString("foodType", FoodType.getFoodType(food).name);
-        }
-        
-        @Override
-        public void readFromNBT(NBTTagCompound tag)
-        {
-            super.readFromNBT(tag);
-            this.food = FoodType.getFood(tag.getString("foodType"));
-        }
-        
-        @Override
-        public Packet getDescriptionPacket()
-        {
-            NBTTagCompound nbt = new NBTTagCompound();
-            this.writeToNBT(nbt);
-            return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbt);
-        }
-
-        @Override
-        public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
-        {
-            this.readFromNBT(pkt.func_148857_g());
-        }
-    }
 
     @Override
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
     {
-        return new TileKCPlant();
+        return new TileFood();
     }
 }

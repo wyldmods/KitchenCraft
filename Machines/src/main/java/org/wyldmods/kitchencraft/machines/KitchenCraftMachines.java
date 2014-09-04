@@ -14,6 +14,8 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
+import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
@@ -67,5 +69,18 @@ public class KitchenCraftMachines
         }
 
         return loadRF;
+    }
+    
+    @EventHandler
+    public void onIMC(IMCEvent event)
+    {
+        for (IMCMessage message : event.getMessages())
+        {
+            if (message.getSender().equals(Reference.MOD_ID_FOODS) && "handshake".equalsIgnoreCase(message.key))
+            {
+                LogManager.getLogger(Reference.MOD_ID_FOODS).info("Yo, KitchenCraft Machines...WAZZUUUUUP!");
+                logger.info("WAZZUUUUUUP!");
+            }
+        }
     }
 }

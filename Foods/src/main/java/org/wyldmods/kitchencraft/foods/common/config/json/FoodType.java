@@ -9,8 +9,10 @@ import java.util.Random;
 import java.util.Set;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.wyldmods.kitchencraft.foods.common.item.ItemKCFood;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
@@ -48,10 +50,11 @@ public class FoodType
     private static final Random rand = new Random();
 
     /* JSON fields @formatter:off*/
-    public String  name           =  "null";
+    public String  name                 = "null";
     public int           food           =  4;
     public float         saturation     =  0.2f;
     public boolean       isMeat         =  false;
+    public boolean       isFruit        =  false;
     public int           color          =  0xFFFFFF;
     public boolean       makeSeed       =  true;
     public boolean       isEdible       =  true;
@@ -59,14 +62,14 @@ public class FoodType
     public PotionEntry[] effects        =  {};
     public boolean       isDrink        =  false;
     public boolean       isAlwaysEdible =  false;
-    public String[]      oreDictNames   =  {"food" + StringUtils.capitalize(name)}; // foodName
+    public String[]      oreDictNames   =  {};
     public String        flavorText     =  null;                                    // will be handled appropriately
     /* end JSON fields @formatter:on*/
 
-//    public FoodType(String name)
-//    {
-//        this.name = name;
-//    }
+    public FoodType()
+    {
+        ArrayUtils.add(oreDictNames, "food" + StringUtils.capitalize(name));
+    }
 
     public static ItemStack getFood(String name)
     {
@@ -91,6 +94,13 @@ public class FoodType
             return food.isWolfsFavoriteMeat() ? meats.get(stack.getItemDamage()) : veggies.get(stack.getItemDamage());
         }
         return null;
+    }
+
+    public static ItemStack getStackFor(FoodType type)
+    {
+        Item food = type.isMeat ? KCItems.meat : KCItems.veggie;
+        int index = food == KCItems.meat ? meats.indexOf(type) : veggies.indexOf(type);
+        return new ItemStack(food, 1, index);
     }
 
     public static void registerFoodType(FoodType food)

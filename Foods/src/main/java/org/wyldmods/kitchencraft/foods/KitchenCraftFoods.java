@@ -41,11 +41,13 @@ public class KitchenCraftFoods
     
     public static final Lang lang = new Lang("kc");
     
-    public static int renderIDCrop;
+    public static int renderIDCrop, renderIDGrass;
     
     @EventHandler
     public static void preinit(FMLPreInitializationEvent event)
     {
+        FMLInterModComms.sendMessage(Reference.MOD_ID_MACHINES, "handshake", "");
+        
         ConfigurationHandler.preInit(event.getSuggestedConfigurationFile());
 
         KCItems.preInit();

@@ -9,8 +9,7 @@ import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 
-import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
-import org.wyldmods.kitchencraft.foods.common.block.BlockKCPlant;
+import org.wyldmods.kitchencraft.foods.common.block.IKCPlant;
 
 
 public class WailaCompat implements IWailaDataProvider
@@ -19,8 +18,8 @@ public class WailaCompat implements IWailaDataProvider
     
     public static void load(IWailaRegistrar registrar)
     {
-        registrar.registerHeadProvider(INSTANCE, BlockKCPlant.class);
-        registrar.registerStackProvider(INSTANCE, BlockKCPlant.class);
+        registrar.registerHeadProvider(INSTANCE, IKCPlant.class);
+        registrar.registerStackProvider(INSTANCE, IKCPlant.class);
     }
 
     @Override
@@ -32,7 +31,9 @@ public class WailaCompat implements IWailaDataProvider
     @Override
     public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config)
     {
-        currenttip.set(0, currenttip.get(0) + " " + KitchenCraftFoods.lang.localize("tooltip.plant"));
+        IKCPlant plant = (IKCPlant) accessor.getBlock();
+        MovingObjectPosition p = accessor.getPosition();
+        currenttip.add(0, (currenttip.isEmpty() ? plant.getFood(accessor.getWorld(), p.blockX, p.blockY, p.blockZ).getDisplayName() : currenttip.get(0)) + " " + plant.getSuffix());
         return currenttip;
     }
 
@@ -50,7 +51,7 @@ public class WailaCompat implements IWailaDataProvider
     
     private ItemStack getFoodStackFrom(IWailaDataAccessor accessor)
     {
-        BlockKCPlant block = (BlockKCPlant) accessor.getBlock();
+        IKCPlant block = (IKCPlant) accessor.getBlock();
         MovingObjectPosition pos = accessor.getPosition();
         return block.getFood(accessor.getWorld(), pos.blockX, pos.blockY, pos.blockZ);
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSeeds;
@@ -15,7 +16,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
-import org.wyldmods.kitchencraft.foods.common.block.BlockKCPlant.TileKCPlant;
+import org.wyldmods.kitchencraft.foods.common.block.IKCPlant;
 import org.wyldmods.kitchencraft.foods.common.block.KCBlocks;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 
@@ -71,15 +72,29 @@ public class ItemKCSeed extends Item
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
         Block placedOn = world.getBlock(x, y, z);
-        if (placedOn.canSustainPlant(world, x, y, z, ForgeDirection.UP, (ItemSeeds) Items.wheat_seeds) && side == ForgeDirection.UP.ordinal()) // do same check as seeds
+        FoodType type = FoodType.getFoodType(new ItemStack(KCItems.veggie, 1, stack.getItemDamage()));
+        if (type != null && type.isFruit)
         {
-            y++; // move it on up
-            world.setBlock(x, y, z, KCBlocks.crop, 0, 0);
-            TileKCPlant te = (TileKCPlant) world.getTileEntity(x, y, z);
-            te.setFoodType(stack.getItemDamage());
-            world.markBlockForUpdate(x, y, z);
-            player.inventory.decrStackSize(player.inventory.currentItem, 1);
-            return true;
+            if (placedOn == Blocks.grass)
+            {
+                world.setBlock(x, y, z, KCBlocks.seedGrass);
+                ((IKCPlant)world.getBlock(x, y, z)).setFood(FoodType.getStackFor(type), world, x, y, z);
+                world.markBlockForUpdate(x, y, z);
+                player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                return true;
+            }
+        }
+        else
+        {
+            if (placedOn.canSustainPlant(world, x, y, z, ForgeDirection.UP, (ItemSeeds) Items.wheat_seeds) && side == ForgeDirection.UP.ordinal()) // do same check as seeds
+            {
+                y++; // move it on up
+                world.setBlock(x, y, z, KCBlocks.crop, 0, 0);
+                ((IKCPlant)world.getBlock(x, y, z)).setFood(FoodType.getStackFor(type), world, x, y, z);
+                world.markBlockForUpdate(x, y, z);
+                player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                return true;
+            }
         }
         return false;
     }
