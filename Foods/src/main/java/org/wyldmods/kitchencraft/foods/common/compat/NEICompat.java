@@ -3,6 +3,7 @@ package org.wyldmods.kitchencraft.foods.common.compat;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import org.wyldmods.kitchencraft.foods.common.block.KCBlocks;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
@@ -33,5 +34,8 @@ public class NEICompat implements ICompatability
         {
             API.hideItem(new ItemStack(KCItems.seed, 1, OreDictionary.WILDCARD_VALUE));
         }
+        
+        API.hideItem(new ItemStack(KCBlocks.fruityLeaves));
+        API.hideItem(new ItemStack(KCBlocks.seedGrass));
     }
 }

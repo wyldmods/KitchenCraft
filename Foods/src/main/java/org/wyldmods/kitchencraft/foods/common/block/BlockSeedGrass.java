@@ -7,9 +7,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -19,18 +21,35 @@ import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 import org.wyldmods.kitchencraft.foods.common.tile.TileFood;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockSeedGrass extends Block implements ITileEntityProvider, IKCPlant, IGrowable
 {
+    private IIcon seedHole;
+    
     public BlockSeedGrass()
     {
         super(Material.grass);
         setStepSound(soundTypeGrass);
         setHardness(0.6F);
         setBlockName("kc.seedGrass");
-        setBlockTextureName(Reference.MOD_TEXTUREPATH + ":seedGrass");
         setTickRandomly(true);
         GameRegistry.registerBlock(this, "seedGrass");
+    }
+    
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void registerBlockIcons(IIconRegister register)
+    {
+        seedHole = register.registerIcon(Reference.MOD_TEXTUREPATH + ":seedGrass");
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int side, int meta)
+    {
+        return side == 1 ? seedHole : Blocks.grass.getIcon(side, meta);
     }
 
     @Override
@@ -81,8 +100,11 @@ public class BlockSeedGrass extends Block implements ITileEntityProvider, IKCPla
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta)
     {
-        dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.seed, 1, getFood(world, x, y, z).getItemDamage()));
-        super.breakBlock(world, x, y, z, block, meta);
+        if (meta != 15) // will be set by sapling
+        {
+            dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.seed, 1, getFood(world, x, y, z).getItemDamage()));
+            super.breakBlock(world, x, y, z, block, meta);
+        }
     }
 
     @Override
@@ -102,7 +124,7 @@ public class BlockSeedGrass extends Block implements ITileEntityProvider, IKCPla
     {
         grow(world, x, y, z);
     }
-    
+
     private void grow(World world, int x, int y, int z)
     {
         int meta = world.getBlockMetadata(x, y, z);

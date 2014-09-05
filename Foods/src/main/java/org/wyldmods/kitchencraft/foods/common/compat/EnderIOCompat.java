@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
 import org.wyldmods.kitchencraft.foods.common.block.BlockKCPlant;
+import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.item.ItemKCSeed;
 
 import tterrag.core.common.compat.ICompatability;
@@ -51,15 +52,20 @@ public class EnderIOCompat extends PlantableFarmer implements ICompatability
             return false;
         }
 
-        if (!farm.tillBlock(bc))
+        FoodType type = FoodType.veggies.get(seedStack.getItemDamage());
+
+        if (!type.isFruit)
         {
-            if (!farm.hasHoe())
+            if (!farm.tillBlock(bc))
             {
-                farm.setNotification("noHoe");
+                if (!farm.hasHoe())
+                {
+                    farm.setNotification("noHoe");
+                }
+                return false;
             }
-            return false;
         }
-        
+
         ItemKCSeed seed = (ItemKCSeed) seedStack.getItem();
         if (seed.onItemUse(seedStack, farm.getFakePlayer(), farm.getWorldObj(), bc.x, bc.y - 1, bc.z, 1, 0.5f, 0.5f, 0.5f))
         {
@@ -68,24 +74,4 @@ public class EnderIOCompat extends PlantableFarmer implements ICompatability
 
         return false;
     }
-
-    // Complications involving IGrowable
-    // @Override
-    // public IHarvestResult harvestBlock(TileFarmStation farm, BlockCoord bc, Block block, int meta)
-    // {
-    // World world = farm.getWorldObj();
-    // TileEntity te = world.getTileEntity(bc.x, bc.y, bc.z);
-    // if (te != null && te instanceof TileKCPlant)
-    // {
-    // BlockKCPlant plantBlock = (BlockKCPlant) block;
-    // int dmg = plantBlock.getFood(world, bc.x, bc.y, bc.z).getItemDamage();
-    // HarvestResult result = new HarvestResult();
-    // result.getHarvestedBlocks().add(bc);
-    // result.getDrops().add(new EntityItem(world, bc.x, bc.y, bc.z, new ItemStack(KCItems.veggie, world.rand.nextInt(4) + 1, dmg)));
-    // result.getDrops().add(new EntityItem(world, bc.x, bc.y, bc.z, new ItemStack(KCItems.seed, world.rand.nextInt(3) + 1, dmg)));
-    // world.setBlockToAir(bc.x, bc.y, bc.z);
-    // return result;
-    // }
-    // return null;
-    // }
 }

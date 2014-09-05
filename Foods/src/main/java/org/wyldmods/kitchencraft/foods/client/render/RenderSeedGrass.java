@@ -30,6 +30,7 @@ public class RenderSeedGrass implements ISimpleBlockRenderingHandler
         double minV = seedIcon.getMinV(), maxV = seedIcon.getMaxV();
                 
         tessellator.setColorOpaque_F(1, 1, 1);
+        tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y + 1, z));
         
         double pY = y + 1.0001;
 

@@ -45,6 +45,7 @@ public class ItemKCFood extends ItemFood
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
+        if ((isWolfsFavoriteMeat() && meats.size() == 0) || (!isWolfsFavoriteMeat() && veggies.size() == 0)) return "null";
         return "item.kc." + (isWolfsFavoriteMeat() ? meats.get(stack.getItemDamage()).name : veggies.get(stack.getItemDamage()).name);
     }
 
@@ -78,7 +79,14 @@ public class ItemKCFood extends ItemFood
     @SideOnly(Side.CLIENT)
     private String getName(int damage)
     {
-        return isWolfsFavoriteMeat() ? meats.get(damage).name : veggies.get(damage).name;
+        if (isWolfsFavoriteMeat())
+        {
+            return meats.isEmpty() ? "null" : meats.get(damage % meats.size()).name;
+        }
+        else
+        {
+            return veggies.isEmpty() ? "null" : veggies.get(damage % veggies.size()).name;
+        }
     }
 
     @SideOnly(Side.CLIENT)
@@ -120,7 +128,11 @@ public class ItemKCFood extends ItemFood
     {
         FoodType type = getFoodType(stack);
 
-        if (type.flavorText != null)
+        if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("LOL"))
+        {
+            list.add("§cT§6R§eO§aL§9O§5L§cO§6L\n");
+        }
+        else if (type.flavorText != null)
         {
             String text = type.flavorText;
             text += "\n ";

@@ -33,7 +33,11 @@ public class WailaCompat implements IWailaDataProvider
     {
         IKCPlant plant = (IKCPlant) accessor.getBlock();
         MovingObjectPosition p = accessor.getPosition();
-        currenttip.add(0, (currenttip.isEmpty() ? plant.getFood(accessor.getWorld(), p.blockX, p.blockY, p.blockZ).getDisplayName() : currenttip.get(0)) + " " + plant.getSuffix());
+        ItemStack food = getFoodStackFrom(accessor);
+        if (food != accessor.getStack())
+        {
+            currenttip.add(0, (currenttip.isEmpty() ? plant.getFood(accessor.getWorld(), p.blockX, p.blockY, p.blockZ).getDisplayName() : currenttip.get(0)) + " " + plant.getSuffix());
+        }
         return currenttip;
     }
 
@@ -53,6 +57,7 @@ public class WailaCompat implements IWailaDataProvider
     {
         IKCPlant block = (IKCPlant) accessor.getBlock();
         MovingObjectPosition pos = accessor.getPosition();
-        return block.getFood(accessor.getWorld(), pos.blockX, pos.blockY, pos.blockZ);
+        ItemStack food = block.getFood(accessor.getWorld(), pos.blockX, pos.blockY, pos.blockZ);
+        return food == null ? accessor.getStack() : food;
     }
 }

@@ -1,6 +1,8 @@
 tile.kc.pot.name=Pot
 tile.kc.oven.name=Oven
 tile.kc.oven.rf.name=RF Oven
+tile.kc.leaves.name=Fruit Tree Leaves
+tile.kc.sapling.name=Fruit Sapling
 
 itemGroup.tabKC.foods=KitchenCraft Foods
 itemGroup.tabKC.machines=KitchenCraft Machines
@@ -15,3 +17,5 @@ kc.tooltip.seed=Seed
 kc.tooltip.whenEaten=When Eaten:
 kc.tooltip.seconds=Seconds
 kc.tooltip.pressShift=Press %sShift%s for Food Info
+kc.tooltip.leaves=Leaves
+kc.tooltip.sapling=Sapling
