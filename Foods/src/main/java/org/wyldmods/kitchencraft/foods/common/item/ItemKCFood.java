@@ -45,7 +45,8 @@ public class ItemKCFood extends ItemFood
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
-        if ((isWolfsFavoriteMeat() && meats.size() == 0) || (!isWolfsFavoriteMeat() && veggies.size() == 0)) return "null";
+        if ((isWolfsFavoriteMeat() && meats.size() == 0) || (!isWolfsFavoriteMeat() && veggies.size() == 0))
+            return "null";
         return "item.kc." + (isWolfsFavoriteMeat() ? meats.get(stack.getItemDamage()).name : veggies.get(stack.getItemDamage()).name);
     }
 
@@ -203,30 +204,32 @@ public class ItemKCFood extends ItemFood
     @Override
     public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
     {
-        PotionEntry[] potions = getFoodType(stack).effects;
-        for (PotionEntry p : potions)
+        if (!world.isRemote)
         {
-            Potion effect = null;
-            for (Potion potion : Potion.potionTypes)
+            PotionEntry[] potions = getFoodType(stack).effects;
+            for (PotionEntry p : potions)
             {
-                if (potion != null && potion.getName().equals(p.name))
+                Potion effect = null;
+                for (Potion potion : Potion.potionTypes)
                 {
-                    effect = potion;
-                    break;
+                    if (potion != null && potion.getName().equals(p.name))
+                    {
+                        effect = potion;
+                        break;
+                    }
+                }
+
+                if (effect == null)
+                    continue;
+
+                if (world.rand.nextDouble() < p.chance)
+                {
+                    PotionEffect active = player.getActivePotionEffect(effect);
+                    int activeDuration = active == null ? 0 : active.getDuration();
+                    player.addPotionEffect(new PotionEffect(effect.id, activeDuration + p.time, p.level));
                 }
             }
-
-            if (effect == null)
-                continue;
-
-            if (world.rand.nextDouble() < p.chance)
-            {
-                PotionEffect active = player.getActivePotionEffect(effect);
-                int activeDuration = active == null ? 0 : active.getDuration();
-                player.addPotionEffect(new PotionEffect(effect.id, activeDuration + p.time, p.level));
-            }
         }
-
         return super.onEaten(stack, world, player);
     }
 }

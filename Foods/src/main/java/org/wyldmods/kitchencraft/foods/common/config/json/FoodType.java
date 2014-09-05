@@ -50,7 +50,7 @@ public class FoodType
     private static final Random rand = new Random();
 
     /* JSON fields @formatter:off*/
-    public String  name                 = "null";
+    public String        name           =  "null";
     public int           food           =  4;
     public float         saturation     =  0.2f;
     public boolean       isMeat         =  false;
