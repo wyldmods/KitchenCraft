@@ -19,3 +19,5 @@ kc.tooltip.seconds=Seconds
 kc.tooltip.pressShift=Press %sShift%s for Food Info
 kc.tooltip.leaves=Leaves
 kc.tooltip.sapling=Sapling
+kc.tooltip.fruitSeed=Grows a tree. Planted on grass.
+kc.tooltip.veggieSeed=Grows a plant. Planted on farmland.

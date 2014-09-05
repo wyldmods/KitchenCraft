@@ -10,6 +10,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -97,5 +98,13 @@ public class ItemKCSeed extends Item
             }
         }
         return false;
+    }
+    
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Override
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean held)
+    {
+        FoodType type = FoodType.veggies.get(stack.getItemDamage());
+        list.add(EnumChatFormatting.AQUA + (type.isFruit ? KitchenCraftFoods.lang.localize("tooltip.fruitSeed") : KitchenCraftFoods.lang.localize("tooltip.veggieSeed")));
     }
 }

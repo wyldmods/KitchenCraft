@@ -137,6 +137,12 @@ public class BlockOven extends BlockContainerKC
         par1World.setBlockMetadataWithNotify(x, y, z, whichDirectionFacing + (type * 8), 2);
     }
 
+    @Override
+    public int damageDropped(int meta)
+    {
+        return (meta & 8) >> 3;
+    }
+    
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, int x, int y, int z, Random rand)
     {

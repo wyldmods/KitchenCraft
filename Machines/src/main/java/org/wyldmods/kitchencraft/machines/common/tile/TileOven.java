@@ -234,9 +234,9 @@ public class TileOven extends TileKCInventory implements ISidedInventory
         case 0:
             return new int[] { cooked, fuel };
         case 1:
-            return new int[] { uncooked };
-        default:
             return new int[] { fuel };
+        default:
+            return new int[] { uncooked };
         }
     }
     
