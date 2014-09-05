@@ -2,9 +2,10 @@ package org.wyldmods.kitchencraft.foods.common.config;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.net.URL;
-import java.util.Scanner;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
@@ -25,6 +26,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 
@@ -225,16 +227,9 @@ public class ConfigurationHandler
         if (!f.exists())
             copyFromJar(filename, f);
 
-        String json = "";
+        Reader in = new FileReader(f);
 
-        Scanner scan = new Scanner(f);
-        while (scan.hasNextLine())
-        {
-            json += scan.nextLine() + "\n";
-        }
-        scan.close();
-
-        return (JsonObject) new JsonParser().parse(json);
+        return (JsonObject) new JsonParser().parse(in);
     }
 
     static void copyFromJar(String filename, File to) throws IOException
