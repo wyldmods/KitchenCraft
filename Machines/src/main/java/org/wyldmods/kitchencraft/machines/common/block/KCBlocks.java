@@ -1,6 +1,7 @@
 package org.wyldmods.kitchencraft.machines.common.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -38,12 +39,13 @@ public class KCBlocks
     {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(oven, 1, 0), 
                 "cbc",
-                "c c",
+                "cFc",
                 "cfc",
                 
                 'c', "cobblestone",
                 'b', "barsIron",
-                'f', Items.fire_charge
+                'F', Blocks.furnace,
+                'f', Items.flint_and_steel
         ));
         
         
@@ -59,12 +61,12 @@ public class KCBlocks
                 GameRegistry.addRecipe(new ShapedOreRecipe(res.copy(), 
                         "ibi",
                         "iri",
-                        "ifi",
+                        "ioi",
 
                         'i', "ingotIron",
                         'b', "barsIron",
                         'r', "blockRedstone",
-                        'f', Items.fire_charge
+                        'o', oven
                ));
             }
             else

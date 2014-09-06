@@ -3,6 +3,7 @@ package org.wyldmods.kitchencraft.foods.common.item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import org.apache.commons.lang3.StringUtils;
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
@@ -49,6 +50,7 @@ public class KCItems
         
         for (FoodType type : FoodType.veggies)
         {
+            OreDictionary.registerOre("seed" + StringUtils.capitalize(type.name), new ItemStack(seed, 1, FoodType.getFood(type.name).getItemDamage()));
             for (String name : type.oreDictNames)
             {
                 OreDictionary.registerOre(name, FoodType.getFood(type.name));

@@ -1,9 +1,10 @@
 package org.wyldmods.kitchencraft.foods.common.block;
 
+import net.minecraft.block.Block;
+
 import org.wyldmods.kitchencraft.foods.common.block.BlockKCLeaves.TileKCLeaves;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
 
 public class KCBlocks
 {

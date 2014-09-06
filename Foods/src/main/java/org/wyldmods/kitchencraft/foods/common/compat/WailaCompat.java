@@ -36,7 +36,7 @@ public class WailaCompat implements IWailaDataProvider
         ItemStack food = getFoodStackFrom(accessor);
         if (food != accessor.getStack())
         {
-            currenttip.add(0, (currenttip.isEmpty() ? plant.getFood(accessor.getWorld(), p.blockX, p.blockY, p.blockZ).getDisplayName() : currenttip.get(0)) + " " + plant.getSuffix());
+            currenttip.set(0, plant.getFood(accessor.getWorld(), p.blockX, p.blockY, p.blockZ).getDisplayName() + " " + plant.getSuffix());
         }
         return currenttip;
     }
