@@ -26,7 +26,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 
@@ -67,8 +66,7 @@ public class ConfigurationHandler
                 ResourcePackAssembler assembler = new ResourcePackAssembler(new File(parentDir.getAbsolutePath() + "/KC-Resource-Pack"));
                 buildTextures(assembler);
                 buildLang(assembler);
-                assembler.assemble();
-                assembler.inject(new File(parentDir.getParentFile().getParentFile().getAbsolutePath() + "/resourcepacks"));
+                assembler.assemble().inject(new File(parentDir.getParentFile().getParentFile().getAbsolutePath() + "/resourcepacks"));
             }
         }
         catch (IOException e)

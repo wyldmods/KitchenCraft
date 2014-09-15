@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
@@ -141,5 +142,16 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider, IKC
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
     {
         return new TileFood();
+    }
+    
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+    {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te != null && te instanceof TileFood)
+        {
+            return new ItemStack(KCItems.seed, 1, ((TileFood)te).getFood().getItemDamage());
+        }
+        return new ItemStack(KCItems.seed);
     }
 }

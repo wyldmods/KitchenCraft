@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -109,5 +110,28 @@ public class BlockKCLeaves extends BlockLeaves implements ITileEntityProvider, I
 
     private static final Random rand = new Random();
 
-    public static final class TileKCLeaves extends TileFood { public TileKCLeaves() {} public final int amnt = rand.nextInt(4) + 1; } // this exists for TESR purposes
+    public static final class TileKCLeaves extends TileFood 
+    { 
+        public int amnt = rand.nextInt(4) + 1;
+        
+        @Override
+        public double getMaxRenderDistanceSquared()
+        {
+            return 400D;
+        }
+        
+        @Override
+        public void writeToNBT(NBTTagCompound tag)
+        {
+            super.writeToNBT(tag);
+            tag.setInteger("fruitAmount", amnt);
+        }
+        
+        @Override
+        public void readFromNBT(NBTTagCompound tag)
+        {
+            super.readFromNBT(tag);
+            this.amnt = tag.getInteger("fruitAmount"); 
+        }
+    }
 }

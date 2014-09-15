@@ -6,6 +6,7 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -42,7 +43,13 @@ public class ContainerOven extends ContainerKC
 
     public static boolean checkInputSlot(ItemStack stack)
     {
-        return stack != null && FurnaceRecipes.smelting().getSmeltingResult(stack) != null && stack.getItem() instanceof ItemFood;
+        if (stack == null) return false;
+        
+        ItemStack out = FurnaceRecipes.smelting().getSmeltingResult(stack);
+        
+        if (out == null) return false;
+        
+        return (stack.getItem() instanceof ItemFood || out.getItem() instanceof ItemFood);
     }
 
     private class SlotOvenFuel extends Slot
