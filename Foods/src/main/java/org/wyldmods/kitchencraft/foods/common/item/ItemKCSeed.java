@@ -11,10 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -24,7 +21,7 @@ import org.wyldmods.kitchencraft.foods.common.block.IKCPlant;
 import org.wyldmods.kitchencraft.foods.common.block.KCBlocks;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 
-public class ItemKCSeed extends Item implements IPlantable
+public class ItemKCSeed extends Item
 {
     public ItemKCSeed()
     {
@@ -110,24 +107,4 @@ public class ItemKCSeed extends Item implements IPlantable
         FoodType type = FoodType.veggies.get(stack.getItemDamage());
         list.add(EnumChatFormatting.AQUA + (type.isFruit ? KitchenCraftFoods.lang.localize("tooltip.fruitSeed") : KitchenCraftFoods.lang.localize("tooltip.veggieSeed")));
     }
-
-    @Override
-    public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z)
-    {
-        return EnumPlantType.Crop;
-    }
-
-    @Override
-    public Block getPlant(IBlockAccess world, int x, int y, int z)
-    {
-        return KCBlocks.crop;
-    }
-
-    @Override
-    public int getPlantMetadata(IBlockAccess world, int x, int y, int z)
-    {
-        return 0;
-    }
-    
-    
 }
