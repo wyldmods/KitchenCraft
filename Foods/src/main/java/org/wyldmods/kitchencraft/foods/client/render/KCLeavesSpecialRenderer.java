@@ -32,7 +32,7 @@ public class KCLeavesSpecialRenderer extends TileEntitySpecialRenderer
 
             GL11.glPushMatrix();
             GL11.glTranslated(x, y, z);
-            RenderingUtils.render3DItem(item, partialTickTime, false);
+            RenderingUtils.render3DItem(item, false);
             GL11.glPopMatrix();
         }
         
