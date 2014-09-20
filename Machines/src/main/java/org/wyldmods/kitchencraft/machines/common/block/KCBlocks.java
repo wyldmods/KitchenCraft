@@ -73,12 +73,12 @@ public class KCBlocks
             {
                 GameRegistry.addRecipe(new ShapedOreRecipe(res.copy(), 
                         "sbs",
-                        "sfs",
+                        "sos",
                         "scs",
 
                         's', "stone",
                         'b', "barsIron",
-                        'f', machineChassis,
+                        'o', oven,
                         'c', capacitor
                 ));
             }
