@@ -31,12 +31,13 @@ public class KCBlocks
         GameRegistry.registerBlock(pot, "kc.pot");
 
         KitchenCraftMachines.tab.setDisplay(Item.getItemFromBlock(oven));
-        
+
         addRecipes();
     }
 
     private static void addRecipes()
     {
+        /* @formatter:off */
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(oven, 1, 0), 
                 "cbc",
                 "cFc",
@@ -55,7 +56,6 @@ public class KCBlocks
             Item capacitor = GameRegistry.findItem("EnderIO", "itemBasicCapacitor");
             ItemStack res = new ItemStack(KCBlocks.oven, 1, 1);
 
-            /* @formatter:off */
             if (machineChassis == null || capacitor == null)
             {
                 GameRegistry.addRecipe(new ShapedOreRecipe(res.copy(), 
