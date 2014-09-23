@@ -1,12 +1,15 @@
 package org.wyldmods.kitchencraft.foods.common.config.json;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Arrays;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+
+import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ShapedJsonRecipe
@@ -32,11 +35,11 @@ public class ShapedJsonRecipe
         {
             for (String s : arr)
             {
-                inputs.add(JsonRecipeUtils.parseStringIntoRecipeItem(s));
+                inputs.add(ConfigurationHandler.parseInputString(s));
             }
         }
 
-        ItemStack output = (ItemStack) JsonRecipeUtils.parseStringIntoRecipeItem(recipe.output, true);
+        ItemStack output = (ItemStack) ConfigurationHandler.parseInputString(recipe.output, true);
 
         Object[] recipeArr = new Object[height];
         String cur = null;

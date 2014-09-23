@@ -5,6 +5,9 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+
+import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ShapelessJsonRecipe
@@ -23,10 +26,10 @@ public class ShapelessJsonRecipe
         List<Object> inputs = new ArrayList<Object>();
         for (String input : recipe.input)
         {
-            inputs.add(JsonRecipeUtils.parseStringIntoRecipeItem(input));
+            inputs.add(ConfigurationHandler.parseInputString(input));
         }
         
-        ItemStack output = (ItemStack) JsonRecipeUtils.parseStringIntoRecipeItem(recipe.output, true);
+        ItemStack output = (ItemStack) ConfigurationHandler.parseInputString(recipe.output, true);
         
         output.stackSize = recipe.outputAmount;
         GameRegistry.addRecipe(new ShapelessOreRecipe(output, inputs.toArray()));

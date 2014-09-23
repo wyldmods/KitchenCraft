@@ -1,6 +1,9 @@
 package org.wyldmods.kitchencraft.foods.common.config.json;
 
 import net.minecraft.item.ItemStack;
+
+import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class SmeltingRecipeJson
@@ -16,8 +19,8 @@ public class SmeltingRecipeJson
             throw new InvalidSmeltingRecipeException((recipe.input == null ? "Input was null" : "Output was null") + ". You must define this value.");
         }
         
-        ItemStack input = (ItemStack) JsonRecipeUtils.parseStringIntoRecipeItem(recipe.input, true);
-        ItemStack output = (ItemStack) JsonRecipeUtils.parseStringIntoRecipeItem(recipe.output, true);
+        ItemStack input = (ItemStack) ConfigurationHandler.parseInputString(recipe.input, true);
+        ItemStack output = (ItemStack) ConfigurationHandler.parseInputString(recipe.output, true);
 
         output.stackSize = recipe.outputAmount;
         
