@@ -1,25 +1,25 @@
 package org.wyldmods.kitchencraft.foods.common.config;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.net.URL;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodTypeDropped;
-import org.wyldmods.kitchencraft.foods.common.config.json.JsonRecipeUtils;
 import org.wyldmods.kitchencraft.foods.common.config.json.ShapedJsonRecipe;
 import org.wyldmods.kitchencraft.foods.common.config.json.ShapelessJsonRecipe;
 import org.wyldmods.kitchencraft.foods.common.config.json.SmeltingRecipeJson;
+
+import tterrag.core.common.json.JsonUtils;
+import tterrag.core.common.util.IOUtils;
+import tterrag.core.common.util.ResourcePackAssembler;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -63,7 +63,7 @@ public class ConfigurationHandler
 
             if (FMLCommonHandler.instance().getEffectiveSide().isClient())
             {
-                ResourcePackAssembler assembler = new ResourcePackAssembler(new File(parentDir.getAbsolutePath() + "/KC-Resource-Pack"));
+                ResourcePackAssembler assembler = new ResourcePackAssembler(new File(parentDir.getAbsolutePath() + "/KC-Resource-Pack"), "KitchenCraft-Foods Resource Pack", Reference.MOD_ID_FOODS).setHasPackPng(KitchenCraftFoods.class);
                 buildTextures(assembler);
                 buildLang(assembler);
                 assembler.assemble().inject(new File(parentDir.getParentFile().getParentFile().getAbsolutePath() + "/resourcepacks"));
@@ -130,9 +130,7 @@ public class ConfigurationHandler
             iconDir.mkdir();
         }
 
-        FileFilter pngFilter = FileFilterUtils.suffixFileFilter(".png");
-
-        File[] icons = iconDir.listFiles(pngFilter);
+        File[] icons = iconDir.listFiles(IOUtils.pngFilter);
 
         for (File icon : icons)
         {
@@ -149,9 +147,7 @@ public class ConfigurationHandler
             cfgLangDir.mkdir();
         }
 
-        FileFilter langFilter = FileFilterUtils.suffixFileFilter(".lang");
-
-        File[] cfgLangs = cfgLangDir.listFiles(langFilter);
+        File[] cfgLangs = cfgLangDir.listFiles(IOUtils.langFilter);
 
         for (File inCfg : cfgLangs)
         {
@@ -183,7 +179,7 @@ public class ConfigurationHandler
         for (int i = 0; i < arr.size(); i++)
         {
             OreDictEntry entry = gson.fromJson(arr.get(i), OreDictEntry.class);
-            OreDictionary.registerOre(entry.name, (ItemStack) JsonRecipeUtils.parseStringIntoRecipeItem(entry.item, true));
+            OreDictionary.registerOre(entry.name, (ItemStack) ConfigurationHandler.parseInputString(entry.item, true));
         }
     }
 
@@ -232,9 +228,7 @@ public class ConfigurationHandler
 
     static void copyFromJar(String filename, File to) throws IOException
     {
-        KitchenCraftFoods.logger.info("Copying file " + filename + " from jar");
-        URL url = KitchenCraftFoods.class.getResource("/assets/kitchencraft/misc/" + filename);
-        FileUtils.copyURLToFile(url, to);
+        IOUtils.copyFromJar(KitchenCraftFoods.class, "/kitchencraft/misc/" + filename, to);
     }
 
     private static void loadStandardConfig(Configuration config)
@@ -244,6 +238,17 @@ public class ConfigurationHandler
         doFoodTooltips = config.get(Configuration.CATEGORY_GENERAL, "doFoodTooltips", doFoodTooltips, "Show hunger and saturation tooltips on food.").getBoolean();
 
         config.save();
+    }
+    
+    public static Object parseInputString(String string)
+    {
+        return parseInputString(string, false);
+    }
+    
+    public static Object parseInputString(String string, boolean forceItemStack)
+    {
+        ItemStack food = FoodType.getFood(string);
+        return food == null ? JsonUtils.parseStringIntoRecipeItem(string, forceItemStack) : food;
     }
     
     public static class OreDictEntry
