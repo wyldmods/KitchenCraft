@@ -63,7 +63,7 @@ public class ConfigurationHandler
 
             if (FMLCommonHandler.instance().getEffectiveSide().isClient())
             {
-                ResourcePackAssembler assembler = new ResourcePackAssembler(new File(parentDir.getAbsolutePath() + "/KC-Resource-Pack"), "KitchenCraft-Foods Resource Pack", Reference.MOD_ID_FOODS).setHasPackPng(KitchenCraftFoods.class);
+                ResourcePackAssembler assembler = new ResourcePackAssembler(new File(parentDir.getAbsolutePath() + "/KC-Resource-Pack"), "KitchenCraft-Foods Resource Pack", Reference.MOD_TEXTUREPATH).setHasPackPng(KitchenCraftFoods.class);
                 buildTextures(assembler);
                 buildLang(assembler);
                 assembler.assemble().inject(new File(parentDir.getParentFile().getParentFile().getAbsolutePath() + "/resourcepacks"));
