@@ -66,7 +66,7 @@ public class ConfigurationHandler
                 ResourcePackAssembler assembler = new ResourcePackAssembler(new File(parentDir.getAbsolutePath() + "/KC-Resource-Pack"), "KitchenCraft-Foods Resource Pack", Reference.MOD_TEXTUREPATH).setHasPackPng(KitchenCraftFoods.class);
                 buildTextures(assembler);
                 buildLang(assembler);
-                assembler.assemble().inject(new File(parentDir.getParentFile().getParentFile().getAbsolutePath() + "/resourcepacks"));
+                assembler.assemble().inject();
             }
         }
         catch (IOException e)
@@ -228,7 +228,7 @@ public class ConfigurationHandler
 
     static void copyFromJar(String filename, File to) throws IOException
     {
-        IOUtils.copyFromJar(KitchenCraftFoods.class, "/kitchencraft/misc/" + filename, to);
+        IOUtils.copyFromJar(KitchenCraftFoods.class, "kitchencraft/misc/" + filename, to);
     }
 
     private static void loadStandardConfig(Configuration config)
