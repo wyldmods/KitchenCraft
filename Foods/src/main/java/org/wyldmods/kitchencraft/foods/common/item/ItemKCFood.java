@@ -94,7 +94,7 @@ public class ItemKCFood extends ItemFood
     @Override
     public IIcon getIcon(ItemStack stack, int pass)
     {
-        return icons.get(getName(stack));
+        return getIconFromDamage(stack.getItemDamage());
     }
 
     @SideOnly(Side.CLIENT)
@@ -108,7 +108,8 @@ public class ItemKCFood extends ItemFood
     @Override
     public IIcon getIconFromDamage(int par1)
     {
-        return icons.get(getName(par1));
+        String name = getName(par1);
+        return name.equals("null") ? null : icons.get(name);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
