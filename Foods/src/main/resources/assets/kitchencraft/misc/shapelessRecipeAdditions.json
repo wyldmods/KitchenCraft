@@ -1,5 +1,75 @@
 {"recipes":
-	[
+    [
+	    {
+            "input":["minecraft:water_bucket"],
+            "output":"bottlewater",
+            "outputAmount":4
+        },
 
-	]
+        {
+        	"input":["rice", "salt", "bottlewater"],
+        	"output":"uncookedrice"
+        },
+
+        {
+        	"input":["minecraft:wheat", "minecraft:wheat", "salt", "bottlewater"],
+        	"output":"dough",
+        	"outputAmount":2
+        },
+
+        {
+        	"input":["minecraft:potato", "salt"],
+        	"output":"uncookedfrenchfries"
+        },
+
+        {
+        	"input":["bean", "bean", "salt", "bottlewater"],
+        	"output":"uncookedbeans"
+        },
+
+        {
+        	"input":["dough", "foodFruit", "foodFruit", "minecraft:sugar", "bottlewater"],
+        	"output":"uncookedfruitpie"
+        },
+
+        {
+        	"input":["bottlewater", "tealeaves", "minecraft:sugar"],
+        	"output":"uncookedtea"
+        },
+
+        {
+        	"input":["minecraft:baked_potato", "salt", "onion"],
+        	"output":"homefries"
+        },
+
+        {
+        	"input":["friedegg", "bacon", "homefries", "toast"],
+        	"output":"ultimatebreakfast"
+        },
+
+        {
+        	"input":["steamedrice", "onion", "minecraft:carrot", "foodMeat"],
+        	"output":"friedrice"
+        },
+
+        {
+        	"input":["steamedrice", "broccoli", "minecraft:cooked_beef", "sugar"],
+        	"output":"beefbroccoli"
+        },
+
+        {
+        	"input":["lettuce", "onion", "minecraft:bowl"],
+        	"output":"springsalad"
+        },
+
+        {
+        	"input":["steamedrice", "cookedbeans", "onion"],
+        	"output":"beansrice"
+        },
+
+        {
+            "input":["batwing", "minecraft:wheat", "salt", "minecraft:egg"],
+            "output":"uncookedbatwing"
+        }
+    ]
 }

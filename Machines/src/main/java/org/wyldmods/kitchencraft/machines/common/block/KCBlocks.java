@@ -5,6 +5,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import org.wyldmods.kitchencraft.machines.KitchenCraftMachines;
@@ -46,7 +47,7 @@ public class KCBlocks
                 'c', "cobblestone",
                 'b', "barsIron",
                 'F', Blocks.furnace,
-                'f', Items.flint_and_steel
+                'f', new ItemStack(Items.flint_and_steel, 1, OreDictionary.WILDCARD_VALUE)
         ));
         
         

@@ -27,8 +27,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-
 public class ConfigurationHandler
 {
     static File parentDir;
@@ -61,13 +59,12 @@ public class ConfigurationHandler
         {
             loadStandardConfig(config);
 
-            if (FMLCommonHandler.instance().getEffectiveSide().isClient())
-            {
-                ResourcePackAssembler assembler = new ResourcePackAssembler(new File(parentDir.getAbsolutePath() + "/KC-Resource-Pack"), "KitchenCraft-Foods Resource Pack", Reference.MOD_TEXTUREPATH).setHasPackPng(KitchenCraftFoods.class);
-                buildTextures(assembler);
-                buildLang(assembler);
-                assembler.assemble().inject();
-            }
+            initializeDefaultPack();
+            ResourcePackAssembler assembler = new ResourcePackAssembler(new File(parentDir.getAbsolutePath() + "/KC-Resource-Pack"), "KitchenCraft-Foods Resource Pack",
+                    Reference.MOD_TEXTUREPATH).setHasPackPng(KitchenCraftFoods.class);
+            buildTextures(assembler);
+            buildLang(assembler);
+            assembler.assemble().inject();
         }
         catch (IOException e)
         {
@@ -88,7 +85,7 @@ public class ConfigurationHandler
             throw new RuntimeException(e);
         }
     }
-    
+
     public static void postInit()
     {
         try
@@ -127,7 +124,7 @@ public class ConfigurationHandler
 
         if (!iconDir.exists())
         {
-            iconDir.mkdir();
+            iconDir.mkdirs();
         }
 
         File[] icons = iconDir.listFiles(IOUtils.pngFilter);
@@ -144,7 +141,7 @@ public class ConfigurationHandler
 
         if (!cfgLangDir.exists())
         {
-            cfgLangDir.mkdir();
+            cfgLangDir.mkdirs();
         }
 
         File[] cfgLangs = cfgLangDir.listFiles(IOUtils.langFilter);
@@ -170,11 +167,11 @@ public class ConfigurationHandler
     {
         return obj.has("animals") || obj.has("blocks");
     }
-    
+
     private static void loadOreDictJson() throws IOException
     {
         JsonObject entries = initializeJson(oreDictJsonName, oreDictJson);
-        
+
         JsonArray arr = (JsonArray) entries.get("entries");
         for (int i = 0; i < arr.size(); i++)
         {
@@ -239,18 +236,34 @@ public class ConfigurationHandler
 
         config.save();
     }
-    
+
+    private static void initializeDefaultPack() throws IOException
+    {
+        File iconsDir = new File(parentDir.getAbsolutePath() + "/icons");
+        File langDir = new File(parentDir.getAbsolutePath() + "/lang");
+
+        if (!iconsDir.exists())
+        {
+            copyFromJar("icons", iconsDir);
+        }
+        
+        if (!langDir.exists())
+        {
+            copyFromJar("lang", langDir);
+        }
+    }
+
     public static Object parseInputString(String string)
     {
         return parseInputString(string, false);
     }
-    
+
     public static Object parseInputString(String string, boolean forceItemStack)
     {
         ItemStack food = FoodType.getFood(string);
         return food == null ? JsonUtils.parseStringIntoRecipeItem(string, forceItemStack) : food;
     }
-    
+
     public static class OreDictEntry
     {
         public String item;
