@@ -36,7 +36,7 @@ public class GuiOven extends GuiContainer
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        this.fontRendererObj.drawString(StatCollector.translateToLocal("kc.oven.text" + (rf ? ".rf" : "")), rf ? 20 : 5, 5, 0x404040);
+        this.fontRendererObj.drawString(StatCollector.translateToLocal("kc.oven.text" + (rf ? ".rf" : "")), rf ? 23 : 5,  rf ? 8 : 5, rf ? 0xFFFFFF : 0x404040);
 
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;

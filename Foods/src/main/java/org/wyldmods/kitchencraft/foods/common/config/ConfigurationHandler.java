@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 
+import org.apache.commons.io.FileUtils;
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
@@ -58,8 +59,8 @@ public class ConfigurationHandler
         try
         {
             loadStandardConfig(config);
-
-            initializeDefaultPack();
+            initializeDefaults();
+            
             ResourcePackAssembler assembler = new ResourcePackAssembler(new File(parentDir.getAbsolutePath() + "/KC-Resource-Pack"), "KitchenCraft-Foods Resource Pack",
                     Reference.MOD_TEXTUREPATH).setHasPackPng(KitchenCraftFoods.class);
             buildTextures(assembler);
@@ -237,19 +238,23 @@ public class ConfigurationHandler
         config.save();
     }
 
-    private static void initializeDefaultPack() throws IOException
+    private static void initializeDefaults() throws IOException
     {
         File iconsDir = new File(parentDir.getAbsolutePath() + "/icons");
         File langDir = new File(parentDir.getAbsolutePath() + "/lang");
-
-        if (!iconsDir.exists())
-        {
-            copyFromJar("icons", iconsDir);
-        }
+        File defaultZip = new File(parentDir.getAbsolutePath() + "/defaultPack.zip");
         
-        if (!langDir.exists())
+        boolean iconsExist = iconsDir.exists();
+        boolean langsExist = langDir.exists();
+        
+        if (!iconsExist || !langsExist)
         {
-            copyFromJar("lang", langDir);
+            copyFromJar("defaultPack.zip", defaultZip);
+            File output = IOUtils.extractZip(defaultZip);
+            FileUtils.copyDirectory(new File(output.getAbsolutePath() + "/icons"), iconsDir);
+            FileUtils.copyDirectory(new File(output.getAbsolutePath() + "/lang"), langDir);
+            FileUtils.deleteDirectory(output);
+            defaultZip.delete();
         }
     }
 
