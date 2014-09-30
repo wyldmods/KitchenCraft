@@ -7,7 +7,8 @@
 		"color": 8112513,
 		"makeSeed": true,
 		"isEdible": true,
-		"seedRecipe": true
+		"seedRecipe": true,
+		"oreDictNames":["foodVeggie"]
 	},
 
 	{
@@ -18,7 +19,8 @@
 		"color": 15790028,
 		"makeSeed": true,
 		"isEdible": true,
-		"seedRecipe": true
+		"seedRecipe": true,
+		"oreDictNames":["foodCrop", "foodVeggie"]
 	},
 
 	{
@@ -51,7 +53,8 @@
 		"color": 10932637,
 		"makeSeed": true,
 		"isEdible": true,
-		"seedRecipe": true
+		"seedRecipe": true,
+		"oreDictNames":["foodVeggie"]
 	},
 
 	{
@@ -81,7 +84,8 @@
 		"name": "salt",
 		"isMeat": false,
 		"makeSeed": false,
-		"isEdible": false
+		"isEdible": false,
+		"oreDictNames":["itemSalt"]
 	},
 
 	{

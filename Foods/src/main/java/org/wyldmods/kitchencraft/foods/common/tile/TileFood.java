@@ -14,7 +14,9 @@ import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
 public class TileFood extends TileEntity
 {
-    private ItemStack food = new ItemStack(KCItems.veggie, 1, 0);
+    private static final ItemStack defaultFood = new ItemStack(KCItems.veggie, 1, 0);
+
+    private ItemStack food = defaultFood.copy();
     
     public void setFoodType(String name)
     {
@@ -42,6 +44,12 @@ public class TileFood extends TileEntity
     public void writeToNBT(NBTTagCompound tag)
     {
         super.writeToNBT(tag);
+        
+        if (food == null)
+        {
+            food = defaultFood.copy();
+        }
+        
         tag.setString("foodType", FoodType.getFoodType(food).name);
     }
     
@@ -50,6 +58,11 @@ public class TileFood extends TileEntity
     {
         super.readFromNBT(tag);
         this.food = FoodType.getFood(tag.getString("foodType"));
+        
+        if (food == null)
+        {
+            food = defaultFood.copy();
+        }
     }
     
     @Override

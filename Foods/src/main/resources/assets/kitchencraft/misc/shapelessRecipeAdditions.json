@@ -7,23 +7,23 @@
         },
 
         {
-        	"input":["rice", "salt", "bottlewater"],
+        	"input":["rice", "itemSalt", "bottlewater"],
         	"output":"uncookedrice"
         },
 
         {
-        	"input":["minecraft:wheat", "minecraft:wheat", "salt", "bottlewater"],
+        	"input":["minecraft:wheat", "minecraft:wheat", "itemSalt", "bottlewater"],
         	"output":"dough",
         	"outputAmount":2
         },
 
         {
-        	"input":["minecraft:potato", "salt"],
+        	"input":["minecraft:potato", "itemSalt"],
         	"output":"uncookedfrenchfries"
         },
 
         {
-        	"input":["bean", "bean", "salt", "bottlewater"],
+        	"input":["bean", "bean", "itemSalt", "bottlewater"],
         	"output":"uncookedbeans"
         },
 
@@ -38,7 +38,7 @@
         },
 
         {
-        	"input":["minecraft:baked_potato", "salt", "onion"],
+        	"input":["minecraft:baked_potato", "itemSalt", "onion"],
         	"output":"homefries"
         },
 
@@ -68,7 +68,7 @@
         },
 
         {
-            "input":["batwing", "minecraft:wheat", "salt", "minecraft:egg"],
+            "input":["batwing", "minecraft:wheat", "itemSalt", "minecraft:egg"],
             "output":"uncookedbatwing"
         }
     ]

@@ -1,11 +1,6 @@
 {"entries":
     [
     	{
-    		"item":"onion",
-    		"name":"foodCrop"
-    	},
-
-    	{
     		"item":"minecraft:carrot",
     		"name":"foodCrop"
     	},
@@ -82,21 +77,6 @@
 
         {
             "item":"minecraft:potato",
-            "name":"foodVeggie"
-        },
-
-        {
-            "item":"lettuce",
-            "name":"foodVeggie"
-        },
-
-        {
-            "item":"onion",
-            "name":"foodVeggie"
-        },
-
-        {
-            "item":"broccoli",
             "name":"foodVeggie"
         }
     ]

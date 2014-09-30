@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 
 import org.wyldmods.kitchencraft.foods.common.block.IKCPlant;
@@ -36,7 +37,7 @@ public class WailaCompat implements IWailaDataProvider
         ItemStack food = getFoodStackFrom(accessor);
         if (food != accessor.getStack())
         {
-            currenttip.set(0, plant.getFood(accessor.getWorld(), p.blockX, p.blockY, p.blockZ).getDisplayName() + " " + plant.getSuffix());
+            currenttip.set(0, EnumChatFormatting.WHITE + plant.getFood(accessor.getWorld(), p.blockX, p.blockY, p.blockZ).getDisplayName() + " " + plant.getSuffix());
         }
         return currenttip;
     }
