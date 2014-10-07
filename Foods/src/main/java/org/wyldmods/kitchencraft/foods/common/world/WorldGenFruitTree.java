@@ -133,7 +133,7 @@ public class WorldGenFruitTree extends WorldGenAbstractTree
         {
             if (world.rand.nextInt(10) == 0)
             {
-                this.setBlockAndNotifyAdequately(world, x, y, z, KCBlocks.fruityLeaves, 0);
+                world.setBlock(x, y, z, KCBlocks.fruityLeaves, 0, 3);
                 ((IKCPlant) world.getBlock(x, y, z)).setFood(FoodType.getStackFor(type), world, x, y, z);
                 world.markBlockForUpdate(x, y, z);
             }
