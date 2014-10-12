@@ -1,0 +1,25 @@
+tile.kc.pot.name=Горшок
+tile.kc.oven.name=Печь
+tile.kc.oven.rf.name=RF-печь
+tile.kc.leaves.name=Листва фруктового дерева
+tile.kc.sapling.name=Фруктовый саженец
+
+itemGroup.tabKC.foods=KitchenCraft: Еда
+itemGroup.tabKC.machines=KitchenCraft: Механизмы
+
+kc.oven.text=Печь
+kc.oven.text.rf=RF-печь
+
+kc.tooltip.hunger=Голода восстановлено:
+kc.tooltip.saturation=Насыщения дано:
+kc.tooltip.unchanged=Неизменено
+kc.tooltip.plant=Растение
+kc.tooltip.seed=Семя
+kc.tooltip.whenEaten=Когда съедено:
+kc.tooltip.seconds=секунд(-ы)
+kc.tooltip.pressShift=Нажмите %sShift%s для информации о еде
+kc.tooltip.mod_pressShift=Изменено! Нажмите %sShift%s для информации
+kc.tooltip.leaves=Листва
+kc.tooltip.sapling=Саженец
+kc.tooltip.fruitSeed=Выращивает дерево. Растёт на траве.
+kc.tooltip.veggieSeed=Выращивает растение. Растёт на пашне.
