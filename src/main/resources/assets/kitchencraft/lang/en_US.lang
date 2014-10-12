@@ -12,11 +12,13 @@ kc.oven.text.rf=RF Oven
 
 kc.tooltip.hunger=Hunger Restored:
 kc.tooltip.saturation=Saturation Given:
+kc.tooltip.unchanged=Unchanged
 kc.tooltip.plant=Plant
 kc.tooltip.seed=Seed
 kc.tooltip.whenEaten=When Eaten:
 kc.tooltip.seconds=Seconds
 kc.tooltip.pressShift=Press %sShift%s for Food Info
+kc.tooltip.mod_pressShift=Modified! Press %sShift%s for Info
 kc.tooltip.leaves=Leaves
 kc.tooltip.sapling=Sapling
 kc.tooltip.fruitSeed=Grows a tree. Planted on grass.

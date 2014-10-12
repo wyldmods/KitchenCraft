@@ -1,0 +1,13 @@
+{"mods":
+	[
+        {
+            "item":"minecraft:cooked_porkchop",
+            "food": 1,
+            "effects":[{
+                "name": "potion.poison",
+                "time": 180,
+                "chance": 1
+            }]
+        }
+    ]
+}

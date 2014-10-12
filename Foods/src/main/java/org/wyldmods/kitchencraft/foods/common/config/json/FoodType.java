@@ -63,7 +63,8 @@ public class FoodType
     public boolean       isDrink        =  false;
     public boolean       isAlwaysEdible =  false;
     public String[]      oreDictNames   =  {};
-    public String        flavorText     =  null;                                    // will be handled appropriately
+    public String        flavorText     =  null;   // will be handled appropriately
+    public String        container      =  null;
     /* end JSON fields @formatter:on*/
 
     public FoodType()
