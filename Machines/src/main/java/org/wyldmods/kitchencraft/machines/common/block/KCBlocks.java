@@ -26,7 +26,11 @@ public class KCBlocks
         oven = new BlockOven();
         GameRegistry.registerBlock(oven, ItemBlockOven.class, "kc.oven");
         GameRegistry.registerTileEntity(TileOven.class, "kc.oven.fuel");
-        GameRegistry.registerTileEntity(TileOvenRF.class, "kc.oven.rf");
+
+        if (KitchenCraftMachines.loadRF())
+        {
+            GameRegistry.registerTileEntity(TileOvenRF.class, "kc.oven.rf");
+        }
 
         pot = new BlockPot();
         GameRegistry.registerBlock(pot, "kc.pot");
