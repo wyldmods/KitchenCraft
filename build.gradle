@@ -89,7 +89,7 @@ subprojects {
 	}
 
 	dependencies {
-		compile "tterrag.core:ttCore:MC1.7.10-0.0.2-18"
+		compile "tterrag.core:ttCore:MC1.7.10-0.0.2-22"
 		compile "mcp.mobius.waila:Waila:1.5.3a_1.7.10"
 		compile "com.enderio:EnderIO:1.7.10-2.0.4.211"
 		compile "applecore:AppleCore:1.7.10-1.0.0+79.c2865:api"

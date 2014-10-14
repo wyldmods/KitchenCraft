@@ -268,8 +268,8 @@ public class ConfigurationHandler
             File output = IOUtils.extractZip(defaultZip);
             FileUtils.copyDirectory(new File(output.getAbsolutePath() + "/icons"), iconsDir);
             FileUtils.copyDirectory(new File(output.getAbsolutePath() + "/lang"), langDir);
-            FileUtils.deleteDirectory(output);
-            defaultZip.delete();
+            IOUtils.safeDeleteDirectory(output);
+            IOUtils.safeDelete(defaultZip);
         }
     }
 
