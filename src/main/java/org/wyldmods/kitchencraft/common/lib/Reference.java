@@ -15,7 +15,7 @@ public class Reference
     public static final String MOD_TEXTUREPATH = "kitchencraft";
     public static final String VERSION = "0.0.1";
     
-    public static final String DEPENDENCIES = "required-after:ttCore@[MC1.7.10-0.0.2-22,);"
+    public static final String DEPENDENCIES = "required-after:ttCore@[MC1.7.10-0.1.0-39,);"
                                             + "after:Waila;"
                                             + "after:EnderIO;"
                                             + "after:magicalcrops;"
