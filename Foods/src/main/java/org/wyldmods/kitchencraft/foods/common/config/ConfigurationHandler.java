@@ -35,6 +35,7 @@ public class ConfigurationHandler
     static File configFile, foodJson, smeltingJson, shapelessRecipesJson, shapedRecipesJson, oreDictJson, foodModsJson;
 
     public static boolean doFoodTooltips = true;
+    public static boolean allowRightClickHarvest = true;
 
     static final String foodJsonName            = "foodAdditions.json";
     static final String smeltingJsonName        = "smeltingAdditions.json";
@@ -249,7 +250,8 @@ public class ConfigurationHandler
         config.load();
 
         doFoodTooltips = config.get(Configuration.CATEGORY_GENERAL, "doFoodTooltips", doFoodTooltips, "Show hunger and saturation tooltips on food.").getBoolean();
-
+        allowRightClickHarvest = config.get(Configuration.CATEGORY_GENERAL, "allowRightClickHarvest", allowRightClickHarvest, "Allows crops to be harvested with a right click.").getBoolean();
+        
         config.save();
     }
 

@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -18,6 +19,7 @@ import net.minecraftforge.common.EnumPlantType;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
+import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 import org.wyldmods.kitchencraft.foods.common.tile.TileFood;
@@ -112,6 +114,29 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider, IKC
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta)
     {
+        dropItems(world, x, y, z, meta);
+        super.breakBlock(world, x, y, z, block, meta);
+    }
+    
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
+            float hitY, float hitZ)
+    {
+        int meta = world.getBlockMetadata(x, y, z);
+        if (meta >= 7 && ConfigurationHandler.allowRightClickHarvest)
+        {
+            if (!world.isRemote)
+            {
+                dropItems(world, x, y, z, meta);
+                world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    private void dropItems(World world, int x, int y, int z, int meta)
+    {
         if (meta <= 6)
         {
             dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.seed, world.rand.nextInt(Math.max(1, meta / 2)) + 1, getFood(world, x, y, z).getItemDamage())); // add small seed bonus to higher metas
@@ -122,8 +147,6 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider, IKC
             dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.veggie, world.rand.nextInt(4) + 1, dmg));
             dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.seed, world.rand.nextInt(3) + 1, dmg));
         }
-        
-        super.breakBlock(world, x, y, z, block, meta);
     }
     
     @Override
