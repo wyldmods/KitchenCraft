@@ -25,7 +25,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Handler(types = HandlerType.FORGE)
+@Handler(HandlerType.FORGE)
 public class FoodModificationsHandler
 {
     @Optional.Method(modid = "AppleCore")

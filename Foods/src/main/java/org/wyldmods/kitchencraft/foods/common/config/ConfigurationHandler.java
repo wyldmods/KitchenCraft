@@ -20,7 +20,7 @@ import org.wyldmods.kitchencraft.foods.common.config.json.ShapelessJsonRecipe;
 import org.wyldmods.kitchencraft.foods.common.config.json.SmeltingRecipeJson;
 
 import tterrag.core.common.json.JsonUtils;
-import tterrag.core.common.util.IOUtils;
+import tterrag.core.common.util.TTFileUtils;
 import tterrag.core.common.util.ResourcePackAssembler;
 
 import com.google.gson.Gson;
@@ -132,7 +132,7 @@ public class ConfigurationHandler
             iconDir.mkdirs();
         }
 
-        File[] icons = iconDir.listFiles(IOUtils.pngFilter);
+        File[] icons = iconDir.listFiles(TTFileUtils.pngFilter);
 
         for (File icon : icons)
         {
@@ -149,7 +149,7 @@ public class ConfigurationHandler
             cfgLangDir.mkdirs();
         }
 
-        File[] cfgLangs = cfgLangDir.listFiles(IOUtils.langFilter);
+        File[] cfgLangs = cfgLangDir.listFiles(TTFileUtils.langFilter);
 
         for (File inCfg : cfgLangs)
         {
@@ -241,7 +241,7 @@ public class ConfigurationHandler
 
     static void copyFromJar(String filename, File to) throws IOException
     {
-        IOUtils.copyFromJar(KitchenCraftFoods.class, "kitchencraft/misc/" + filename, to);
+        TTFileUtils.copyFromJar(KitchenCraftFoods.class, "kitchencraft/misc/" + filename, to);
     }
 
     private static void loadStandardConfig(Configuration config)
@@ -265,11 +265,11 @@ public class ConfigurationHandler
         if (!iconsExist || !langsExist)
         {
             copyFromJar("defaultPack.zip", defaultZip);
-            File output = IOUtils.extractZip(defaultZip);
+            File output = TTFileUtils.extractZip(defaultZip);
             FileUtils.copyDirectory(new File(output.getAbsolutePath() + "/icons"), iconsDir);
             FileUtils.copyDirectory(new File(output.getAbsolutePath() + "/lang"), langDir);
-            IOUtils.safeDeleteDirectory(output);
-            IOUtils.safeDelete(defaultZip);
+            TTFileUtils.safeDeleteDirectory(output);
+            TTFileUtils.safeDelete(defaultZip);
         }
     }
 
