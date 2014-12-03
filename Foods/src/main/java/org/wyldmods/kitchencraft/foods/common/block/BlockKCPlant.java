@@ -114,7 +114,7 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider, IKC
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta)
     {
-        dropItems(world, x, y, z, meta);
+        dropItems(world, x, y, z, meta, false);
         super.breakBlock(world, x, y, z, block, meta);
     }
     
@@ -127,7 +127,7 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider, IKC
         {
             if (!world.isRemote)
             {
-                dropItems(world, x, y, z, meta);
+                dropItems(world, x, y, z, meta, true);
                 world.setBlockMetadataWithNotify(x, y, z, 0, 3);
             }
             return true;
@@ -135,7 +135,7 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider, IKC
         return false;
     }
     
-    private void dropItems(World world, int x, int y, int z, int meta)
+    private void dropItems(World world, int x, int y, int z, int meta, boolean rc)
     {
         if (meta <= 6)
         {
@@ -145,7 +145,7 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider, IKC
         {
             int dmg = getFood(world, x, y, z).getItemDamage();
             dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.veggie, world.rand.nextInt(4) + 1, dmg));
-            dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.seed, world.rand.nextInt(3) + 1, dmg));
+            dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.seed, world.rand.nextInt(3) + (rc ? 0 : 1), dmg));
         }
     }
     
