@@ -32,6 +32,8 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider, IKC
 {
     private IIcon[] blockIcons;
     private IIcon[] veggieIcons;
+    
+    private IIcon[][] customIcons;
 
     public BlockKCPlant()
     {
@@ -58,6 +60,18 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider, IKC
         {
             veggieIcons[i] = register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + FoodType.veggies.get(i).name);
         }
+        
+        customIcons = new IIcon[FoodType.veggies.size()][8];
+        for (int i = 0; i < customIcons.length; i++)
+        {
+            for (int j = 0; j < customIcons[i].length; j++)
+            {
+                if (FoodType.veggies.get(i).hasCropTexture)
+                {
+                    customIcons[i][j] = register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + FoodType.veggies.get(i).name + "_cropStage" + j);
+                }
+            }
+        }
     }
     
     @Override
@@ -70,6 +84,16 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider, IKC
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
     {
         int meta = world.getBlockMetadata(x, y, z);
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TileFood)
+        {
+            ItemStack food = getFood(world, x, y, z);
+            FoodType type = FoodType.getFoodType(food);
+            if (type.hasCropTexture)
+            {
+                return customIcons[food.getItemDamage()][meta];
+            }
+        }
         return getIcon(0, meta);
     }
 

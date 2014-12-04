@@ -65,6 +65,7 @@ public class FoodType
     public String[]      oreDictNames   =  {};
     public String        flavorText     =  null;   // will be handled appropriately
     public String        container      =  null;
+    public boolean       hasCropTexture =  false;
     /* end JSON fields @formatter:on*/
 
     public FoodType()

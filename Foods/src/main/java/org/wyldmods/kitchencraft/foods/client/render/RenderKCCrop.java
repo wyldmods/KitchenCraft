@@ -6,12 +6,14 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.common.block.BlockKCPlant;
+import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
@@ -29,10 +31,13 @@ public class RenderKCCrop implements ISimpleBlockRenderingHandler
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
     {
+        renderer.setOverrideBlockTexture(block.getIcon(world, x, y, z, 0));
         renderer.renderBlockCrops(block, x, y, z);
+        renderer.clearOverrideBlockTexture();
         int meta = world.getBlockMetadata(x, y, z);
+        ItemStack stack = ((BlockKCPlant)block).getFood(world, x, y, z);
 
-        if (meta >= 7)
+        if (meta >= 7 && !FoodType.getFoodType(stack).hasCropTexture)
         {
             IIcon icon = ((BlockKCPlant) block).getFoodIcon(world, x, y, z);
 

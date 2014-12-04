@@ -28,6 +28,7 @@ import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType.PotionEntry;
 
 import tterrag.core.common.json.JsonUtils;
+import tterrag.core.common.util.TTStringUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -156,9 +157,12 @@ public class ItemKCFood extends ItemFood
                 if (type.effects.length > 0)
                 {
                     list.add(EnumChatFormatting.WHITE + lang.localize("tooltip.whenEaten"));
-                    for (PotionEntry pot : type.effects)
+                    Potion[] potions = getPotions(type.effects);
+                    for (int i = 0 ; i < type.effects.length; i++)
                     {
-                        list.add(String.format(EnumChatFormatting.WHITE + "- %s: %s%s %s%s %s(%s%%)", lang.localize(pot.name, false), EnumChatFormatting.YELLOW,
+                        PotionEntry pot = type.effects[i];
+                        PotionEffect effect = new PotionEffect(potions[i].id, 0, pot.level);
+                        list.add(String.format(EnumChatFormatting.WHITE + "- %s: %s%s %s%s %s(%s%%)", TTStringUtils.getEffectNameWithLevel(effect), EnumChatFormatting.YELLOW,
                                 pot.time / 20, EnumChatFormatting.WHITE, lang.localize("tooltip.seconds"), EnumChatFormatting.ITALIC, (int) (pot.chance * 100)));
                     }
                 }
@@ -226,27 +230,38 @@ public class ItemKCFood extends ItemFood
     
     public static void applyPotions(PotionEntry[] pots, EntityPlayer player, World world)
     {
-        for (PotionEntry p : pots)
+        Potion[] potions = getPotions(pots);
+        
+        for (int i = 0; i < potions.length; i++)
         {
-            Potion effect = null;
+            if (potions[i] == null)
+                continue;
+
+            if (world.rand.nextDouble() < pots[i].chance)
+            {
+                PotionEffect active = player.getActivePotionEffect(potions[i]);
+                int activeDuration = active == null ? 0 : active.getDuration();
+                player.addPotionEffect(new PotionEffect(potions[i].id, activeDuration + pots[i].time, pots[i].level));
+            }
+        }
+    }
+    
+    private static Potion[] getPotions(PotionEntry[] pots)
+    {
+        Potion[] potions = new Potion[pots.length];
+        
+        for (int i = 0; i < pots.length; i++)
+        {
             for (Potion potion : Potion.potionTypes)
             {
-                if (potion != null && potion.getName().equals(p.name))
+                if (potion != null && potion.getName().equals(pots[i].name))
                 {
-                    effect = potion;
+                    potions[i] = potion;
                     break;
                 }
             }
-
-            if (effect == null)
-                continue;
-
-            if (world.rand.nextDouble() < p.chance)
-            {
-                PotionEffect active = player.getActivePotionEffect(effect);
-                int activeDuration = active == null ? 0 : active.getDuration();
-                player.addPotionEffect(new PotionEffect(effect.id, activeDuration + p.time, p.level));
-            }
         }
+        
+        return potions;
     }
 }
