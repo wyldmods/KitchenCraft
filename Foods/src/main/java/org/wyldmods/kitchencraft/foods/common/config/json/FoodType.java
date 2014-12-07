@@ -38,6 +38,7 @@ public class FoodType
         public int          time   = 1200;
         public int          level  = 0;
         public double       chance = 1.0;
+        public boolean      hidden = false;
         /* end JSON fields @formatter:on */
     }
 

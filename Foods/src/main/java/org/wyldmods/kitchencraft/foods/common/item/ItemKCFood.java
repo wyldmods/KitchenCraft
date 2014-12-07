@@ -161,9 +161,14 @@ public class ItemKCFood extends ItemFood
                     for (int i = 0 ; i < type.effects.length; i++)
                     {
                         PotionEntry pot = type.effects[i];
-                        PotionEffect effect = new PotionEffect(potions[i].id, 0, pot.level);
-                        list.add(String.format(EnumChatFormatting.WHITE + "- %s: %s%s %s%s %s(%s%%)", TTStringUtils.getEffectNameWithLevel(effect), EnumChatFormatting.YELLOW,
-                                pot.time / 20, EnumChatFormatting.WHITE, lang.localize("tooltip.seconds"), EnumChatFormatting.ITALIC, (int) (pot.chance * 100)));
+                        if (!pot.hidden)
+                        {
+                            PotionEffect effect = new PotionEffect(potions[i].id, 0, pot.level);
+                            list.add(String.format(EnumChatFormatting.WHITE + "- %s: %s%s %s%s %s(%s%%)", 
+                                    TTStringUtils.getEffectNameWithLevel(effect),
+                                    EnumChatFormatting.YELLOW, pot.time / 20, EnumChatFormatting.WHITE, lang.localize("tooltip.seconds"), 
+                                    EnumChatFormatting.ITALIC, (int) (pot.chance * 100)));
+                        }
                     }
                 }
             }
