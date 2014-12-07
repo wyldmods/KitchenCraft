@@ -1,5 +1,7 @@
 package org.wyldmods.kitchencraft.machines;
 
+import java.io.File;
+
 import net.minecraft.block.Block;
 
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +10,7 @@ import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.machines.client.gui.GuiHandlerKC;
 import org.wyldmods.kitchencraft.machines.common.CommonProxy;
 import org.wyldmods.kitchencraft.machines.common.block.KCBlocks;
+import org.wyldmods.kitchencraft.machines.common.config.ConfigHandler;
 
 import tterrag.core.common.util.CreativeTabsCustom;
 import cpw.mods.fml.common.Mod;
@@ -41,6 +44,8 @@ public class KitchenCraftMachines
     @EventHandler
     public static void preinit(FMLPreInitializationEvent event)
     {
+        ConfigHandler.INSTANCE.initialize(new File(event.getSuggestedConfigurationFile().getParent() + "/KitchenCraft/" + event.getSuggestedConfigurationFile().getName()));
+        
         proxy.initRenderers();
 
         KCBlocks.init();

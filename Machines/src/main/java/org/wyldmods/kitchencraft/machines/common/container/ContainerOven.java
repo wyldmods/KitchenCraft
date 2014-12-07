@@ -115,7 +115,7 @@ public class ContainerOven extends ContainerKC
             }
             if (par2 < 36)
             {
-                if (checkFuelSlot(itemstack1))
+                if (checkFuelSlot(itemstack1) && !(tile instanceof TileOvenRF))
                 {
                     if (!this.mergeItemStack(itemstack1, 38, 39, false))
                     {
