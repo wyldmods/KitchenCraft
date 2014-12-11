@@ -51,13 +51,22 @@ public class KCItems
         for (FoodType type : FoodType.veggies)
         {
             OreDictionary.registerOre("seed" + StringUtils.capitalize(type.name), new ItemStack(seed, 1, FoodType.getFood(type.name).getItemDamage()));
-            for (String name : type.oreDictNames)
-            {
-                OreDictionary.registerOre(name, FoodType.getFood(type.name));
-            }
+            registerTypeOredict(type);
         }
         
         for (FoodType type : FoodType.meats)
+        {
+            registerTypeOredict(type);
+        }
+    }
+    
+    private static void registerTypeOredict(FoodType type)
+    {
+        if (type.oreDictNames.length <= 0)
+        {
+            OreDictionary.registerOre("food" + StringUtils.capitalize(type.name), FoodType.getFood(type.name));
+        }
+        else
         {
             for (String name : type.oreDictNames)
             {

@@ -1,7 +1,9 @@
 package org.wyldmods.kitchencraft.foods.common.config.json;
 
+import lombok.ToString;
 import net.minecraft.block.Block;
 
+@ToString
 public class FoodTypeDropped extends FoodType
 {
     public int minDropped = 0;

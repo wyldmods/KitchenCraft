@@ -9,7 +9,7 @@ import org.wyldmods.kitchencraft.foods.common.command.CommandKCFoods;
 import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
-import tterrag.core.common.Handlers;
+import tterrag.core.IModTT;
 import tterrag.core.common.Lang;
 import tterrag.core.common.compat.CompatabilityRegistry;
 import tterrag.core.common.util.CreativeTabsCustom;
@@ -25,7 +25,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
 @Mod(modid=Reference.MOD_ID_FOODS, name=Reference.MOD_NAME_FOODS, version=Reference.VERSION, dependencies = Reference.DEPENDENCIES)
-public class KitchenCraftFoods
+public class KitchenCraftFoods implements IModTT
 {
     @Instance(Reference.MOD_ID_FOODS)
     public static KitchenCraftFoods instance;
@@ -50,9 +50,7 @@ public class KitchenCraftFoods
 
         KCItems.preInit();
         KCBlocks.preInit();
-        
-        Handlers.addPackage("org.wyldmods");
-                
+                        
         proxy.initRenderers();
         
         FMLInterModComms.sendMessage("Waila", "register", "org.wyldmods.kitchencraft.foods.common.compat.WailaCompat.load");
@@ -77,5 +75,23 @@ public class KitchenCraftFoods
     public static void onServerStarting(FMLServerStartingEvent event)
     {
         event.registerServerCommand(new CommandKCFoods());
+    }
+
+    @Override
+    public String modid()
+    {
+        return Reference.MOD_ID_FOODS;
+    }
+
+    @Override
+    public String name()
+    {
+        return Reference.MOD_NAME_FOODS;
+    }
+
+    @Override
+    public String version()
+    {
+        return Reference.VERSION;
     }
 }

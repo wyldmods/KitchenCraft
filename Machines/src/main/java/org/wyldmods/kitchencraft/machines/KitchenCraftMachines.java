@@ -12,6 +12,7 @@ import org.wyldmods.kitchencraft.machines.common.CommonProxy;
 import org.wyldmods.kitchencraft.machines.common.block.KCBlocks;
 import org.wyldmods.kitchencraft.machines.common.config.ConfigHandler;
 
+import tterrag.core.IModTT;
 import tterrag.core.common.util.CreativeTabsCustom;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -23,7 +24,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Mod(modid = Reference.MOD_ID_MACHINES, name = Reference.MOD_NAME_MACHINES, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES)
-public class KitchenCraftMachines
+public class KitchenCraftMachines implements IModTT
 {
     @Instance(Reference.MOD_ID_MACHINES)
     public static KitchenCraftMachines instance;
@@ -87,5 +88,23 @@ public class KitchenCraftMachines
                 logger.info("WAZZUUUUUUP!");
             }
         }
+    }
+    
+    @Override
+    public String modid()
+    {
+        return Reference.MOD_ID_FOODS;
+    }
+
+    @Override
+    public String name()
+    {
+        return Reference.MOD_NAME_FOODS;
+    }
+
+    @Override
+    public String version()
+    {
+        return Reference.VERSION;
     }
 }

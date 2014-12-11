@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import lombok.ToString;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.wyldmods.kitchencraft.foods.common.item.ItemKCFood;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
+@ToString
 public class FoodType
 {
     public static class BlockEntry
@@ -68,11 +68,6 @@ public class FoodType
     public String        container      =  null;
     public boolean       hasCropTexture =  false;
     /* end JSON fields @formatter:on*/
-
-    public FoodType()
-    {
-        ArrayUtils.add(oreDictNames, "food" + StringUtils.capitalize(name));
-    }
 
     public static ItemStack getFood(String name)
     {

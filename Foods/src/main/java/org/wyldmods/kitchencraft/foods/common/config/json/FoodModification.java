@@ -3,12 +3,14 @@ package org.wyldmods.kitchencraft.foods.common.config.json;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.ToString;
 import net.minecraft.item.ItemStack;
 
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType.PotionEntry;
 
 import tterrag.core.common.json.JsonUtils;
 
+@ToString
 public class FoodModification
 {
     /* JSON Types @formatter:off */

@@ -15,13 +15,10 @@ import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodModification;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodTypeDropped;
-import org.wyldmods.kitchencraft.foods.common.config.json.ShapedJsonRecipe;
-import org.wyldmods.kitchencraft.foods.common.config.json.ShapelessJsonRecipe;
-import org.wyldmods.kitchencraft.foods.common.config.json.SmeltingRecipeJson;
 
 import tterrag.core.common.json.JsonUtils;
-import tterrag.core.common.util.TTFileUtils;
 import tterrag.core.common.util.ResourcePackAssembler;
+import tterrag.core.common.util.TTFileUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -95,9 +92,6 @@ public class ConfigurationHandler
     {
         try
         {
-            loadSmeltingJson();
-            loadShapelessRecipesJson();
-            loadShapedRecipesJson();
             loadFoodMods();
         }
         catch (IOException e)
@@ -183,39 +177,6 @@ public class ConfigurationHandler
         {
             OreDictEntry entry = gson.fromJson(arr.get(i), OreDictEntry.class);
             OreDictionary.registerOre(entry.name, (ItemStack) ConfigurationHandler.parseInputString(entry.item, true));
-        }
-    }
-
-    private static void loadSmeltingJson() throws IOException
-    {
-        JsonObject recipes = initializeJson(smeltingJsonName, smeltingJson);
-
-        JsonArray arr = (JsonArray) recipes.get("smelting");
-        for (int i = 0; i < arr.size(); i++)
-        {
-            SmeltingRecipeJson.registerSmeltingRecipe(gson.fromJson(arr.get(i), SmeltingRecipeJson.class));
-        }
-    }
-
-    private static void loadShapelessRecipesJson() throws IOException
-    {
-        JsonObject recipes = initializeJson(shaplessRecipesJsonName, shapelessRecipesJson);
-
-        JsonArray arr = (JsonArray) recipes.get("recipes");
-        for (int i = 0; i < arr.size(); i++)
-        {
-            ShapelessJsonRecipe.addShapelessRecipeFromJson(gson.fromJson(arr.get(i), ShapelessJsonRecipe.class));
-        }
-    }
-
-    private static void loadShapedRecipesJson() throws IOException
-    {
-        JsonObject recipes = initializeJson(shapedRecipesJsonName, shapedRecipesJson);
-
-        JsonArray arr = (JsonArray) recipes.get("recipes");
-        for (int i = 0; i < arr.size(); i++)
-        {
-            ShapedJsonRecipe.addShapedRecipeFromJson(gson.fromJson(arr.get(i), ShapedJsonRecipe.class));
         }
     }
     
