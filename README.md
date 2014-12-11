@@ -1,4 +1,4 @@
-KitchenCraft
+KitchenCraft [![Build Status](http://ci.tterrag.com/buildStatus/icon?job=KitchenCraft)](http://ci.tterrag.com/job/KitchenCraft/)
 ============
 
 Read the [wiki](https://github.com/wyldmods/KitchenCraft/wiki) for documentation.
