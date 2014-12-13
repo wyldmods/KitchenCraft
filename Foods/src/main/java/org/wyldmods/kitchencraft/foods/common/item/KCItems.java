@@ -62,16 +62,10 @@ public class KCItems
     
     private static void registerTypeOredict(FoodType type)
     {
-        if (type.oreDictNames.length <= 0)
+        OreDictionary.registerOre("food" + StringUtils.capitalize(type.name), FoodType.getFood(type.name));
+        for (String name : type.oreDictNames)
         {
-            OreDictionary.registerOre("food" + StringUtils.capitalize(type.name), FoodType.getFood(type.name));
-        }
-        else
-        {
-            for (String name : type.oreDictNames)
-            {
-                OreDictionary.registerOre(name, FoodType.getFood(type.name));
-            }
+            OreDictionary.registerOre(name, FoodType.getFood(type.name));
         }
     }
 }
