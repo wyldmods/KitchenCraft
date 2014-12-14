@@ -92,15 +92,15 @@ public class EnderIOCompat extends PlantableFarmer implements ICompatability
         
         List<ItemStack> dropped = ((BlockKCPlant)block).getDrops(farm.getWorldObj(), bc.x, bc.y, bc.z, meta, true);
         farm.getWorldObj().setBlockMetadataWithNotify(bc.x, bc.y, bc.z, 0, 3);
-        return new HarvestResult(getEntities(farm.getWorldObj(), dropped), bc);
+        return new HarvestResult(getEntities(farm.getWorldObj(), bc, dropped), bc);
     }
 
-    private List<EntityItem> getEntities(World world, List<ItemStack> dropped)
+    private List<EntityItem> getEntities(World world, BlockCoord bc,  List<ItemStack> dropped)
     {
         List<EntityItem> entities = new ArrayList<EntityItem>(dropped.size());
         for (ItemStack stack : dropped)
         {
-            entities.add(new EntityItem(world, 0, 0, 0, stack));
+            entities.add(new EntityItem(world, bc.x + 0.5, bc.y + 0.2, bc.z + 0.5, stack));
         }
         return entities;
     }
