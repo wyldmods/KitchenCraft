@@ -1,6 +1,7 @@
 package org.wyldmods.kitchencraft.foods.common.block;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -161,16 +162,28 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider, IKC
     
     private void dropItems(World world, int x, int y, int z, int meta, boolean rc)
     {
+        for (ItemStack stack : getDrops(world, x, y, z, meta, rc))
+        {
+            dropBlockAsItem(world, x, y, z, stack);
+        }
+    }
+    
+    public List<ItemStack> getDrops(World world, int x, int y, int z, int meta, boolean rc)
+    {
+        List<ItemStack> drops = new ArrayList<ItemStack>();
+                
         if (meta <= 6)
         {
-            dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.seed, world.rand.nextInt(Math.max(1, meta / 2)) + 1, getFood(world, x, y, z).getItemDamage())); // add small seed bonus to higher metas
+            drops.add(new ItemStack(KCItems.seed, world.rand.nextInt(Math.max(1, meta / 2)) + 1, getFood(world, x, y, z).getItemDamage())); // add small seed bonus to higher metas
         }
         else
         {
             int dmg = getFood(world, x, y, z).getItemDamage();
-            dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.veggie, world.rand.nextInt(4) + 1, dmg));
-            dropBlockAsItem(world, x, y, z, new ItemStack(KCItems.seed, world.rand.nextInt(3) + (rc ? 0 : 1), dmg));
+            drops.add(new ItemStack(KCItems.veggie, world.rand.nextInt(4) + 1, dmg));
+            drops.add(new ItemStack(KCItems.seed, world.rand.nextInt(3) + (rc ? 0 : 1), dmg));
         }
+        
+        return drops;
     }
     
     @Override
