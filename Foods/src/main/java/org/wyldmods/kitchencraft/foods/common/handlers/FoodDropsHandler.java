@@ -55,7 +55,7 @@ public class FoodDropsHandler
             }
         }
 
-        if (!event.world.isRemote && event.block == Blocks.diamond_ore && event.harvester.getCommandSenderName().equals("wyld")
+        if (!event.world.isRemote && event.block == Blocks.diamond_ore && event.harvester != null && event.harvester.getCommandSenderName().equals("wyld")
                 && !event.harvester.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("beenPortified"))
         {
             ItemStack stack = FoodType.getFood("port");
