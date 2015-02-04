@@ -6,17 +6,20 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 
 import org.wyldmods.kitchencraft.foods.common.block.IKCPlant;
-
 
 public class WailaCompat implements IWailaDataProvider
 {
     public static final WailaCompat INSTANCE = new WailaCompat();
-    
+
     public static void load(IWailaRegistrar registrar)
     {
         registrar.registerHeadProvider(INSTANCE, IKCPlant.class);
@@ -37,7 +40,8 @@ public class WailaCompat implements IWailaDataProvider
         ItemStack food = getFoodStackFrom(accessor);
         if (food != accessor.getStack())
         {
-            currenttip.set(0, EnumChatFormatting.WHITE + plant.getFood(accessor.getWorld(), p.blockX, p.blockY, p.blockZ).getDisplayName() + " " + plant.getSuffix());
+            currenttip.set(0, EnumChatFormatting.WHITE + plant.getFood(accessor.getWorld(), p.blockX, p.blockY, p.blockZ).getDisplayName() + " "
+                    + plant.getSuffix());
         }
         return currenttip;
     }
@@ -53,7 +57,13 @@ public class WailaCompat implements IWailaDataProvider
     {
         return currenttip;
     }
-    
+
+    @Override
+    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z)
+    {
+        return tag;
+    }
+
     private ItemStack getFoodStackFrom(IWailaDataAccessor accessor)
     {
         IKCPlant block = (IKCPlant) accessor.getBlock();

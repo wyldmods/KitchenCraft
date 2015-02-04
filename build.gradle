@@ -86,12 +86,16 @@ subprojects {
 			name 'squeek Repo'
 			url "http://www.ryanliptak.com/maven"
 		}
+        maven { // Forestry
+            name 'Forestry Repo'
+            url "http://maven.ic2.player.to/"
+        }
 	}
 
 	dependencies {
-		compile "tterrag.core:ttCore:MC1.7.10-0.1.0-41"
-		compile "mcp.mobius.waila:Waila:1.5.3a_1.7.10"
-		compile "com.enderio:EnderIO:1.7.10-2.2.1.284"
+		compile "tterrag.core:ttCore:MC1.7.10-0.1.0-61"
+		compile "mcp.mobius.waila:Waila:1.5.8a_1.7.10"
+		compile "com.enderio:EnderIO:1.7.10-2.2.8.341"
 		compile "applecore:AppleCore:1.7.10-1.0.0+79.c2865:api"
 		compile fileTree(dir: 'libs', include: '*.jar')
 	}
@@ -109,3 +113,12 @@ subprojects {
 	
 	tasks.build.dependsOn deobfJar
 }
+
+task comboJar(type: Jar) {
+    subprojects.each { proj ->
+        dependsOn proj.tasks.reobf
+        from { zipTree(proj.tasks.jar.archivePath) }
+    }
+}
+
+tasks.build.dependsOn comboJar
