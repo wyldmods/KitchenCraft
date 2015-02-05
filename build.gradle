@@ -23,14 +23,17 @@ minecraft {
     runDir = 'run'
 }
 
-subprojects {
+subprojects { subProj ->
     apply plugin: 'java'
     archivesBaseName = "$rootProject.name-$name"
     dependencies { compile rootProject }
 
     build.dependsOn rootProject.reobf
     rootProject.reobf {
-        reobf(jar) { spec -> spec.classpath = sourceSets.main.compileClasspath }
+        reobf(jar) { spec ->
+            spec.classpath = subProj.configurations.compile
+            spec.classpath += rootProject.configurations.compile
+        }
     }
 
     jar {
@@ -103,7 +106,14 @@ task comboJar(type: Jar) {
     classifier = 'combo'
 }
 tasks.assemble.dependsOn comboJar
-reobf { reobf(comboJar) }
+reobf {
+    reobf(comboJar) { spec ->
+        spec.classpath = rootProject.configurations.compile
+        project.subprojects { subProj ->
+            spec.classpath += subProj.configurations.compile
+        }
+    }
+}
 
 task comboJarDeobf(type: Jar) {
     from sourceSets.main.output
