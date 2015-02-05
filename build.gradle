@@ -16,6 +16,7 @@ buildscript {
 }
 
 apply plugin: 'forge'
+apply plugin: 'curseforge'
 
 minecraft {
     version = "$minecraft_version-$forge_version"
@@ -120,5 +121,22 @@ jar {
 project.subprojects.each { p ->
     p.tasks.withType(Jar)*.each { t ->
         t.destinationDir = new File(rootProject.getBuildDir(), 'libs')
+    }
+}
+
+curse {
+    dependsOn 'reobf'
+    onlyIf { return project.hasProperty('curseforge_key') }// && 'true'.toString().equals(System.getenv('CURSE')) }
+
+    if (project.hasProperty('curseforge_key')) apiKey = project.curseforge_key
+    projectId = project.curse_projectId
+    changelog = project.hasProperty('changelog') ? project.changelog : ''
+    releaseType = 'beta'
+    artifact = comboJar
+    additionalArtifact comboJarDeobf
+    project.subprojects.each {proj -> 
+        proj.tasks.withType(Jar) { t -> 
+            additionalArtifact t 
+        }
     }
 }
