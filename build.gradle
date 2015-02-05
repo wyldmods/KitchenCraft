@@ -1,124 +1,124 @@
 buildscript {
-   	repositories {
-  		mavenCentral()
-      	maven {
-           	name = "forge"
-           	url = "http://files.minecraftforge.net/maven"
-  		}
-       		maven {
-           	name = "sonatype"
-           	url = "https://oss.sonatype.org/content/repositories/snapshots/"
-       	}
-   	}
-   		dependencies {
-       	classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
-	}	
-}	
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
 
-task build 
-task clean
-task setup
-task eclipse
-task idea
+apply plugin: 'forge'
 
-version = "MC${minecraft_version}-${mod_version}-${System.getenv().BUILD_NUMBER}"
+minecraft {
+    version = "$minecraft_version-$forge_version"
+    runDir = 'run'
+}
 
 subprojects {
-	apply plugin: "forge"
+    apply plugin: 'java'
+    archivesBaseName = "$rootProject.name-$name"
+    dependencies { compile rootProject }
 
-    rootProject.build.dependsOn build
-    rootProject.clean.dependsOn clean
-    rootProject.setup.dependsOn setupDecompWorkspace
-    rootProject.tasks.eclipse.dependsOn it.tasks.eclipse
-    rootProject.tasks.idea.dependsOn it.tasks.idea
+    build.dependsOn rootProject.reobf
+    rootProject.reobf {
+        reobf(jar) { spec -> spec.classpath = sourceSets.main.compileClasspath }
+    }
 
-	// stuff specific to my mod
-	group = 'org.wyldmods.kitchencraft'
-	archivesBaseName = rootProject.name + "-" + project.name
+    jar {
+        from rootProject.sourceSets.main.output
+    }
 
-	version = "MC${minecraft.version}-$version.${System.getenv().BUILD_NUMBER}"
+    task deobfJar(type: Jar) {
+        from rootProject.sourceSets.main.output
+        from sourceSets.main.output
+        classifier = 'deobf'
+    }
 
-	minecraft {
-    	version = "${minecraft_version}-${forge_version}"
-		runDir = 'run'
-	}
+    assemble.dependsOn deobfJar
+}
 
-	processResources 
-	{
-    	// replace stuff in mcmod.info, nothing else
-    	from(sourceSets.main.resources.srcDirs) {
-        	include 'mcmod.info'
-                
-	        // replace version and mcversion
-    	    expand 'version':project.version, 'mcversion':project.minecraft.version
-    	}
-        
-    	// copy everything else, thats not the mcmod.info
-    	from(sourceSets.main.resources.srcDirs) {
-        	exclude 'mcmod.info'
-    	}
-	}
+allprojects {
+    group = 'org.wyldmods.kitchencraft'
+    version = "MC$minecraft_version-$mod_version-${System.getenv('BUILD_NUMBER')}"
 
-	version = rootProject.version
-
-	jar.destinationDir = new File(rootProject.projectDir, "output")
-		
-	task deobfJar(type: Jar) {
-		from sourceSets.main.output
-		classifier = 'deobf'
-		destinationDir = new File(rootProject.projectDir, "output")
-	}
-	
-	repositories {
-	    maven { // WAILA
-			name "Mobius Repo"
-			url "http://mobiusstrip.eu/maven"
-		}
-		maven { // CCC/NEI (for WAILA)
-			name 'CB Repo'
-			url "http://chickenbones.net/maven/"
-		}
-		maven { // ttCore
-			name 'tterrag Repo'
-			url "http://maven.tterrag.com"
-		}
-		maven { // AppleCore
-			name 'squeek Repo'
-			url "http://www.ryanliptak.com/maven"
-		}
+    repositories {
+        maven { // WAILA
+            name "Mobius Repo"
+            url "http://mobiusstrip.eu/maven"
+        }
+        maven { // CCC/NEI (for WAILA)
+            name 'CB Repo'
+            url "http://chickenbones.net/maven/"
+        }
+        maven { // ttCore
+            name 'tterrag Repo'
+            url "http://maven.tterrag.com"
+        }
+        maven { // AppleCore
+            name 'squeek Repo'
+            url "http://www.ryanliptak.com/maven"
+        }
         maven { // Forestry
             name 'Forestry Repo'
             url "http://maven.ic2.player.to/"
         }
-	}
+    }
+    dependencies {
+        compile "tterrag.core:ttCore:MC1.7.10-0.1.0-61"
+        compile "mcp.mobius.waila:Waila:1.5.8a_1.7.10"
+        compile "com.enderio:EnderIO:1.7.10-2.2.8.341"
+        compile "applecore:AppleCore:1.7.10-1.0.0+79.c2865:api"
+    }
 
-	dependencies {
-		compile "tterrag.core:ttCore:MC1.7.10-0.1.0-61"
-		compile "mcp.mobius.waila:Waila:1.5.8a_1.7.10"
-		compile "com.enderio:EnderIO:1.7.10-2.2.8.341"
-		compile "applecore:AppleCore:1.7.10-1.0.0+79.c2865:api"
-		compile fileTree(dir: 'libs', include: '*.jar')
-	}
 
-	it.sourceSets {
-		main {
-			java {
-				srcDir rootProject.projectDir.path + "/src/main/java"
-			}
-			resources {
-				srcDir rootProject.projectDir.path + "/src/main/resources"
-			}
-		}
-	}
-	
-	tasks.build.dependsOn deobfJar
-}
+    processResources {
+        inputs.property 'version', project.version
+        inputs.property 'mcversion', project.minecraft_version
+        from(sourceSets.main.resources.srcDirs) {
+            include '**.*.info'
+            include '**/*.properties'
 
-task comboJar(type: Jar) {
-    subprojects.each { proj ->
-        dependsOn proj.tasks.reobf
-        from { zipTree(proj.tasks.jar.archivePath) }
+            expand([
+                    'version'  : project.version,
+                    'mcversion': project.minecraft_version
+            ])
+        }
     }
 }
 
-tasks.build.dependsOn comboJar
+task comboJar(type: Jar) {
+    from sourceSets.main.output
+    project.subprojects.each {
+        from it.sourceSets.main.output
+    }
+    classifier = 'combo'
+}
+tasks.assemble.dependsOn comboJar
+reobf { reobf(comboJar) }
+
+task comboJarDeobf(type: Jar) {
+    from sourceSets.main.output
+    project.subprojects.each {
+        from it.sourceSets.main.output
+    }
+    classifier = 'combo-deobf'
+}
+tasks.assemble.dependsOn comboJarDeobf
+
+jar {
+    destinationDir = new File(buildDir, 'unused')
+}
+
+project.subprojects.each { p ->
+    p.tasks.withType(Jar)*.each { t ->
+        t.destinationDir = new File(rootProject.getBuildDir(), 'libs')
+    }
+}
