@@ -10,9 +10,9 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import org.wyldmods.kitchencraft.machines.KitchenCraftMachines;
 import org.wyldmods.kitchencraft.machines.common.block.container.BlockOven;
+import org.wyldmods.kitchencraft.machines.common.compat.RFCompat;
 import org.wyldmods.kitchencraft.machines.common.item.block.ItemBlockOven;
 import org.wyldmods.kitchencraft.machines.common.tile.TileOven;
-import org.wyldmods.kitchencraft.machines.common.tile.TileOvenRF;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -29,7 +29,7 @@ public class KCBlocks
 
         if (KitchenCraftMachines.loadRF())
         {
-            GameRegistry.registerTileEntity(TileOvenRF.class, "kc.oven.rf");
+            RFCompat.load();
         }
 
         pot = new BlockPot();

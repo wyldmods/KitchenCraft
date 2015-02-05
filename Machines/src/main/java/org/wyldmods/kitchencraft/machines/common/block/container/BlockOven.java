@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.machines.KitchenCraftMachines;
 import org.wyldmods.kitchencraft.machines.client.gui.GuiHandlerKC.GuiTypes;
+import org.wyldmods.kitchencraft.machines.common.compat.RFCompat;
 import org.wyldmods.kitchencraft.machines.common.tile.TileOven;
 import org.wyldmods.kitchencraft.machines.common.tile.TileOvenRF;
 
@@ -193,6 +194,6 @@ public class BlockOven extends BlockContainerKC
     @Override
     public TileEntity createNewTileEntity(World world, int metadata)
     {
-        return metadata < 8 ? new TileOven() : new TileOvenRF();
+        return KitchenCraftMachines.loadRF() && metadata >= 8 ? RFCompat.getRFOven() : new TileOven();
     }
 }
