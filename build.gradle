@@ -126,7 +126,7 @@ project.subprojects.each { p ->
 
 curse {
     dependsOn 'reobf'
-    onlyIf { return project.hasProperty('curseforge_key') }// && 'true'.toString().equals(System.getenv('CURSE')) }
+    onlyIf { return project.hasProperty('curseforge_key') } && 'true'.equals(System.getenv('CURSE')) }
 
     if (project.hasProperty('curseforge_key')) apiKey = project.curseforge_key
     projectId = project.curse_projectId
