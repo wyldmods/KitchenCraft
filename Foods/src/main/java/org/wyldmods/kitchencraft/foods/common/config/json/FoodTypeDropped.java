@@ -6,10 +6,13 @@ import net.minecraft.block.Block;
 @ToString
 public class FoodTypeDropped extends FoodType
 {
-    public int minDropped = 0;
-    public int maxDropped = 0;
-    public String[] animals = {};
-    public String[] blocks = {};
+    /* Begin JSON Fields @formatter:off */
+    public int      minDropped  = 0;
+    public int      maxDropped  = 0;
+    public double   dropChance  = 1;
+    public String[] animals     = {};
+    public String[] blocks      = {};
+    /* End JSON Fields @formatter:on */
     
     public BlockEntry getFromString(String s)
     {

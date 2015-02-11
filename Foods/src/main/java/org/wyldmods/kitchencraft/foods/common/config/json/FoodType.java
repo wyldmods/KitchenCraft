@@ -160,36 +160,38 @@ public class FoodType
         for (int i = 0; i < veggies.size(); i++)
         {
             FoodType f = veggies.get(i);
-            if (f instanceof FoodTypeDropped)
-            {
-                FoodTypeDropped food = (FoodTypeDropped) f;
-                for (String s : food.blocks)
-                {
-                    BlockEntry entry = food.getFromString(s);
-                    if (entry.block == b.block && (entry.metadata == -1 || entry.metadata == b.metadata))
-                    {
-                        ret.add(new ItemStack(KCItems.veggie, rand.nextInt(food.maxDropped - food.minDropped + 1) + food.minDropped, i));
-                    }
-                }
-            }
+            addDropsToList(f, b, ret);
         }
         for (int i = 0; i < meats.size(); i++)
         {
             FoodType f = meats.get(i);
-            if (f instanceof FoodTypeDropped)
+            addDropsToList(f, b, ret);
+        }
+
+        return ret;
+    }
+
+    private static void addDropsToList(FoodType f, BlockEntry b, List<ItemStack> list)
+    {
+        if (f instanceof FoodTypeDropped)
+        {
+            FoodTypeDropped food = (FoodTypeDropped) f;
+            if (rand.nextDouble() < food.dropChance)
             {
-                FoodTypeDropped food = (FoodTypeDropped) f;
                 for (String s : food.blocks)
                 {
                     BlockEntry entry = food.getFromString(s);
                     if (entry.block == b.block && (entry.metadata == -1 || entry.metadata == b.metadata))
                     {
-                        ret.add(new ItemStack(KCItems.meat, rand.nextInt(food.maxDropped - food.minDropped + 1) + food.minDropped, i));
+                        ItemStack stack = getStackFor(f);
+                        stack.stackSize = rand.nextInt(food.maxDropped - food.minDropped + 1) + food.minDropped;
+                        if (stack.stackSize > 0)
+                        {
+                            list.add(stack);
+                        }
                     }
                 }
             }
         }
-
-        return ret;
     }
 }
