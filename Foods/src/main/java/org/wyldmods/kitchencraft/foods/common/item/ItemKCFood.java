@@ -49,7 +49,7 @@ public class ItemKCFood extends ItemFood
     {
         if ((isWolfsFavoriteMeat() && meats.size() == 0) || (!isWolfsFavoriteMeat() && veggies.size() == 0))
             return "null";
-        return "item.kc." + (isWolfsFavoriteMeat() ? meats.get(stack.getItemDamage()).name : veggies.get(stack.getItemDamage()).name);
+        return "item.kc." + (isWolfsFavoriteMeat() ? meats.get(stack.getItemDamage() % meats.size()).name : veggies.get(stack.getItemDamage() % veggies.size()).name);
     }
 
     @Override
