@@ -13,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.wyldmods.kitchencraft.foods.common.item.ItemKCFood;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
@@ -67,6 +68,8 @@ public class FoodType
     public String        flavorText     =  null;   // will be handled appropriately
     public String        container      =  null;
     public boolean       hasCropTexture =  false;
+    public boolean       dimWhitelist   =  false;
+    public int[]         dims           =  {};
     /* end JSON fields @formatter:on*/
 
     public static ItemStack getFood(String name)
@@ -89,7 +92,7 @@ public class FoodType
         if (stack.getItem() instanceof ItemKCFood)
         {
             ItemKCFood food = (ItemKCFood) stack.getItem();
-            return food.isWolfsFavoriteMeat() ? meats.get(stack.getItemDamage()) : veggies.get(stack.getItemDamage());
+            return food.isWolfsFavoriteMeat() ? meats.get(stack.getItemDamage() % meats.size()) : veggies.get(stack.getItemDamage() % veggies.size());
         }
         return null;
     }
@@ -99,6 +102,12 @@ public class FoodType
         Item food = type.isMeat ? KCItems.meat : KCItems.veggie;
         int index = food == KCItems.meat ? meats.indexOf(type) : veggies.indexOf(type);
         return new ItemStack(food, 1, index);
+    }
+
+    public boolean canGrowInDimension(int dim)
+    {
+        boolean contains = ArrayUtils.contains(dims, dim);
+        return dimWhitelist == contains;
     }
 
     public static void registerFoodType(FoodType food)

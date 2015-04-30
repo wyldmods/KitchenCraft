@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
+import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 import org.wyldmods.kitchencraft.foods.common.tile.TileFood;
 
@@ -55,7 +56,18 @@ public class BlockSeedGrass extends Block implements ITileEntityProvider, IKCPla
     @Override
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
-        grow(world, x, y, z);
+        if (!FoodType.getFoodType(getFood(world, x, y, z)).canGrowInDimension(world.provider.dimensionId))
+        {
+            world.setBlock(x, y, z, Blocks.grass);
+            if (world.getBlock(x, y + 1, z) == KCBlocks.sapling)
+            {
+                world.setBlockToAir(x, y + 1, z);
+            }
+        }
+        else
+        {
+            grow(world, x, y, z);
+        }
     }
 
     @Override

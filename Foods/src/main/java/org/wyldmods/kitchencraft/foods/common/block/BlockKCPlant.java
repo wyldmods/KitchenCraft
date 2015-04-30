@@ -103,7 +103,20 @@ public class BlockKCPlant extends BlockCrops implements ITileEntityProvider, IKC
     {
         return KitchenCraftFoods.renderIDCrop;
     }
-    
+
+    @Override
+    public void updateTick(World world, int x, int y, int z, Random rand)
+    {
+        if (!FoodType.getFoodType(getFood(world, x, y, z)).canGrowInDimension(world.provider.dimensionId))
+        {
+            world.setBlockToAir(x, y, z);
+        }
+        else
+        {
+            super.updateTick(world, x, y, z, rand);
+        }
+    }
+
     @Override
     public ItemStack getFood(IBlockAccess world, int x, int y, int z)
     {

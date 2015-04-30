@@ -74,6 +74,10 @@ public class ItemKCSeed extends Item
     {
         Block placedOn = world.getBlock(x, y, z);
         FoodType type = FoodType.getFoodType(new ItemStack(KCItems.veggie, 1, stack.getItemDamage()));
+        if (!type.canGrowInDimension(world.provider.dimensionId)) {
+            return false;
+        }
+        
         if (type != null && type.isFruit)
         {
             if (placedOn == Blocks.grass)
