@@ -110,5 +110,9 @@ public class ItemKCSeed extends Item
     {
         FoodType type = FoodType.veggies.get(stack.getItemDamage());
         list.add(EnumChatFormatting.AQUA + (type.isFruit ? KitchenCraftFoods.lang.localize("tooltip.fruitSeed") : KitchenCraftFoods.lang.localize("tooltip.veggieSeed")));
+        if (!type.canGrowInDimension(player.worldObj.provider.dimensionId))
+        {
+            list.add(EnumChatFormatting.RED + KitchenCraftFoods.lang.localize("tooltip.badDimension"));
+        }
     }
 }
