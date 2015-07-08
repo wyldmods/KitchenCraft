@@ -1,8 +1,5 @@
 package org.wyldmods.kitchencraft.foods.common.item;
 
-import static org.wyldmods.kitchencraft.foods.KitchenCraftFoods.*;
-import static org.wyldmods.kitchencraft.foods.common.config.json.FoodType.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +24,14 @@ import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType.PotionEntry;
 
-import tterrag.core.common.json.JsonUtils;
-import tterrag.core.common.util.TTStringUtils;
+import com.enderio.core.common.util.EnderStringUtils;
+import com.enderio.core.common.util.ItemUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+import static org.wyldmods.kitchencraft.foods.KitchenCraftFoods.lang;
+import static org.wyldmods.kitchencraft.foods.common.config.json.FoodType.*;
 
 public class ItemKCFood extends ItemFood
 {
@@ -165,7 +166,7 @@ public class ItemKCFood extends ItemFood
                         {
                             PotionEffect effect = new PotionEffect(potions[i].id, 0, pot.level);
                             list.add(String.format(EnumChatFormatting.WHITE + "- %s: %s%s %s%s %s(%s%%)", 
-                                    TTStringUtils.getEffectNameWithLevel(effect),
+                                    EnderStringUtils.getEffectNameWithLevel(effect),
                                     EnumChatFormatting.YELLOW, pot.time / 20, EnumChatFormatting.WHITE, lang.localize("tooltip.seconds"), 
                                     EnumChatFormatting.ITALIC, (int) (pot.chance * 100)));
                         }
@@ -223,7 +224,7 @@ public class ItemKCFood extends ItemFood
             
             if (type.container != null)
             {
-                ItemStack container = (ItemStack) JsonUtils.parseStringIntoRecipeItem(type.container, true);
+                ItemStack container = (ItemStack) ItemUtil.parseStringIntoRecipeItem(type.container, true);
                 if (!player.inventory.addItemStackToInventory(container))
                 {
                     player.dropItem(container.getItem(), container.getItemDamage());

@@ -1,7 +1,5 @@
 package org.wyldmods.kitchencraft.foods.common.handlers;
 
-import static org.wyldmods.kitchencraft.foods.KitchenCraftFoods.*;
-
 import java.util.List;
 
 import net.minecraft.item.ItemFood;
@@ -17,13 +15,17 @@ import org.wyldmods.kitchencraft.foods.common.item.ItemKCFood;
 
 import squeek.applecore.api.food.FoodEvent;
 import squeek.applecore.api.food.FoodValues;
-import tterrag.core.common.Handlers.Handler;
-import tterrag.core.common.Handlers.Handler.HandlerType;
+
+import com.enderio.core.common.Handlers.Handler;
+import com.enderio.core.common.Handlers.Handler.HandlerType;
+
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+import static org.wyldmods.kitchencraft.foods.KitchenCraftFoods.lang;
 
 @Handler(HandlerType.FORGE)
 public class FoodModificationsHandler

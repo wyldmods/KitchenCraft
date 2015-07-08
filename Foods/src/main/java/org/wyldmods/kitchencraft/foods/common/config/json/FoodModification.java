@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType.PotionEntry;
 
-import tterrag.core.common.json.JsonUtils;
+import com.enderio.core.common.util.ItemUtil;
 
 @ToString
 public class FoodModification
@@ -27,7 +27,7 @@ public class FoodModification
     public static void registerModification(FoodModification type)
     {
         if (type.item == null) throw new IllegalArgumentException("'item' must be defined for food modification");
-        type.toEffect = (ItemStack) JsonUtils.parseStringIntoRecipeItem(type.item, true);
+        type.toEffect = (ItemStack) ItemUtil.parseStringIntoRecipeItem(type.item, true);
         
         types.add(type);
     }

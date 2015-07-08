@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 import org.wyldmods.kitchencraft.foods.common.block.BlockKCLeaves.TileKCLeaves;
 
-import tterrag.core.client.util.RenderingUtils;
+import com.enderio.core.client.render.RenderUtil;
 
 public class KCLeavesSpecialRenderer extends TileEntitySpecialRenderer
 {
@@ -32,7 +32,7 @@ public class KCLeavesSpecialRenderer extends TileEntitySpecialRenderer
 
             GL11.glPushMatrix();
             GL11.glTranslated(x, y, z);
-            RenderingUtils.render3DItem(item, false);
+            RenderUtil.render3DItem(item, false);
             GL11.glPopMatrix();
         }
         

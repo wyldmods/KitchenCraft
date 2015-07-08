@@ -12,7 +12,8 @@ import org.wyldmods.kitchencraft.foods.common.block.BlockKCPlant;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.item.ItemKCSeed;
 
-import tterrag.core.common.compat.ICompatability;
+import com.enderio.core.common.compat.ICompat;
+
 import crazypants.enderio.machine.farm.TileFarmStation;
 import crazypants.enderio.machine.farm.farmers.FarmersCommune;
 import crazypants.enderio.machine.farm.farmers.HarvestResult;
@@ -20,7 +21,7 @@ import crazypants.enderio.machine.farm.farmers.IHarvestResult;
 import crazypants.enderio.machine.farm.farmers.PlantableFarmer;
 import crazypants.util.BlockCoord;
 
-public class EnderIOCompat extends PlantableFarmer implements ICompatability
+public class EnderIOCompat extends PlantableFarmer implements ICompat
 {
     public static void load()
     {

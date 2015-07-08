@@ -7,10 +7,11 @@ import org.wyldmods.kitchencraft.foods.common.block.KCBlocks;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
-import tterrag.core.common.compat.ICompatability;
+import com.enderio.core.common.compat.ICompat;
+
 import codechicken.nei.api.API;
 
-public class NEICompat implements ICompatability
+public class NEICompat implements ICompat
 {
     public static void load()
     {

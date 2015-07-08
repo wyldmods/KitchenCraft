@@ -9,11 +9,12 @@ import org.wyldmods.kitchencraft.foods.common.command.CommandKCFoods;
 import org.wyldmods.kitchencraft.foods.common.config.ConfigurationHandler;
 import org.wyldmods.kitchencraft.foods.common.item.KCItems;
 
-import tterrag.core.IModTT;
-import tterrag.core.common.Lang;
-import tterrag.core.common.compat.CompatabilityRegistry;
-import tterrag.core.common.util.CreativeTabsCustom;
-import tterrag.core.common.util.RegisterTime;
+import com.enderio.core.IEnderMod;
+import com.enderio.core.common.Lang;
+import com.enderio.core.common.compat.CompatRegistry;
+import com.enderio.core.common.util.CreativeTabsCustom;
+import com.enderio.core.common.util.RegisterTime;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -25,7 +26,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
 @Mod(modid=Reference.MOD_ID_FOODS, name=Reference.MOD_NAME_FOODS, version=Reference.VERSION, dependencies = Reference.DEPENDENCIES)
-public class KitchenCraftFoods implements IModTT
+public class KitchenCraftFoods implements IEnderMod
 {
     @Instance(Reference.MOD_ID_FOODS)
     public static KitchenCraftFoods instance;
@@ -54,8 +55,8 @@ public class KitchenCraftFoods implements IModTT
         proxy.initRenderers();
         
         FMLInterModComms.sendMessage("Waila", "register", "org.wyldmods.kitchencraft.foods.common.compat.WailaCompat.load");
-        CompatabilityRegistry.INSTANCE.registerCompat(RegisterTime.POSTINIT, "org.wyldmods.kitchencraft.foods.common.compat.NEICompat", "NotEnoughItems");
-        CompatabilityRegistry.INSTANCE.registerCompat(RegisterTime.INIT, "org.wyldmods.kitchencraft.foods.common.compat.EnderIOCompat", "EnderIO");
+        CompatRegistry.INSTANCE.registerCompat(RegisterTime.POSTINIT, "org.wyldmods.kitchencraft.foods.common.compat.NEICompat", "NotEnoughItems");
+        CompatRegistry.INSTANCE.registerCompat(RegisterTime.INIT, "org.wyldmods.kitchencraft.foods.common.compat.EnderIOCompat", "EnderIO");
     }
     
     @EventHandler

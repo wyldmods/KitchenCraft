@@ -16,10 +16,9 @@ import org.wyldmods.kitchencraft.foods.common.config.json.FoodModification;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodTypeDropped;
 
-import tterrag.core.common.json.JsonUtils;
-import tterrag.core.common.util.ResourcePackAssembler;
-import tterrag.core.common.util.TTFileUtils;
-
+import com.enderio.core.common.util.EnderFileUtils;
+import com.enderio.core.common.util.ItemUtil;
+import com.enderio.core.common.util.ResourcePackAssembler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -127,7 +126,7 @@ public class ConfigurationHandler
             iconDir.mkdirs();
         }
 
-        File[] icons = iconDir.listFiles(TTFileUtils.pngFilter);
+        File[] icons = iconDir.listFiles(EnderFileUtils.pngFilter);
 
         for (File icon : icons)
         {
@@ -144,7 +143,7 @@ public class ConfigurationHandler
             cfgLangDir.mkdirs();
         }
 
-        File[] cfgLangs = cfgLangDir.listFiles(TTFileUtils.langFilter);
+        File[] cfgLangs = cfgLangDir.listFiles(EnderFileUtils.langFilter);
 
         for (File inCfg : cfgLangs)
         {
@@ -203,7 +202,7 @@ public class ConfigurationHandler
 
     static void copyFromJar(String filename, File to) throws IOException
     {
-        TTFileUtils.copyFromJar(KitchenCraftFoods.class, "kitchencraft/misc/" + filename, to);
+        EnderFileUtils.copyFromJar(KitchenCraftFoods.class, "kitchencraft/misc/" + filename, to);
     }
 
     private static void loadStandardConfig(Configuration config)
@@ -228,11 +227,11 @@ public class ConfigurationHandler
         if (!iconsExist || !langsExist)
         {
             copyFromJar("defaultPack.zip", defaultZip);
-            File output = TTFileUtils.extractZip(defaultZip);
+            File output = EnderFileUtils.extractZip(defaultZip);
             FileUtils.copyDirectory(new File(output.getAbsolutePath() + "/icons"), iconsDir);
             FileUtils.copyDirectory(new File(output.getAbsolutePath() + "/lang"), langDir);
-            TTFileUtils.safeDeleteDirectory(output);
-            TTFileUtils.safeDelete(defaultZip);
+            EnderFileUtils.safeDeleteDirectory(output);
+            EnderFileUtils.safeDelete(defaultZip);
         }
     }
 
@@ -244,7 +243,7 @@ public class ConfigurationHandler
     public static Object parseInputString(String string, boolean forceItemStack)
     {
         ItemStack food = FoodType.getFood(string);
-        return food == null ? JsonUtils.parseStringIntoRecipeItem(string, forceItemStack) : food;
+        return food == null ? ItemUtil.parseStringIntoRecipeItem(string, forceItemStack) : food;
     }
 
     public static class OreDictEntry
