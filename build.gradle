@@ -62,7 +62,7 @@ allprojects {
             name 'CB Repo'
             url "http://chickenbones.net/maven/"
         }
-        maven { // ttCore
+        maven { // EnderCore
             name 'tterrag Repo'
             url "http://maven.tterrag.com"
         }
@@ -76,7 +76,7 @@ allprojects {
         }
     }
     dependencies {
-        compile "tterrag.core:ttCore:MC1.7.10-0.1.0-61"
+        compile "com.enderio.core:EnderCore:1.7.10-0.0.1.12_alpha"
         compile "mcp.mobius.waila:Waila:1.5.8a_1.7.10"
         compile "com.enderio:EnderIO:1.7.10-2.2.8.341"
         compile "applecore:AppleCore:1.7.10-1.0.0+79.c2865:api"
@@ -150,4 +150,5 @@ curse {
             additionalArtifact t 
         }
     }
+    relatedProject 'endercore'
 }

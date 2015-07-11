@@ -13,9 +13,9 @@ public class Reference
     public static final String SERVER_PROXY_CLASS_FOODS = "org.wyldmods.kitchencraft.foods.common.CommonProxy";
     
     public static final String MOD_TEXTUREPATH = "kitchencraft";
-    public static final String VERSION = "0.0.1";
+    public static final String VERSION = "1.0.0";
     
-    public static final String DEPENDENCIES = "after:ttCore;"//required-after:ttCore@[MC1.7.10-0.1.0-39,);"
+    public static final String DEPENDENCIES = "required-after:endercore;"//required-after:ttCore@[MC1.7.10-0.1.0-39,);"
                                             + "after:Waila;"
                                             + "after:EnderIO;"
                                             + "after:magicalcrops;"
