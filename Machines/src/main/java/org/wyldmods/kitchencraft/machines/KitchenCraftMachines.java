@@ -25,10 +25,10 @@ import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
-@Mod(modid = Reference.MOD_ID_MACHINES, name = Reference.MOD_NAME_MACHINES, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES)
+@Mod(modid = Reference.MODID_MACHINES, name = Reference.MOD_NAME_MACHINES, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES)
 public class KitchenCraftMachines implements IEnderMod
 {
-    @Instance(Reference.MOD_ID_MACHINES)
+    @Instance(Reference.MODID_MACHINES)
     public static KitchenCraftMachines instance;
 
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS_MACHINES, serverSide = Reference.SERVER_PROXY_CLASS_MACHINES)
@@ -75,9 +75,9 @@ public class KitchenCraftMachines implements IEnderMod
     {
         for (IMCMessage message : event.getMessages())
         {
-            if (message.getSender().equals(Reference.MOD_ID_FOODS) && "handshake".equalsIgnoreCase(message.key))
+            if (message.getSender().equals(Reference.MODID_FOODS) && "handshake".equalsIgnoreCase(message.key))
             {
-                LogManager.getLogger(Reference.MOD_ID_FOODS).info("Yo, KitchenCraft Machines...WAZZUUUUUP!");
+                LogManager.getLogger(Reference.MODID_FOODS).info("Yo, KitchenCraft Machines...WAZZUUUUUP!");
                 logger.info("WAZZUUUUUUP!");
             }
         }
@@ -86,7 +86,7 @@ public class KitchenCraftMachines implements IEnderMod
     @Override
     public String modid()
     {
-        return Reference.MOD_ID_FOODS;
+        return Reference.MODID_FOODS;
     }
 
     @Override

@@ -12,7 +12,7 @@ public class ConfigHandler extends AbstractConfigHandler
     
     private ConfigHandler()
     {
-        super(Reference.MOD_ID_MACHINES);
+        super(Reference.MODID_MACHINES);
     }
 
     @Override
