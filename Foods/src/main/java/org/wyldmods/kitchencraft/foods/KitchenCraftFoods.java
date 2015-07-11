@@ -25,10 +25,10 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
-@Mod(modid=Reference.MOD_ID_FOODS, name=Reference.MOD_NAME_FOODS, version=Reference.VERSION, dependencies = Reference.DEPENDENCIES)
+@Mod(modid=Reference.MODID_FOODS, name=Reference.MOD_NAME_FOODS, version=Reference.VERSION, dependencies = Reference.DEPENDENCIES)
 public class KitchenCraftFoods implements IEnderMod
 {
-    @Instance(Reference.MOD_ID_FOODS)
+    @Instance(Reference.MODID_FOODS)
     public static KitchenCraftFoods instance;
         
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS_FOODS, serverSide = Reference.SERVER_PROXY_CLASS_FOODS)
@@ -45,7 +45,7 @@ public class KitchenCraftFoods implements IEnderMod
     @EventHandler
     public static void preinit(FMLPreInitializationEvent event)
     {
-        FMLInterModComms.sendMessage(Reference.MOD_ID_MACHINES, "handshake", "");
+        FMLInterModComms.sendMessage(Reference.MODID_MACHINES, "handshake", "");
         
         ConfigurationHandler.preInit(event.getSuggestedConfigurationFile());
 
@@ -81,7 +81,7 @@ public class KitchenCraftFoods implements IEnderMod
     @Override
     public String modid()
     {
-        return Reference.MOD_ID_FOODS;
+        return Reference.MODID_FOODS;
     }
 
     @Override

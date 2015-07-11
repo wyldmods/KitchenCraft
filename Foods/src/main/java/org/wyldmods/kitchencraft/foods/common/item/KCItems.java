@@ -28,13 +28,13 @@ public class KCItems
     {
         if (!FoodType.veggies.isEmpty())
         {
-            GameRegistry.registerItem(veggie, "veggie", Reference.MOD_ID_FOODS);
-            GameRegistry.registerItem(seed, "seed", Reference.MOD_ID_FOODS);
+            GameRegistry.registerItem(veggie, "veggie", Reference.MODID_FOODS);
+            GameRegistry.registerItem(seed, "seed", Reference.MODID_FOODS);
         }
         
         if (!FoodType.meats.isEmpty())
         {
-            GameRegistry.registerItem(meat, "meat", Reference.MOD_ID_FOODS);
+            GameRegistry.registerItem(meat, "meat", Reference.MODID_FOODS);
         }
         
         seed.initSeedRegistrations();
