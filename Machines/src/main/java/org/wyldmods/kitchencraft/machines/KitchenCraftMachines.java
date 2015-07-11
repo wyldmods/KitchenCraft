@@ -12,11 +12,13 @@ import org.wyldmods.kitchencraft.machines.common.CommonProxy;
 import org.wyldmods.kitchencraft.machines.common.block.KCBlocks;
 import org.wyldmods.kitchencraft.machines.common.config.ConfigHandler;
 
-import tterrag.core.IModTT;
-import tterrag.core.common.util.CreativeTabsCustom;
+import com.enderio.core.IEnderMod;
+import com.enderio.core.common.util.CreativeTabsCustom;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.ModAPIManager;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
@@ -24,7 +26,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Mod(modid = Reference.MOD_ID_MACHINES, name = Reference.MOD_NAME_MACHINES, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES)
-public class KitchenCraftMachines implements IModTT
+public class KitchenCraftMachines implements IEnderMod
 {
     @Instance(Reference.MOD_ID_MACHINES)
     public static KitchenCraftMachines instance;
@@ -58,25 +60,16 @@ public class KitchenCraftMachines implements IModTT
     {
         if (!rfCheckLoaded)
         {
-            try
-            {
-                Class.forName("cofh.api.energy.IEnergyHandler");
-                loadRF = true;
-                KitchenCraftMachines.logger.info("RF API found, allowing RF-only features.");
-            }
-            catch (ClassNotFoundException e)
-            {
-                KitchenCraftMachines.logger.info("RF API not found, disabling RF-only features.");
-            }
-            finally
-            {
-                rfCheckLoaded = true;
-            }
+            loadRF = ModAPIManager.INSTANCE.hasAPI("CoFHAPI|energy");
+            System.out.println("Initialized RF value to " + loadRF);
+            rfCheckLoaded = true;
         }
+
+        System.out.println("Checking RF: " + loadRF);
 
         return loadRF;
     }
-    
+
     @EventHandler
     public void onIMC(IMCEvent event)
     {

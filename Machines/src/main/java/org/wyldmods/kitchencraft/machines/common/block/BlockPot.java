@@ -1,10 +1,10 @@
 package org.wyldmods.kitchencraft.machines.common.block;
 
-import org.wyldmods.kitchencraft.common.lib.Reference;
-import org.wyldmods.kitchencraft.machines.KitchenCraftMachines;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+
+import org.wyldmods.kitchencraft.common.lib.Reference;
+import org.wyldmods.kitchencraft.machines.KitchenCraftMachines;
 
 public class BlockPot extends BlockKC
 {

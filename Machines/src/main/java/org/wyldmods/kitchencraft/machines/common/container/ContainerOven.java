@@ -11,8 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
 
+import org.wyldmods.kitchencraft.machines.common.compat.RFCompat;
 import org.wyldmods.kitchencraft.machines.common.tile.TileOven;
-import org.wyldmods.kitchencraft.machines.common.tile.TileOvenRF;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -74,7 +74,7 @@ public class ContainerOven extends ContainerKC
     {
         super(invPlayer, tile);
 
-        boolean rf = tile instanceof TileOvenRF;
+        boolean rf = RFCompat.isRFOven(tile);
 
         addSlotToContainer(new SlotOvenInput(tile, 0, 80, rf ? 10 : 8));
         addSlotToContainer(new SlotFurnace(invPlayer.player, tile, 1, 80, rf ? 43 : 55));
@@ -115,7 +115,7 @@ public class ContainerOven extends ContainerKC
             }
             if (par2 < 36)
             {
-                if (checkFuelSlot(itemstack1) && !(tile instanceof TileOvenRF))
+                if (checkFuelSlot(itemstack1) && !(RFCompat.isRFOven(tile)))
                 {
                     if (!this.mergeItemStack(itemstack1, 38, 39, false))
                     {
@@ -174,7 +174,7 @@ public class ContainerOven extends ContainerKC
         
         if (par1 == 3)
         {
-            ((TileOvenRF)this.tile).setEnergyStored(par2);
+            RFCompat.setEnergyStored(tile, par2);
         }
     }
 
@@ -191,14 +191,14 @@ public class ContainerOven extends ContainerKC
                 icrafting.sendProgressBarUpdate(this, 0, this.tile.cookTime);
             }
 
-            if (tile instanceof TileOvenRF)
+            if (RFCompat.isRFOven(tile))
             {
-                TileOvenRF tilerf = (TileOvenRF) this.tile;
-                if (this.lastEnergy != tilerf.getEnergyStored(null))
+                int stored = RFCompat.getEnergyStored(tile, null);
+                if (this.lastEnergy != stored)
                 {
-                    icrafting.sendProgressBarUpdate(this, 3, tilerf.getEnergyStored(null));
+                    icrafting.sendProgressBarUpdate(this, 3, stored);
                 }
-                this.lastEnergy = tilerf.getEnergyStored(null);
+                this.lastEnergy = stored;
             }
             else
             {

@@ -1,12 +1,13 @@
 package org.wyldmods.kitchencraft.machines.client.gui;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+
 import org.wyldmods.kitchencraft.machines.common.container.ContainerOven;
 import org.wyldmods.kitchencraft.machines.common.tile.TileKCInventory;
 import org.wyldmods.kitchencraft.machines.common.tile.TileOven;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class GuiHandlerKC implements IGuiHandler

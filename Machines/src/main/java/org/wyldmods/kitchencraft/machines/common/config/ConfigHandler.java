@@ -2,7 +2,7 @@ package org.wyldmods.kitchencraft.machines.common.config;
 
 import org.wyldmods.kitchencraft.common.lib.Reference;
 
-import tterrag.core.common.config.AbstractConfigHandler;
+import com.enderio.core.common.config.AbstractConfigHandler;
 
 public class ConfigHandler extends AbstractConfigHandler
 {
