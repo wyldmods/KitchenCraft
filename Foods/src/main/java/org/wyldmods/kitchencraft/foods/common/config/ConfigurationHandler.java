@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -14,11 +16,13 @@ import org.wyldmods.kitchencraft.common.lib.Reference;
 import org.wyldmods.kitchencraft.foods.KitchenCraftFoods;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodModification;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodType;
+import org.wyldmods.kitchencraft.foods.common.config.json.FoodType.PotionEntry;
 import org.wyldmods.kitchencraft.foods.common.config.json.FoodTypeDropped;
 
 import com.enderio.core.common.util.EnderFileUtils;
 import com.enderio.core.common.util.ItemUtil;
 import com.enderio.core.common.util.ResourcePackAssembler;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -92,6 +96,7 @@ public class ConfigurationHandler
         try
         {
             loadFoodMods();
+            initPotions();
         }
         catch (IOException e)
         {
@@ -110,6 +115,7 @@ public class ConfigurationHandler
         try
         {
             loadFoodJson();
+            initPotions();
         }
         catch (IOException e)
         {
@@ -178,15 +184,40 @@ public class ConfigurationHandler
             OreDictionary.registerOre(entry.name, (ItemStack) ConfigurationHandler.parseInputString(entry.item, true));
         }
     }
-    
+
     private static void loadFoodMods() throws IOException
     {
         JsonObject mods = initializeJson(foodModsJsonName, foodModsJson);
-        
+
         JsonArray arr = (JsonArray) mods.get("mods");
         for (int i = 0; i < arr.size(); i++)
         {
             FoodModification.registerModification(gson.fromJson(arr.get(i), FoodModification.class));
+        }
+    }
+
+    private static void initPotions()
+    {
+        List<FoodType> allFoods = Lists.newArrayList(FoodType.veggies);
+        allFoods.addAll(FoodType.meats);
+        for (FoodType type : allFoods)
+        {
+            for (PotionEntry p : type.effects)
+            {
+                boolean found = false;
+                for (Potion potion : Potion.potionTypes)
+                {
+                    if (potion != null && potion.getName().equals(p.name))
+                    {
+                        p.potion = potion;
+                        found = true;
+                    }
+                }
+                if (!found)
+                {
+                    throw new IllegalArgumentException(p.name + " is not a valid potion name!");
+                }
+            }
         }
     }
 

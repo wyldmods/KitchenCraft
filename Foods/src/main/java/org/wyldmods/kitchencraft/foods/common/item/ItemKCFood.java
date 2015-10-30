@@ -251,23 +251,16 @@ public class ItemKCFood extends ItemFood
             }
         }
     }
-    
+
     private static Potion[] getPotions(PotionEntry[] pots)
     {
         Potion[] potions = new Potion[pots.length];
-        
+
         for (int i = 0; i < pots.length; i++)
         {
-            for (Potion potion : Potion.potionTypes)
-            {
-                if (potion != null && potion.getName().equals(pots[i].name))
-                {
-                    potions[i] = potion;
-                    break;
-                }
-            }
+            potions[i] = pots[i].potion;
         }
-        
+
         return potions;
     }
 }

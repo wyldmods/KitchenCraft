@@ -12,6 +12,7 @@ import lombok.ToString;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.wyldmods.kitchencraft.foods.common.item.ItemKCFood;
@@ -35,12 +36,14 @@ public class FoodType
     public static class PotionEntry
     {
         /* JSON fields @formatter:off */
-        public String name   = "null";
+        public String       name   = "null";
         public int          time   = 1200;
         public int          level  = 0;
         public double       chance = 1.0;
         public boolean      hidden = false;
         /* end JSON fields @formatter:on */
+        
+        public transient Potion potion;
     }
 
     public static List<FoodType> veggies = new LinkedList<FoodType>();
